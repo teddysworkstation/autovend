@@ -1,23 +1,26 @@
-const logos = ["Entrepreneur", "Forbes", "Business Insider", "Inc.", "Shopify Partner"];
+import { TrendingUp, Users, Truck, Award } from "lucide-react";
+
+const stats = [
+  { icon: Users, value: "1,000+", label: "Active Entrepreneurs" },
+  { icon: TrendingUp, value: "$2.4M+", label: "Monthly Revenue Generated" },
+  { icon: Truck, value: "247", label: "Machines Delivered This Month" },
+  { icon: Award, value: "4.9★", label: "Average Customer Rating" },
+];
 
 export default function SocialProofBar() {
   return (
-    <section className="border-b border-border bg-surface py-6">
+    <section className="py-12 bg-card border-b border-border">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-10">
-          <span className="text-xs font-display font-bold tracking-[3px] uppercase text-primary">
-            Featured In
-          </span>
-          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
-            {logos.map((name) => (
-              <span
-                key={name}
-                className="text-sm font-display font-700 tracking-wider uppercase text-muted-foreground/50"
-              >
-                {name}
-              </span>
-            ))}
-          </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          {stats.map((stat) => (
+            <div key={stat.label} className="text-center">
+              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-3">
+                <stat.icon className="w-5 h-5 text-primary" />
+              </div>
+              <p className="font-display text-2xl font-bold text-foreground">{stat.value}</p>
+              <p className="text-xs text-muted-foreground mt-1">{stat.label}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
