@@ -1,10 +1,19 @@
-import { motion } from "framer-motion";
+import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Star, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import heroPokemon from "@/assets/hero-pokemon-vending.jpg";
-import heroMachines from "@/assets/hero-machines-row.jpg";
-import heroLifestyle from "@/assets/hero-lifestyle.jpg";
+import heroSlide1 from "@/assets/hero-slide-1.jpg";
+import heroSlide2 from "@/assets/hero-slide-2.jpg";
+import heroSlide3 from "@/assets/hero-slide-3.jpg";
+
+const slides = [
+  { image: heroPokemon, alt: "Pokemon vending machine" },
+  { image: heroSlide1, alt: "Office vending machine" },
+  { image: heroSlide2, alt: "Entrepreneur with vending machines" },
+  { image: heroSlide3, alt: "Smart vending machine on campus" },
+];
 
 const trustItems = [
   "1,000+ Entrepreneurs",
@@ -14,21 +23,50 @@ const trustItems = [
 ];
 
 export default function HeroSection() {
+  const [current, setCurrent] = useState(0);
+
+  const nextSlide = useCallback(() => {
+    setCurrent((prev) => (prev + 1) % slides.length);
+  }, []);
+
+  useEffect(() => {
+    const timer = setInterval(nextSlide, 5000);
+    return () => clearInterval(timer);
+  }, [nextSlide]);
+
   return (
     <section className="relative overflow-hidden bg-hero-dark min-h-[90vh] flex items-center">
-      {/* Background gradient orbs */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-accent/10 blur-[100px] pointer-events-none" />
+      {/* Background Slider */}
+      <div className="absolute inset-0">
+        <AnimatePresence mode="sync">
+          <motion.div
+            key={current}
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.05 }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+            className="absolute inset-0"
+          >
+            <img
+              src={slides[current].image}
+              alt={slides[current].alt}
+              className="w-full h-full object-cover"
+              width={1920}
+              height={1080}
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[hsl(220,25%,10%)/0.92] via-[hsl(220,25%,10%)/0.75] to-[hsl(220,25%,10%)/0.50]" />
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
       <div className="container mx-auto px-4 py-20 pt-28 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left: Text content */}
+        <div className="max-w-2xl">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center gap-2 bg-primary/15 text-primary px-4 py-1.5 rounded-full text-sm font-medium mb-6 border border-primary/20">
+            <div className="inline-flex items-center gap-2 bg-primary/15 text-primary px-4 py-1.5 rounded-full text-sm font-medium mb-6 border border-primary/20 backdrop-blur-sm">
               <Zap className="w-4 h-4" />
               Premium Vending Machines
             </div>
@@ -68,74 +106,19 @@ export default function HeroSection() {
               ))}
             </div>
           </motion.div>
+        </div>
 
-          {/* Right: Image collage */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative hidden lg:block"
-          >
-            <div className="relative">
-              {/* Main image - Pokemon vending */}
-              <motion.div
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                className="relative z-20 rounded-2xl overflow-hidden shadow-2xl shadow-primary/20 border border-white/10"
-              >
-                <img
-                  src={heroPokemon}
-                  alt="Pokemon vending machine"
-                  className="w-full h-[420px] object-cover"
-                  width={800}
-                  height={1024}
-                />
-              </motion.div>
-
-              {/* Floating card - row of machines */}
-              <motion.div
-                animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute -bottom-8 -left-10 w-48 rounded-xl overflow-hidden shadow-xl border border-white/10 z-30"
-              >
-                <img
-                  src={heroMachines}
-                  alt="Vending machines in office"
-                  className="w-full h-32 object-cover"
-                  loading="lazy"
-                  width={1920}
-                  height={1080}
-                />
-              </motion.div>
-
-              {/* Floating card - lifestyle */}
-              <motion.div
-                animate={{ y: [0, -6, 0] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                className="absolute -top-4 -right-6 w-40 rounded-xl overflow-hidden shadow-xl border border-white/10 z-30"
-              >
-                <img
-                  src={heroLifestyle}
-                  alt="Person using vending machine"
-                  className="w-full h-28 object-cover"
-                  loading="lazy"
-                  width={800}
-                  height={1024}
-                />
-              </motion.div>
-
-              {/* Stats floating card */}
-              <motion.div
-                animate={{ y: [0, 6, 0] }}
-                transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-                className="absolute top-1/2 -left-16 bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/10 z-30"
-              >
-                <p className="font-mono text-xs text-white/50">Monthly Avg</p>
-                <p className="font-display text-xl font-bold text-white">$1,200</p>
-                <p className="text-xs text-primary">+23% this month</p>
-              </motion.div>
-            </div>
-          </motion.div>
+        {/* Slide indicators */}
+        <div className="flex gap-2 mt-12">
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                i === current ? "w-8 bg-primary" : "w-4 bg-white/30 hover:bg-white/50"
+              }`}
+            />
+          ))}
         </div>
       </div>
     </section>

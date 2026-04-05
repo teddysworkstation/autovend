@@ -1,5 +1,9 @@
-import { Star, ThumbsUp, BadgeCheck } from "lucide-react";
+import { useState } from "react";
+import { Star, ThumbsUp, BadgeCheck, MessageCircle, Send } from "lucide-react";
 import { type Review, getReviewStats } from "@/data/reviews";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 
 function StarRating({ rating, size = "sm" }: { rating: number; size?: "sm" | "md" }) {
   const cls = size === "md" ? "w-5 h-5" : "w-3.5 h-3.5";
@@ -38,7 +42,46 @@ function ReviewSummary({ reviews }: { reviews: Review[] }) {
   );
 }
 
+interface Comment {
+  id: string;
+  name: string;
+  text: string;
+  date: string;
+}
+
 function ReviewCard({ review }: { review: Review }) {
+  const { toast } = useToast();
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(review.helpful);
+  const [showComments, setShowComments] = useState(false);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [commentName, setCommentName] = useState("");
+  const [commentText, setCommentText] = useState("");
+
+  const handleLike = () => {
+    if (liked) {
+      setLiked(false);
+      setLikeCount(likeCount - 1);
+    } else {
+      setLiked(true);
+      setLikeCount(likeCount + 1);
+    }
+  };
+
+  const handleComment = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!commentName.trim() || !commentText.trim()) return;
+    setComments([...comments, {
+      id: `c-${Date.now()}`,
+      name: commentName.trim(),
+      text: commentText.trim(),
+      date: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+    }]);
+    setCommentName("");
+    setCommentText("");
+    toast({ title: "Comment added!" });
+  };
+
   return (
     <div className="bg-card rounded-2xl border border-border p-5">
       <div className="flex items-start justify-between mb-3">
@@ -62,11 +105,43 @@ function ReviewCard({ review }: { review: Review }) {
       </div>
       <h4 className="font-semibold text-sm text-foreground mb-2">{review.title}</h4>
       <p className="text-sm text-muted-foreground leading-relaxed">{review.comment}</p>
-      <div className="flex items-center gap-2 mt-4 pt-3 border-t border-border">
-        <button className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors">
-          <ThumbsUp className="w-3.5 h-3.5" /> Helpful ({review.helpful})
+      <div className="flex items-center gap-4 mt-4 pt-3 border-t border-border">
+        <button onClick={handleLike}
+          className={`inline-flex items-center gap-1.5 text-xs transition-colors ${
+            liked ? "text-primary font-semibold" : "text-muted-foreground hover:text-foreground"
+          }`}>
+          <ThumbsUp className={`w-3.5 h-3.5 ${liked ? "fill-primary" : ""}`} /> Helpful ({likeCount})
+        </button>
+        <button onClick={() => setShowComments(!showComments)}
+          className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors">
+          <MessageCircle className="w-3.5 h-3.5" /> Comments ({comments.length})
         </button>
       </div>
+
+      {showComments && (
+        <div className="mt-4 pt-3 border-t border-border space-y-3">
+          {comments.map((c) => (
+            <div key={c.id} className="bg-secondary/50 rounded-xl p-3">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-xs font-semibold text-foreground">{c.name}</span>
+                <span className="text-xs text-muted-foreground">{c.date}</span>
+              </div>
+              <p className="text-xs text-muted-foreground">{c.text}</p>
+            </div>
+          ))}
+          <form onSubmit={handleComment} className="space-y-2">
+            <Input value={commentName} onChange={e => setCommentName(e.target.value)}
+              placeholder="Your name" className="h-9 text-xs" />
+            <div className="flex gap-2">
+              <Input value={commentText} onChange={e => setCommentText(e.target.value)}
+                placeholder="Write a comment..." className="h-9 text-xs flex-1" />
+              <Button type="submit" size="sm" className="h-9 px-3">
+                <Send className="w-3.5 h-3.5" />
+              </Button>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 }
