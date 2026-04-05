@@ -34,10 +34,14 @@ export default function Footer() {
             </div>
           </div>
           <div>
-            <h4 className="text-sm font-semibold text-foreground mb-4">Support</h4>
+            <h4 className="text-sm font-semibold text-foreground mb-4">Legal & Support</h4>
             <div className="flex flex-col gap-2.5">
-              <span className="text-sm text-muted-foreground">support@autovendsolutions.com</span>
-              <span className="text-sm text-muted-foreground">Mon–Fri 9am–6pm EST</span>
+              <Link to="/faq" className="text-sm text-muted-foreground hover:text-primary transition-colors">FAQ</Link>
+              <Link to="/legal/privacy-policy" className="text-sm text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link>
+              <Link to="/legal/terms-of-service" className="text-sm text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link>
+              <Link to="/legal/refund-policy" className="text-sm text-muted-foreground hover:text-primary transition-colors">Refund Policy</Link>
+              <Link to="/legal/shipping-policy" className="text-sm text-muted-foreground hover:text-primary transition-colors">Shipping Policy</Link>
+              <Link to="/legal/warranty" className="text-sm text-muted-foreground hover:text-primary transition-colors">Warranty</Link>
             </div>
           </div>
         </div>
