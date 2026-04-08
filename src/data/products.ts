@@ -116,8 +116,8 @@ The ePay Combo allows you to sell higher-margin items without the hassle of hand
     roiMonths: 3,
     deposit: 500,
     features: ["Cashless Payment Ready"],
-    inStock: true,
-    stockCount: 14,
+    inStock: false,
+    stockCount: 0,
     isFeatured: true,
   },
   {
@@ -210,8 +210,8 @@ Finally, make losing out on sales due to payment acceptance issues a thing of th
     roiMonths: 3,
     deposit: 500,
     features: ["Commercial Grade Build", "Easy to Operate"],
-    inStock: true,
-    stockCount: 5,
+    inStock: false,
+    stockCount: 0,
     isFeatured: true,
   },
   {
