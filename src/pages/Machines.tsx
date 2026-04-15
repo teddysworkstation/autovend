@@ -3,7 +3,9 @@ import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import TopBar from "@/components/TopBar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 import { products, categories, formatPrice, type Product } from "@/data/products";
 
 function MachineCard({ product, index }: { product: Product; index: number }) {
@@ -71,12 +73,19 @@ export default function Machines() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Vending Machines for Sale | Browse All Machines — AutoVend"
+        description="Browse our full collection of vending machines for sale. Combo machines, snack machines, drink machines, Pokemon vending machines & more. Free shipping nationwide."
+        keywords="vending machine for sale, vending machine, pokemon vending machine, buy vending machine, combo vending machine, snack machine"
+        canonical="https://autovend.lovable.app/machines"
+      />
+      <TopBar />
       <Navbar />
       <div className="pt-24 pb-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
             <span className="text-sm font-medium text-primary mb-2 block">Our Collection</span>
-            <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground">Vending Machines</h1>
+            <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground">Vending Machines for Sale</h1>
             <p className="text-muted-foreground mt-3 max-w-lg mx-auto">
               {filtered.length} machines available. All include nationwide delivery and lifetime support.
             </p>
