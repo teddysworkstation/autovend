@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
-import { Video, ShieldCheck, BadgeCheck } from "lucide-react";
+import { ShieldCheck, BadgeCheck } from "lucide-react";
 
 const trustCards = [
-  { icon: Video, title: "Video Proof Before You Pay", desc: "We record and send you a real-time video of your exact machine in operation before you pay the remaining balance." },
   { icon: ShieldCheck, title: "Secure Payment Processing", desc: "All transactions are processed through Stripe with bank-level encryption. Your payment information is never stored." },
   { icon: BadgeCheck, title: "Verified Supplier Network", desc: "Every machine in our catalog comes from verified, commercial-grade manufacturers with full warranties." },
 ];
