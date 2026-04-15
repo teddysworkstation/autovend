@@ -1,11 +1,14 @@
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Shield, Video, Package, RotateCcw, Truck, Check, ArrowRight, Eye, Flame } from "lucide-react";
+import { Shield, Video, Package, RotateCcw, Truck, Check, ArrowRight, Flame, PenLine } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import TopBar from "@/components/TopBar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import ProductReviews from "@/components/ProductReviews";
+import ReviewForm from "@/components/ReviewForm";
 import ViewerCount from "@/components/ViewerCount";
+import SEOHead from "@/components/SEOHead";
 import { getProductBySlug, products, formatPrice } from "@/data/products";
 import { getReviewsForProduct, getAllReviews } from "@/data/reviews";
 import { useState } from "react";
@@ -24,10 +27,13 @@ export default function MachineDetail() {
   const { slug } = useParams();
   const product = getProductBySlug(slug || "");
   const [activeTab, setActiveTab] = useState("Features");
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [userReviews, setUserReviews] = useState<any[]>([]);
 
   if (!product) {
     return (
       <div className="min-h-screen bg-background">
+        <TopBar />
         <Navbar />
         <div className="pt-32 text-center">
           <h1 className="font-display text-3xl font-bold text-foreground">Machine Not Found</h1>
@@ -42,26 +48,76 @@ export default function MachineDetail() {
   const remainingBalance = effectivePrice - product.deposit;
   const related = products.filter(p => p.slug !== product.slug && p.category === product.category).slice(0, 4);
   const productReviews = getReviewsForProduct(product.slug);
-  const displayReviews = productReviews.length > 0 ? productReviews : getAllReviews().slice(0, 4);
+  const displayReviews = [
+    ...userReviews,
+    ...(productReviews.length > 0 ? productReviews : getAllReviews().slice(0, 4)),
+  ];
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.title,
+    description: product.excerpt,
+    image: product.images[0],
+    brand: { "@type": "Brand", name: "AutoVend Solutions" },
+    offers: {
+      "@type": "Offer",
+      url: `https://autovend.lovable.app/machines/${product.slug}`,
+      priceCurrency: "USD",
+      price: product.salePrice || product.price,
+      availability: product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+      seller: { "@type": "Organization", name: "AutoVend Solutions" },
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.8",
+      reviewCount: displayReviews.length.toString(),
+    },
+  };
+
+  const handleReviewSubmit = (review: any) => {
+    setUserReviews(prev => [{
+      id: `user-${Date.now()}`,
+      name: review.name,
+      rating: review.rating,
+      title: review.title,
+      comment: review.comment,
+      date: new Date().toISOString().split("T")[0],
+      location: review.location,
+      verified: false,
+      helpful: 0,
+      machineSlug: product.slug,
+    }, ...prev]);
+    setActiveTab("Reviews");
+  };
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title={`${product.title} | Vending Machine for Sale — AutoVend`}
+        description={`Buy ${product.title} for ${formatPrice(effectivePrice)}. ${product.excerpt.slice(0, 120)}. Free shipping, financing available. Start with $${product.deposit} deposit.`}
+        keywords={`${product.title.toLowerCase()}, vending machine for sale, vending machine, ${product.category.toLowerCase()}, buy vending machine, pokemon vending machine`}
+        canonical={`https://autovend.lovable.app/machines/${product.slug}`}
+        structuredData={structuredData}
+      />
+      <TopBar />
       <Navbar />
       <div className="pt-20">
         <div className="container mx-auto px-4 py-10">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
+          {/* Breadcrumb with structured data */}
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
             <Link to="/" className="hover:text-primary transition-colors">Home</Link>
             <span>/</span>
-            <Link to="/machines" className="hover:text-primary transition-colors">Machines</Link>
+            <Link to="/machines" className="hover:text-primary transition-colors">Vending Machines for Sale</Link>
             <span>/</span>
             <span className="text-foreground">{product.title}</span>
-          </div>
+          </nav>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
               className="bg-card rounded-2xl overflow-hidden border border-border">
               <div className="aspect-square bg-secondary flex items-center justify-center p-8">
-                <img src={product.images[0]} alt={product.title} className="max-w-full max-h-full object-contain" />
+                <img src={product.images[0]} alt={`${product.title} - Vending Machine for Sale`} className="max-w-full max-h-full object-contain" />
               </div>
             </motion.div>
 
@@ -69,6 +125,7 @@ export default function MachineDetail() {
               <div>
                 <span className="text-sm font-medium text-primary">{product.category}</span>
                 <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground mt-1">{product.title}</h1>
+                <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{product.excerpt}</p>
               </div>
 
               <div className="bg-card rounded-2xl border border-border p-6">
@@ -77,6 +134,9 @@ export default function MachineDetail() {
                     <>
                       <span className="font-mono text-3xl font-bold text-primary">{formatPrice(product.salePrice)}</span>
                       <span className="font-mono text-lg text-muted-foreground line-through">{formatPrice(product.price)}</span>
+                      <span className="text-xs font-semibold bg-destructive/10 text-destructive px-2 py-0.5 rounded-full">
+                        Save {formatPrice(product.price - product.salePrice)}
+                      </span>
                     </>
                   ) : (
                     <span className="font-mono text-3xl font-bold text-foreground">{formatPrice(product.price)}</span>
@@ -110,7 +170,7 @@ export default function MachineDetail() {
                 </div>
               ) : product.stockCount > 0 ? (
                 <div className="flex items-center gap-3">
-                  <p className="text-sm text-success font-semibold">✓ In Stock — {product.stockCount} available</p>
+                  <p className="text-sm text-primary font-semibold">✓ In Stock — {product.stockCount} available</p>
                   <ViewerCount slug={product.slug} />
                 </div>
               ) : (
@@ -118,8 +178,8 @@ export default function MachineDetail() {
               )}
 
               <div className="flex flex-col sm:flex-row gap-3">
-                <Button size="lg" className="flex-1 h-12 font-display font-semibold rounded-xl">
-                  Pay {formatPrice(product.deposit)} Deposit
+                <Button size="lg" className="flex-1 h-12 font-display font-semibold rounded-xl" asChild>
+                  <Link to="/checkout">Pay {formatPrice(product.deposit)} Deposit</Link>
                 </Button>
                 <Button size="lg" variant="outline" className="flex-1 h-12 font-display font-semibold rounded-xl">
                   Request Video Proof
@@ -193,7 +253,23 @@ export default function MachineDetail() {
                 </div>
               )}
               {activeTab === "Reviews" && (
-                <ProductReviews reviews={displayReviews} />
+                <div>
+                  {!showReviewForm && (
+                    <div className="mb-6">
+                      <Button onClick={() => setShowReviewForm(true)} className="h-10 px-6 font-display font-semibold rounded-xl">
+                        <PenLine className="w-4 h-4 mr-2" /> Write a Review
+                      </Button>
+                    </div>
+                  )}
+                  {showReviewForm && (
+                    <ReviewForm
+                      productTitle={product.title}
+                      onSubmit={handleReviewSubmit}
+                      onClose={() => setShowReviewForm(false)}
+                    />
+                  )}
+                  <ProductReviews reviews={displayReviews} />
+                </div>
               )}
             </div>
           </div>
@@ -201,12 +277,12 @@ export default function MachineDetail() {
           {related.length > 0 && (
             <div className="mt-12 border-t border-border pt-12">
               <h2 className="font-display text-2xl font-bold text-foreground mb-8">You Might Also Like</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
                 {related.map((p) => (
                   <Link key={p.slug} to={`/machines/${p.slug}`}
                     className="group block bg-card rounded-2xl overflow-hidden border border-border hover:shadow-md transition-all">
                     <div className="aspect-square bg-secondary overflow-hidden">
-                      <img src={p.images[0]} alt={p.title} className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                      <img src={p.images[0]} alt={`${p.title} - Vending Machine for Sale`} className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
                     </div>
                     <div className="p-4">
                       <h3 className="font-display text-xs font-semibold text-foreground line-clamp-2">{p.title}</h3>
@@ -221,8 +297,8 @@ export default function MachineDetail() {
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-md border-t border-border p-4 flex gap-3 lg:hidden z-40">
-        <Button size="lg" className="flex-1 h-12 font-display font-semibold text-sm rounded-xl">
-          Pay {formatPrice(product.deposit)} Deposit
+        <Button size="lg" className="flex-1 h-12 font-display font-semibold text-sm rounded-xl" asChild>
+          <Link to="/checkout">Pay {formatPrice(product.deposit)} Deposit</Link>
         </Button>
         <Button size="lg" variant="outline" className="flex-1 h-12 font-display font-semibold text-sm rounded-xl">
           Video Proof

@@ -3,7 +3,9 @@ import { Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import TopBar from "@/components/TopBar";
 import Footer from "@/components/Footer";
+import SEOHead from "@/components/SEOHead";
 import { products, categories, formatPrice, type Product } from "@/data/products";
 
 function MachineCard({ product, index }: { product: Product; index: number }) {
@@ -16,9 +18,14 @@ function MachineCard({ product, index }: { product: Product; index: number }) {
       <Link to={`/machines/${product.slug}`}
         className="group block bg-card rounded-2xl overflow-hidden border border-border hover:shadow-lg hover:shadow-primary/5 transition-all duration-300 hover:-translate-y-1">
         <div className="aspect-square bg-secondary overflow-hidden relative">
-          <img src={product.images[0]} alt={product.title}
-            className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-          {product.stockCount <= 5 && (
+          {!product.inStock && (
+            <div className="absolute inset-0 bg-background/60 z-10 flex items-center justify-center">
+              <span className="text-sm font-bold text-destructive bg-destructive/10 border border-destructive/20 px-4 py-2 rounded-full">Out of Stock</span>
+            </div>
+          )}
+          <img src={product.images[0]} alt={`${product.title} - Vending Machine for Sale`}
+            className={`w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500 ${!product.inStock ? "opacity-50 grayscale" : ""}`} loading="lazy" />
+          {product.inStock && product.stockCount <= 5 && (
             <span className="absolute top-3 left-3 text-[10px] font-semibold bg-destructive text-destructive-foreground px-2.5 py-1 rounded-full">
               Only {product.stockCount} left
             </span>
@@ -71,12 +78,19 @@ export default function Machines() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="Vending Machines for Sale | Browse All Machines — AutoVend"
+        description="Browse our full collection of vending machines for sale. Combo machines, snack machines, drink machines, Pokemon vending machines & more. Free shipping nationwide."
+        keywords="vending machine for sale, vending machine, pokemon vending machine, buy vending machine, combo vending machine, snack machine"
+        canonical="https://autovend.lovable.app/machines"
+      />
+      <TopBar />
       <Navbar />
       <div className="pt-24 pb-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
             <span className="text-sm font-medium text-primary mb-2 block">Our Collection</span>
-            <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground">Vending Machines</h1>
+            <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground">Vending Machines for Sale</h1>
             <p className="text-muted-foreground mt-3 max-w-lg mx-auto">
               {filtered.length} machines available. All include nationwide delivery and lifetime support.
             </p>
