@@ -6,7 +6,7 @@ import FeaturedMachines from "@/components/FeaturedMachines";
 import ROICalculator from "@/components/ROICalculator";
 import HowItWorks from "@/components/HowItWorks";
 import TrustSection from "@/components/TrustSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
+
 import HomeReviews from "@/components/HomeReviews";
 import HomeFAQ from "@/components/HomeFAQ";
 import QuizCTABanner from "@/components/QuizCTABanner";
@@ -65,7 +65,7 @@ export default function Index() {
         <HowItWorks />
         <TrustSection />
         <HomeReviews />
-        <TestimonialsSection />
+        
         <HomeFAQ />
         <QuizCTABanner />
         <section className="py-20">
