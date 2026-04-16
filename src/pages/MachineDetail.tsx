@@ -142,7 +142,8 @@ export default function MachineDetail() {
         description={`Buy ${product.title} for ${formatPrice(effectivePrice)}. ${product.excerpt.slice(0, 120)}. Free shipping, financing available. Start with $${product.deposit} deposit.`}
         keywords={`${product.title.toLowerCase()}, vending machine for sale, vending machine, ${product.category.toLowerCase()}, buy vending machine, pokemon vending machine`}
         canonical={`https://autovend.lovable.app/machines/${product.slug}`}
-        structuredData={structuredData}
+        ogImage={product.images[0]}
+        structuredData={[structuredData, breadcrumbSchema, faqSchema]}
       />
       <TopBar />
       <Navbar />
@@ -158,11 +159,8 @@ export default function MachineDetail() {
           </nav>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-              className="bg-card rounded-2xl overflow-hidden border border-border">
-              <div className="aspect-square bg-secondary flex items-center justify-center p-8">
-                <img src={product.images[0]} alt={`${product.title} - Vending Machine for Sale`} className="max-w-full max-h-full object-contain" />
-              </div>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+              <ProductGallery images={product.images} title={product.title} />
             </motion.div>
 
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
