@@ -72,7 +72,7 @@ export default function HeroSection() {
               Premium Vending Machines
             </div>
 
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-6">
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-6 drop-shadow-lg">
               Start Your
               <span className="text-gradient-hero block">Vending Machine</span>
               Business Today
