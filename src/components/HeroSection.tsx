@@ -59,7 +59,7 @@ export default function HeroSection() {
         </AnimatePresence>
       </div>
 
-      <div className="container mx-auto px-4 py-20 pt-28 relative z-10">
+      <div className="container mx-auto px-4 py-20 relative z-10">
         <div className="max-w-2xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

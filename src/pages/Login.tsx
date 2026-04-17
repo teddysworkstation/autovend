@@ -22,7 +22,7 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="pt-24 pb-20 flex items-center justify-center min-h-[80vh]">
+      <div className="pb-20 pt-10 flex items-center justify-center min-h-[80vh]">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md px-4">
           <div className="bg-card border border-border rounded-2xl p-8">
             <div className="text-center mb-8">

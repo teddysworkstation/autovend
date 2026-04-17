@@ -27,7 +27,7 @@ export default function Contact() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="pt-24 pb-20">
+      <div className="pb-20 pt-10">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
             <span className="text-sm font-medium text-primary mb-2 block">Get In Touch</span>

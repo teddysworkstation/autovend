@@ -75,7 +75,7 @@ export default function Quiz() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="pt-24 pb-20">
+      <div className="pb-20 pt-10">
         <div className="container mx-auto px-4 max-w-2xl">
           {/* Progress */}
           <div className="mb-8">

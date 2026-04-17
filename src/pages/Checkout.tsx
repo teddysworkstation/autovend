@@ -55,7 +55,7 @@ export default function Checkout() {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
-        <div className="pt-24 pb-20">
+        <div className="pb-20 pt-10">
           <div className="container mx-auto px-4 max-w-lg text-center">
             <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
               <CheckCircle2 className="w-20 h-20 text-success mx-auto mb-6" />
@@ -87,7 +87,7 @@ export default function Checkout() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="pt-24 pb-20">
+      <div className="pb-20 pt-10">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <div className="text-center mb-12">

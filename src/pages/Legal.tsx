@@ -170,7 +170,7 @@ export default function Legal() {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
-        <div className="pt-32 text-center">
+        <div className="pt-16 text-center">
           <h1 className="font-display text-3xl font-bold text-foreground">Page Not Found</h1>
           <Link to="/" className="text-primary mt-4 inline-block">← Back Home</Link>
         </div>
@@ -182,7 +182,7 @@ export default function Legal() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="pt-24 pb-20">
+      <div className="pb-20 pt-10">
         <div className="container mx-auto px-4">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto">
             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-8">

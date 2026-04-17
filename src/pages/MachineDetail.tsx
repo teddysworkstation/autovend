@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Shield, Video, Package, RotateCcw, Truck, Check, ArrowRight, Flame, PenLine } from "lucide-react";
+import { Shield, Package, RotateCcw, Truck, Check, ArrowRight, Flame, PenLine } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import TopBar from "@/components/TopBar";
 import Footer from "@/components/Footer";
@@ -17,7 +17,6 @@ import { useState } from "react";
 const trustBadges = [
   { icon: Shield, label: "Secure Checkout" },
   { icon: Check, label: "Verified Supplier" },
-  { icon: Video, label: "Video Proof Included" },
   { icon: RotateCcw, label: "Refundable Deposit" },
   { icon: Truck, label: "Nationwide Delivery" },
 ];
@@ -36,7 +35,7 @@ export default function MachineDetail() {
       <div className="min-h-screen bg-background">
         <TopBar />
         <Navbar />
-        <div className="pt-32 text-center">
+        <div className="pt-16 text-center">
           <h1 className="font-display text-3xl font-bold text-foreground">Machine Not Found</h1>
           <Link to="/machines" className="text-primary mt-4 inline-block">← Back to Machines</Link>
         </div>
@@ -147,7 +146,7 @@ export default function MachineDetail() {
       />
       <TopBar />
       <Navbar />
-      <div className="pt-20">
+      <div>
         <div className="container mx-auto px-4 py-10">
           {/* Breadcrumb with structured data */}
           <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-muted-foreground mb-8">

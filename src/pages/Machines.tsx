@@ -86,7 +86,7 @@ export default function Machines() {
       />
       <TopBar />
       <Navbar />
-      <div className="pt-24 pb-20">
+      <div className="pb-20 pt-10">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
             <span className="text-sm font-medium text-primary mb-2 block">Our Collection</span>
