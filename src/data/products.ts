@@ -27,7 +27,43 @@ export const categories = [
   { slug: "used", name: "Used Machines", icon: "recycle" },
 ];
 
+import pokemonProductImg from "@/assets/product-pokemon-vending.jpg";
+import pokemonLifestyleImg from "@/assets/product-pokemon-lifestyle.jpg";
+import pokemonHeroImg from "@/assets/hero-pokemon-vending.jpg";
+
 export const products: Product[] = [
+  {
+    title: "Pokemon Trading Card Vending Machine",
+    slug: "pokemon-trading-card-vending-machine",
+    price: 3499,
+    salePrice: 2999,
+    category: "Specialized Vending Machines",
+    images: [pokemonProductImg, pokemonLifestyleImg, pokemonHeroImg],
+    description: `The Pokemon Trading Card Vending Machine is the hottest specialty vending machine on the market — a turn-key passive income business built around one of the most valuable collectible categories in the world. With Pokemon trading cards generating billions in annual sales and consistent demand from kids, teens, and adult collectors alike, this is the perfect Pokemon vending machine for shopping malls, hobby shops, arcades, conventions, and high-foot-traffic family destinations.
+This Pokemon vending machine is professionally branded with vibrant Pikachu, Charizard, Eevee, and other beloved Pokemon character graphics on a high-impact red and white panel. The full-glass front showcases your inventory of Pokemon TCG booster packs, ETBs (Elite Trainer Boxes), tins, plush toys, and collectible figures under bright LED lighting that draws customers in from across the room.
+
+Featuring a large 7" touch-screen interface, the Pokemon Trading Card Vending Machine accepts cash, all major credit cards, debit cards, Apple Pay, and Google Pay through the integrated Greenlite cashless system. With a typical Pokemon booster pack retailing between $5–$15 and ETBs commanding $50+, operators routinely report margins of 40–60% per sale.
+
+Industry data shows specialty Pokemon vending machines can generate $2,000–$6,000+ in monthly revenue at the right location. Backed by AutoVend Solutions' nationwide free shipping, refundable deposit, and 1-year limited parts warranty, this is the easiest way to enter the lucrative collectibles vending market.`,
+    excerpt: `The Pokemon Trading Card Vending Machine is a turn-key specialty vending business — Pokemon-branded, ADA compliant, cashless-ready, and engineered for high-margin sales of Pokemon TCG booster packs, ETBs, and collectibles in malls, hobby shops, and family destinations.`,
+    estimatedMonthlyIncomeMin: 2000,
+    estimatedMonthlyIncomeMax: 6000,
+    roiMonths: 6,
+    deposit: 500,
+    features: [
+      "Officially-Styled Pokemon Branding",
+      "7\" HD Touch Screen",
+      "Cashless Payment (Apple Pay, Google Pay, Cards)",
+      "Bright LED Product Showcase",
+      "ADA Compliant",
+      "Holds 200+ Booster Packs / ETBs",
+      "Anti-Theft Tempered Glass",
+      "Remote Inventory Monitoring",
+    ],
+    inStock: true,
+    stockCount: 4,
+    isFeatured: true,
+  },
   {
     title: "MarketOne 3W Snack and Cold Drink Vending Machine",
     slug: "marketone-3w-snack-and-cold-drink-vending-machine",
