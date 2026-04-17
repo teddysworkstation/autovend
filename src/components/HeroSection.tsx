@@ -54,7 +54,8 @@ export default function HeroSection() {
               width={1920}
               height={1080}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[hsl(220,25%,10%)/0.92] via-[hsl(220,25%,10%)/0.75] to-[hsl(220,25%,10%)/0.50]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/65 to-black/30" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
           </motion.div>
         </AnimatePresence>
       </div>
@@ -77,7 +78,7 @@ export default function HeroSection() {
               Business Today
             </h1>
 
-            <p className="text-lg text-white/60 max-w-md mb-8 leading-relaxed">
+            <p className="text-lg text-white/90 max-w-md mb-8 leading-relaxed drop-shadow-md">
               Own a machine. Generate passive income. No experience needed.
               Join 1,000+ entrepreneurs already earning.
             </p>
@@ -100,7 +101,7 @@ export default function HeroSection() {
 
             <div className="flex flex-wrap gap-4">
               {trustItems.map((item) => (
-                <span key={item} className="flex items-center gap-1.5 text-sm text-white/50">
+                <span key={item} className="flex items-center gap-1.5 text-sm text-white/85 drop-shadow">
                   <Star className="w-3 h-3 text-primary fill-primary" /> {item}
                 </span>
               ))}
