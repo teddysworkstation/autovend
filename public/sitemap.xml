@@ -9,6 +9,7 @@
   <url><loc>https://autovend.lovable.app/machines/frozen</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://autovend.lovable.app/machines/specialized</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://autovend.lovable.app/machines/used</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://autovend.lovable.app/machines/pokemon-trading-card-vending-machine</loc><changefreq>weekly</changefreq><priority>0.95</priority></url>
   <url><loc>https://autovend.lovable.app/machines/marketone-3w-snack-and-cold-drink-vending-machine</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://autovend.lovable.app/machines/express-combo-vending-machine</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://autovend.lovable.app/machines/marketone-5w-snack-and-cold-drink-vending-machine</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
