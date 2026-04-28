@@ -20,9 +20,10 @@ export default function Index() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Vending Machine Hub",
+    name: "Vending Machine Hub (VMH)",
+    alternateName: "VMH",
     url: "https://autovend.lovable.app",
-    description: "Buy premium vending machines for sale. Start your vending machine business with our Pokemon vending machine, combo machines, snack & drink vending machines. Free shipping nationwide.",
+    description: "Buy premium vending machines for sale at Vending Machine Hub (VMH). Pokemon vending machines, combo, snack & drink machines. One-time payment or $150/mo plan. Free shipping nationwide.",
     potentialAction: {
       "@type": "SearchAction",
       target: "https://autovend.lovable.app/machines?q={search_term_string}",
@@ -34,23 +35,24 @@ export default function Index() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Vending Machine Hub",
+    alternateName: "VMH",
     url: "https://autovend.lovable.app",
-    logo: "https://autovend.lovable.app/favicon.ico",
+    logo: "https://autovend.lovable.app/favicon.png",
     contactPoint: {
       "@type": "ContactPoint",
       telephone: "+1-800-555-VEND",
       contactType: "sales",
       availableLanguage: ["English", "Spanish"],
     },
-    sameAs: ["https://facebook.com/autovend", "https://instagram.com/autovend", "https://twitter.com/autovend"],
+    sameAs: ["https://facebook.com/vendingmachinehub", "https://instagram.com/vendingmachinehub", "https://twitter.com/vendingmachinehub"],
   };
 
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Vending Machines for Sale | Buy Premium Vending Machines — Vending Machine Hub"
-        description="Buy premium vending machines for sale. Start your vending machine business with Pokemon vending machines, combo machines, snack & drink machines. Free shipping, financing available."
-        keywords="vending machine for sale, vending machine, pokemon vending machine, buy vending machine, vending machine business, snack machine, drink machine, combo vending machine"
+        title="Vending Machines for Sale | Pokemon Vending Machine — Vending Machine Hub (VMH)"
+        description="Buy premium vending machines for sale at Vending Machine Hub (VMH). Pokemon vending machines, combo, snack & drink machines. One-time payment or $150/mo plan. Free shipping nationwide."
+        keywords="vending machine for sale, vending machine, pokemon vending machine, buy vending machine, vending machine business, snack machine, drink machine, combo vending machine, vending machine hub, vmh"
         canonical="https://autovend.lovable.app/"
         structuredData={[structuredData, orgData]}
       />
