@@ -18,11 +18,11 @@ const paymentMethods = [
 const bankDetails: Record<string, { instructions: string; details: string[] }> = {
   bank: {
     instructions: "Send payment via ACH transfer to:",
-    details: ["Bank: Chase Bank", "Account Name: AutoVend Solutions LLC", "Routing: 021000021", "Account: XXXX-XXXX-4521", "Reference: Your order number"],
+    details: ["Bank: Chase Bank", "Account Name: Vending Machine Hub LLC", "Routing: 021000021", "Account: XXXX-XXXX-4521", "Reference: Your order number"],
   },
   wire: {
     instructions: "Send wire transfer to:",
-    details: ["Bank: Chase Bank, New York", "SWIFT: CHASUS33", "Account Name: AutoVend Solutions LLC", "Account: XXXX-XXXX-4521", "Reference: Your order number"],
+    details: ["Bank: Chase Bank, New York", "SWIFT: CHASUS33", "Account Name: Vending Machine Hub LLC", "Account: XXXX-XXXX-4521", "Reference: Your order number"],
   },
   bitcoin: {
     instructions: "Send BTC to the following address:",
@@ -30,13 +30,16 @@ const bankDetails: Record<string, { instructions: string; details: string[] }> =
   },
   zelle: {
     instructions: "Send Zelle payment to:",
-    details: ["Email: payments@autovendsolutions.com", "Name: AutoVend Solutions LLC", "Include your order number in memo"],
+    details: ["Email: payments@vmh.com", "Name: Vending Machine Hub LLC", "Include your order number in memo"],
   },
 };
+
+type PlanId = "onetime" | "monthly";
 
 export default function Checkout() {
   const { toast } = useToast();
   const [method, setMethod] = useState("bank");
+  const [plan, setPlan] = useState<PlanId>("onetime");
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({
     firstName: "", lastName: "", email: "", phone: "",
@@ -47,7 +50,7 @@ export default function Checkout() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
-    toast({ title: "Order Submitted!", description: "You'll receive a confirmation email shortly." });
+    toast({ title: "Order Submitted!", description: plan === "monthly" ? "Your $150/month plan is set up. Confirmation email sent." : "You'll receive a confirmation email shortly." });
   };
 
   if (submitted) {
@@ -132,6 +135,30 @@ export default function Checkout() {
                         <Input value={form.zip} onChange={e => setForm({ ...form, zip: e.target.value })} required />
                       </div>
                     </div>
+                  </div>
+                </div>
+
+                {/* Payment Plan */}
+                <div className="bg-card border border-border rounded-2xl p-6">
+                  <h2 className="font-display text-lg font-bold text-foreground mb-1">Choose Your Payment Plan</h2>
+                  <p className="text-xs text-muted-foreground mb-4">Pay in full once, or spread the cost over a low monthly subscription.</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button type="button" onClick={() => setPlan("onetime")} className={`p-5 rounded-xl border text-left transition-all ${plan === "onetime" ? "bg-primary/10 border-primary ring-2 ring-primary/30" : "bg-background border-border hover:border-primary/40"}`}>
+                      <div className="flex items-center justify-between mb-1">
+                        <p className="text-sm font-bold text-foreground">One-Time Payment</p>
+                        {plan === "onetime" && <CheckCircle2 className="w-4 h-4 text-primary" />}
+                      </div>
+                      <p className="text-xs text-muted-foreground">Pay the full machine price upfront. No recurring charges.</p>
+                      <p className="text-[11px] text-success font-semibold mt-2">✓ Best long-term value</p>
+                    </button>
+                    <button type="button" onClick={() => setPlan("monthly")} className={`p-5 rounded-xl border text-left transition-all ${plan === "monthly" ? "bg-primary/10 border-primary ring-2 ring-primary/30" : "bg-background border-border hover:border-primary/40"}`}>
+                      <div className="flex items-center justify-between mb-1">
+                        <p className="text-sm font-bold text-foreground">Monthly Plan — <span className="text-primary">$150/mo</span></p>
+                        {plan === "monthly" && <CheckCircle2 className="w-4 h-4 text-primary" />}
+                      </div>
+                      <p className="text-xs text-muted-foreground">$150/month subscription. Cancel anytime after 12 months.</p>
+                      <p className="text-[11px] text-accent font-semibold mt-2">✓ Lowest barrier to entry</p>
+                    </button>
                   </div>
                 </div>
 
