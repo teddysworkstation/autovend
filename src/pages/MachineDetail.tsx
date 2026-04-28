@@ -103,7 +103,7 @@ export default function MachineDetail() {
       {
         "@type": "Question",
         name: `How much does the ${product.title} cost?`,
-        acceptedAnswer: { "@type": "Answer", text: `The ${product.title} is priced at ${formatPrice(effectivePrice)}. You can start with a ${formatPrice(product.deposit)} refundable deposit and pay the balance after receiving video proof of your machine.` },
+        acceptedAnswer: { "@type": "Answer", text: `The ${product.title} is priced at ${formatPrice(effectivePrice)}. You can start with a ${formatPrice(product.deposit)} refundable deposit and pay the balance once your machine completes our quality-assurance build process. You can also choose our $150/month payment plan.` },
       },
       {
         "@type": "Question",
