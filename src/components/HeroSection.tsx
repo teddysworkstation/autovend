@@ -19,7 +19,7 @@ const trustItems = [
   "1,000+ Entrepreneurs",
   "Beginner-Friendly",
   "Nationwide Delivery",
-  "Video Proof Guarantee",
+  "$150/mo Plans Available",
 ];
 
 export default function HeroSection() {

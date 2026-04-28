@@ -183,9 +183,15 @@ export default function MachineDetail() {
                     <span className="font-mono text-3xl font-bold text-foreground">{formatPrice(product.price)}</span>
                   )}
                 </div>
-                <div className="mt-4 p-4 bg-primary/5 border border-primary/15 rounded-xl">
-                  <p className="text-sm text-primary font-semibold">Or start with a {formatPrice(product.deposit)} deposit</p>
-                  <p className="text-xs text-muted-foreground mt-1">Balance due after video proof: {formatPrice(remainingBalance)}</p>
+                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="p-4 bg-primary/5 border border-primary/15 rounded-xl">
+                    <p className="text-sm text-primary font-bold">One-Time Payment</p>
+                    <p className="text-xs text-muted-foreground mt-1">Or start with a {formatPrice(product.deposit)} refundable deposit. Balance: {formatPrice(remainingBalance)}.</p>
+                  </div>
+                  <div className="p-4 bg-accent/5 border border-accent/20 rounded-xl">
+                    <p className="text-sm text-accent font-bold">$150 / month plan</p>
+                    <p className="text-xs text-muted-foreground mt-1">Lowest barrier to entry. Cancel anytime after 12 months.</p>
+                  </div>
                 </div>
               </div>
 
@@ -222,8 +228,8 @@ export default function MachineDetail() {
                 <Button size="lg" className="flex-1 h-12 font-display font-semibold rounded-xl" asChild>
                   <Link to="/checkout">Pay {formatPrice(product.deposit)} Deposit</Link>
                 </Button>
-                <Button size="lg" variant="outline" className="flex-1 h-12 font-display font-semibold rounded-xl">
-                  Request Video Proof
+                <Button size="lg" variant="outline" className="flex-1 h-12 font-display font-semibold rounded-xl" asChild>
+                  <Link to="/checkout">Start $150/mo Plan</Link>
                 </Button>
               </div>
 
@@ -341,8 +347,8 @@ export default function MachineDetail() {
         <Button size="lg" className="flex-1 h-12 font-display font-semibold text-sm rounded-xl" asChild>
           <Link to="/checkout">Pay {formatPrice(product.deposit)} Deposit</Link>
         </Button>
-        <Button size="lg" variant="outline" className="flex-1 h-12 font-display font-semibold text-sm rounded-xl">
-          Video Proof
+        <Button size="lg" variant="outline" className="flex-1 h-12 font-display font-semibold text-sm rounded-xl" asChild>
+          <Link to="/checkout">$150/mo Plan</Link>
         </Button>
       </div>
 

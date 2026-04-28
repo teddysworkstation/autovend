@@ -50,7 +50,7 @@ All prices are listed in USD. We reserve the right to change prices at any time.
 **Deposit & Payment**
 - A $500 deposit secures your machine
 - Deposits are refundable before balance payment
-- Balance is due after video proof is provided
+- Choose one-time payment or our $150/month subscription plan
 - Full payment orders are processed immediately
 
 **Shipping & Delivery**

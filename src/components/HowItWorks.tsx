@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
-import { LayoutGrid, Lock, Video, Truck } from "lucide-react";
+import { LayoutGrid, Lock, ShieldCheck, Truck } from "lucide-react";
 
 const steps = [
   { num: "01", icon: LayoutGrid, title: "Choose Your Machine", desc: "Browse our catalog and select the machine that fits your budget and location goals.", color: "bg-primary/10 text-primary" },
-  { num: "02", icon: Lock, title: "Pay $500 Deposit", desc: "Secure your machine with a refundable $500 deposit. No commitment until you see proof.", color: "bg-accent/10 text-accent" },
-  { num: "03", icon: Video, title: "Receive Video Proof", desc: "We send you a real-time video of your exact machine before you pay the balance.", color: "bg-success/10 text-success" },
+  { num: "02", icon: Lock, title: "Pick Your Plan", desc: "Pay in full upfront, or start with our $150/month plan. Refundable $500 deposit either way.", color: "bg-accent/10 text-accent" },
+  { num: "03", icon: ShieldCheck, title: "Order Verified & Built", desc: "We confirm your order, build your machine to spec, and run full quality assurance before shipping.", color: "bg-success/10 text-success" },
   { num: "04", icon: Truck, title: "Machine Delivered", desc: "Your machine ships to your door. Start placing it and earning within days.", color: "bg-primary/10 text-primary" },
 ];
 
