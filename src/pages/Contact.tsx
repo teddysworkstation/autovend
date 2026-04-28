@@ -8,7 +8,7 @@ import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const contactInfo = [
-  { icon: Mail, label: "Email", value: "support@autovendsolutions.com" },
+  { icon: Mail, label: "Email", value: "support@vmh.com" },
   { icon: Phone, label: "Phone", value: "(800) 555-VEND" },
   { icon: MapPin, label: "Office", value: "Miami, FL — Nationwide Service" },
   { icon: Clock, label: "Hours", value: "Mon–Fri 9am–6pm EST" },
