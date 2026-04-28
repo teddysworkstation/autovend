@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Search, ShoppingCart, User, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import vmhLogo from "@/assets/vmh-logo.png";
 
 const machineLinks = [
   { label: "All Machines", href: "/machines" },
@@ -12,16 +13,26 @@ const machineLinks = [
   { label: "Specialized", href: "/machines?cat=specialized" },
 ];
 
+const supportLinks = [
+  { label: "Training Videos", href: "/training-videos" },
+  { label: "Technical Support", href: "/technical-support" },
+  { label: "Parts & Service", href: "/parts-service" },
+  { label: "Manuals", href: "/manuals" },
+  { label: "Warranty Registration", href: "/warranty-registration" },
+];
+
 const companyLinks = [
   { label: "About Us", href: "/about" },
   { label: "Contact", href: "/contact" },
   { label: "FAQ", href: "/faq" },
+  { label: "Affiliates", href: "/affiliates" },
 ];
 
 const navLinks = [
   { label: "Machines", href: "/machines", dropdown: machineLinks },
   { label: "How It Works", href: "/#how-it-works" },
   { label: "Quiz", href: "/quiz" },
+  { label: "Support", href: "/technical-support", dropdown: supportLinks },
   { label: "Company", href: "/about", dropdown: companyLinks },
 ];
 
@@ -87,13 +98,9 @@ export default function Navbar() {
       }`}
     >
       <div className="container mx-auto flex items-center justify-between h-16 px-4 lg:px-8">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-            <span className="text-primary-foreground font-display font-bold text-sm">AV</span>
-          </div>
-          <span className="font-display text-lg font-bold text-foreground">
-            AutoVend
-          </span>
+        <Link to="/" className="flex items-center gap-2" aria-label="Vending Machine Hub home">
+          <img src={vmhLogo} alt="Vending Machine Hub (VMH) logo" className="h-9 w-auto" width={120} height={40} />
+          <span className="sr-only">Vending Machine Hub</span>
         </Link>
 
         <div className="hidden lg:flex items-center gap-1" ref={dropdownRef}>
