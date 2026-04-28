@@ -268,7 +268,22 @@ export default function MachineDetail() {
                   <div className="mt-6 text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
                     {product.description}
                   </div>
-                </div>
+
+                  <div className="mt-8 p-5 bg-secondary/40 border border-border rounded-xl">
+                    <h3 className="font-display text-base font-bold text-foreground mb-2">Industry Resources & Further Reading</h3>
+                    <p className="text-xs text-muted-foreground mb-3">Trusted high-authority resources to help you operate, service, and grow your vending machine business:</p>
+                    <ul className="space-y-1.5 text-sm">
+                      <li>• <a href="https://www.namanow.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">National Automatic Merchandising Association (NAMA)</a> — vending industry standards & certification</li>
+                      <li>• <a href="https://www.vending.com/training-videos/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Vending.com Training Library</a> — operator training videos</li>
+                      <li>• <a href="https://www.vending.com/parts-service/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Vending.com Parts & Service</a> — replacement parts catalog</li>
+                      <li>• <a href="https://vendingworld.com/information/manuals/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">VendingWorld Manuals Archive</a> — service & operating PDFs</li>
+                      <li>• <a href="https://www.vendingtimes.com/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Vending Times</a> — industry news & analysis</li>
+                      <li>• <a href="https://www.sba.gov/business-guide/plan-your-business/market-research-competitive-analysis" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">SBA — Business Planning</a> — start your vending LLC</li>
+                      <li>• <a href="https://www.entrepreneur.com/starting-a-business" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Entrepreneur — Starting a Business</a> — go-to-market guides</li>
+                      <li>• <a href="https://www.forbes.com/small-business/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Forbes Small Business</a> — finance & growth strategy</li>
+                      <li>• <a href="https://www.bbb.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Better Business Bureau</a> — verify operator standing</li>
+                    </ul>
+                  </div>
               )}
               {activeTab === "Earnings" && (
                 <div className="max-w-lg space-y-4">
