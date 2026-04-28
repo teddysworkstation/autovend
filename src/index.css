@@ -6,25 +6,29 @@
 
 @layer base {
   :root {
-    --background: 210 20% 98%;
-    --foreground: 220 25% 10%;
+    /* VMH Brand Colors — Blue (logo) + Orange (cart accent) */
+    --background: 210 30% 98%;
+    --foreground: 215 35% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 25% 10%;
+    --card-foreground: 215 35% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 25% 10%;
+    --popover-foreground: 215 35% 12%;
 
-    --primary: 217 91% 60%;
+    /* Primary = VMH Blue */
+    --primary: 210 85% 50%;
     --primary-foreground: 0 0% 100%;
+    --primary-glow: 205 95% 60%;
 
-    --secondary: 220 14% 96%;
-    --secondary-foreground: 220 25% 10%;
+    --secondary: 210 25% 95%;
+    --secondary-foreground: 215 35% 12%;
 
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 10% 46%;
+    --muted: 210 25% 95%;
+    --muted-foreground: 215 15% 42%;
 
-    --accent: 262 83% 58%;
+    /* Accent = VMH Orange */
+    --accent: 28 95% 55%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
@@ -33,26 +37,26 @@
     --success: 152 76% 39%;
     --success-foreground: 0 0% 100%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 217 91% 60%;
+    --border: 210 20% 89%;
+    --input: 210 20% 89%;
+    --ring: 210 85% 50%;
 
     --radius: 0.75rem;
 
-    --surface: 220 14% 96%;
-    --surface-2: 220 20% 93%;
+    --surface: 210 25% 95%;
+    --surface-2: 210 30% 92%;
 
-    --hero-gradient-start: 217 91% 60%;
-    --hero-gradient-end: 262 83% 58%;
+    --hero-gradient-start: 210 85% 50%;
+    --hero-gradient-end: 28 95% 55%;
 
     --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 220 10% 46%;
-    --sidebar-primary: 217 91% 60%;
+    --sidebar-foreground: 215 15% 42%;
+    --sidebar-primary: 210 85% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 14% 96%;
-    --sidebar-accent-foreground: 220 25% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217 91% 60%;
+    --sidebar-accent: 210 25% 95%;
+    --sidebar-accent-foreground: 215 35% 12%;
+    --sidebar-border: 210 20% 89%;
+    --sidebar-ring: 210 85% 50%;
   }
 }
 
@@ -83,21 +87,30 @@
   }
 
   .text-gradient-hero {
-    background: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(262 83% 58%) 100%);
+    background: linear-gradient(135deg, hsl(210 85% 55%) 0%, hsl(28 95% 55%) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .bg-hero-gradient {
-    background: linear-gradient(135deg, hsl(217 91% 60% / 0.08) 0%, hsl(262 83% 58% / 0.08) 100%);
+    background: linear-gradient(135deg, hsl(210 85% 50% / 0.08) 0%, hsl(28 95% 55% / 0.08) 100%);
   }
 
   .bg-hero-dark {
-    background: linear-gradient(135deg, hsl(220 25% 10%) 0%, hsl(230 30% 15%) 50%, hsl(262 30% 18%) 100%);
+    background: linear-gradient(135deg, hsl(215 40% 12%) 0%, hsl(210 50% 16%) 50%, hsl(28 30% 18%) 100%);
   }
 
   .border-gradient {
-    border-color: hsl(217 91% 60% / 0.2);
+    border-color: hsl(210 85% 50% / 0.2);
+  }
+
+  /* VMH preloader rotation */
+  @keyframes vmh-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .vmh-spin {
+    animation: vmh-spin 2.5s linear infinite;
   }
 }
