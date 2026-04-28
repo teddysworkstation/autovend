@@ -284,6 +284,7 @@ export default function MachineDetail() {
                       <li>• <a href="https://www.bbb.org/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Better Business Bureau</a> — verify operator standing</li>
                     </ul>
                   </div>
+                </div>
               )}
               {activeTab === "Earnings" && (
                 <div className="max-w-lg space-y-4">
