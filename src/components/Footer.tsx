@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import AuthorityLinks from "@/components/AuthorityLinks";
+import vmhLogo from "@/assets/vmh-logo.png";
 
 export default function Footer() {
   return (
@@ -10,13 +11,10 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
             <div className="md:col-span-1">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                  <span className="text-primary-foreground font-display font-bold text-sm">AV</span>
-                </div>
-                <span className="font-display text-lg font-bold text-foreground">AutoVend</span>
+                <img src={vmhLogo} alt="Vending Machine Hub (VMH)" className="h-10 w-auto" />
               </div>
               <p className="text-muted-foreground text-sm leading-relaxed">
-                Premium vending machines for sale. Start your vending machine business with free shipping, financing, and lifetime support. Trusted by 1,000+ entrepreneurs nationwide.
+                Vending Machine Hub (VMH) — premium vending machines for sale. Start your vending machine business with free shipping, financing, and lifetime support. Trusted by 1,000+ entrepreneurs nationwide.
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 <a href="https://www.bbb.org/" target="_blank" rel="noopener noreferrer" className="text-[10px] text-muted-foreground border border-border rounded px-2 py-1 hover:text-primary transition-colors">BBB Accredited</a>
@@ -45,19 +43,23 @@ export default function Footer() {
               </div>
             </div>
             <div>
-              <h4 className="text-sm font-semibold text-foreground mb-4">Legal & Support</h4>
+              <h4 className="text-sm font-semibold text-foreground mb-4">Support & Service</h4>
               <div className="flex flex-col gap-2.5">
+                <Link to="/training-videos" className="text-sm text-muted-foreground hover:text-primary transition-colors">Training Videos</Link>
+                <Link to="/technical-support" className="text-sm text-muted-foreground hover:text-primary transition-colors">Technical Support</Link>
+                <Link to="/parts-service" className="text-sm text-muted-foreground hover:text-primary transition-colors">Parts & Service</Link>
+                <Link to="/manuals" className="text-sm text-muted-foreground hover:text-primary transition-colors">Manuals</Link>
+                <Link to="/warranty-registration" className="text-sm text-muted-foreground hover:text-primary transition-colors">Warranty Registration</Link>
+                <Link to="/affiliates" className="text-sm text-muted-foreground hover:text-primary transition-colors">Affiliate Program</Link>
                 <Link to="/faq" className="text-sm text-muted-foreground hover:text-primary transition-colors">FAQ</Link>
                 <Link to="/legal/privacy-policy" className="text-sm text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link>
                 <Link to="/legal/terms-of-service" className="text-sm text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link>
-                <Link to="/legal/refund-policy" className="text-sm text-muted-foreground hover:text-primary transition-colors">Refund Policy</Link>
-                <Link to="/legal/shipping-policy" className="text-sm text-muted-foreground hover:text-primary transition-colors">Shipping Policy</Link>
                 <Link to="/legal/warranty" className="text-sm text-muted-foreground hover:text-primary transition-colors">Warranty</Link>
               </div>
             </div>
           </div>
           <div className="border-t border-border mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} AutoVend Solutions. All rights reserved. Vending machines for sale with free nationwide shipping.</p>
+            <p className="text-xs text-muted-foreground">© {new Date().getFullYear()} Vending Machine Hub (VMH). All rights reserved. Vending machines for sale with free nationwide shipping.</p>
             <div className="flex gap-4">
               <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-primary">Facebook</a>
               <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground hover:text-primary">Instagram</a>
