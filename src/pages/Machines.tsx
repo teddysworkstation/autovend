@@ -79,7 +79,7 @@ export default function Machines() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Vending Machines for Sale | Browse All Machines — AutoVend"
+        title="Vending Machines for Sale | Browse All Machines — VMH"
         description="Browse our full collection of vending machines for sale. Combo machines, snack machines, drink machines, Pokemon vending machines & more. Free shipping nationwide."
         keywords="vending machine for sale, vending machine, pokemon vending machine, buy vending machine, combo vending machine, snack machine"
         canonical="https://autovend.lovable.app/machines"

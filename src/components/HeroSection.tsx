@@ -11,7 +11,7 @@ import heroPokemon from "@/assets/hero-pokemon-vending.jpg";
 const slides = [
   { image: heroWarehouse, alt: "Warehouse with rows of premium vending machines in stock for sale" },
   { image: heroShowroom, alt: "Modern combo snack and drink vending machines in showroom" },
-  { image: heroDelivery, alt: "AutoVend delivery fleet shipping vending machines nationwide" },
+  { image: heroDelivery, alt: "VMH delivery fleet shipping vending machines nationwide" },
   { image: heroPokemon, alt: "Pokemon vending machine for sale" },
 ];
 

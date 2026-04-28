@@ -32,18 +32,18 @@ export default function About() {
               Empowering Entrepreneurs<br />Through Vending
             </h1>
             <p className="text-muted-foreground mt-4 max-w-2xl mx-auto text-lg">
-              AutoVend Solutions was founded with one mission: make passive income accessible to everyone through the vending machine business model.
+              Vending Machine Hub was founded with one mission: make passive income accessible to everyone through the vending machine business model.
             </p>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <img src={heroSlide2} alt="AutoVend team" className="rounded-2xl w-full object-cover h-[400px]" />
+              <img src={heroSlide2} alt="VMH team" className="rounded-2xl w-full object-cover h-[400px]" />
             </motion.div>
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <h2 className="font-display text-3xl font-bold text-foreground mb-4">Our Story</h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                We started as vending machine operators ourselves. We know the challenges, the questions, and the skepticism that comes with starting a vending business. That's why we built AutoVend differently.
+                We started as vending machine operators ourselves. We know the challenges, the questions, and the skepticism that comes with starting a vending business. That's why we built VMH differently.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-4">
                 Our video proof model was born from our own frustration with the industry. We wanted to create a buying experience where trust isn't optional — it's built into every step.

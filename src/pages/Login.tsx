@@ -30,7 +30,7 @@ export default function Login() {
                 <span className="text-primary-foreground font-display font-bold">AV</span>
               </div>
               <h1 className="font-display text-2xl font-bold text-foreground">Welcome Back</h1>
-              <p className="text-sm text-muted-foreground mt-1">Sign in to your AutoVend account</p>
+              <p className="text-sm text-muted-foreground mt-1">Sign in to your VMH account</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">

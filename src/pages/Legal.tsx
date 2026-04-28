@@ -8,7 +8,7 @@ const legalPages: Record<string, { title: string; content: string }> = {
     title: "Privacy Policy",
     content: `Last updated: April 5, 2026
 
-AutoVend Solutions ("we", "our", or "us") respects your privacy and is committed to protecting your personal data.
+Vending Machine Hub ("we", "our", or "us") respects your privacy and is committed to protecting your personal data.
 
 **Information We Collect**
 We collect information you provide directly: name, email, phone number, shipping address, and payment information. We also collect usage data including IP address, browser type, and pages visited.
@@ -27,19 +27,19 @@ We do not sell your personal data. We share data only with payment processors (S
 We use essential cookies for site functionality and analytics cookies to understand how visitors use our site.
 
 **Your Rights**
-You may request access to, correction of, or deletion of your personal data by contacting support@autovendsolutions.com.
+You may request access to, correction of, or deletion of your personal data by contacting support@vmh.com.
 
 **Data Security**
 We use industry-standard encryption and security measures to protect your data.
 
 **Contact**
-For privacy-related questions: support@autovendsolutions.com`,
+For privacy-related questions: support@vmh.com`,
   },
   "terms-of-service": {
     title: "Terms of Service",
     content: `Last updated: April 5, 2026
 
-These Terms of Service govern your use of autovendsolutions.com and any purchases made through our platform.
+These Terms of Service govern your use of vmh.com and any purchases made through our platform.
 
 **Acceptance of Terms**
 By using our website or making a purchase, you agree to these terms in full.
@@ -69,7 +69,7 @@ Income estimates are for informational purposes only. Actual earnings depend on 
 These terms are governed by the laws of the State of Florida.
 
 **Contact**
-Questions about these terms: support@autovendsolutions.com`,
+Questions about these terms: support@vmh.com`,
   },
   "refund-policy": {
     title: "Refund Policy",
@@ -82,7 +82,7 @@ Your $500 deposit is fully refundable at any time before the balance payment is 
 If you paid the full price, you may request a refund within 30 days of delivery, provided the machine is in its original condition and packaging.
 
 **How to Request a Refund**
-Contact support@autovendsolutions.com with your order number. Our team will process your request within 48 hours.
+Contact support@vmh.com with your order number. Our team will process your request within 48 hours.
 
 **Non-Refundable Items**
 - Custom-configured machines
@@ -153,7 +153,7 @@ Certified pre-owned machines include a 90-day limited warranty covering major co
 All customers receive free, unlimited toll-free technical support for the life of the machine. Our support team can help troubleshoot issues remotely.
 
 **How to File a Claim**
-1. Contact support@autovendsolutions.com
+1. Contact support@vmh.com
 2. Provide your order number and description of the issue
 3. Our team will diagnose and ship replacement parts within 48 hours
 

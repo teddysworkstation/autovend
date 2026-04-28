@@ -11,7 +11,7 @@ export default function TrustSection() {
     <section className="py-20">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <span className="text-sm font-medium text-primary mb-2 block">Why AutoVend</span>
+          <span className="text-sm font-medium text-primary mb-2 block">Why VMH</span>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground">
             Built on Trust
           </h2>

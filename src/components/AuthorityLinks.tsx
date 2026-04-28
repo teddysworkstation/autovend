@@ -36,7 +36,7 @@ export default function AuthorityLinks() {
           Industry Resources & Trusted Partners
         </h2>
         <p className="text-sm text-muted-foreground mb-6 max-w-2xl">
-          AutoVend Solutions is recognized alongside industry-leading organizations. Learn more about the vending machine industry from these trusted resources.
+          Vending Machine Hub is recognized alongside industry-leading organizations. Learn more about the vending machine industry from these trusted resources.
         </p>
         <div className="flex flex-wrap gap-3">
           {authorityResources.map((r) => (

@@ -19,7 +19,7 @@ export default function Signup() {
       toast({ title: "Error", description: "Passwords don't match.", variant: "destructive" });
       return;
     }
-    toast({ title: "Account Created!", description: "Welcome to AutoVend Solutions." });
+    toast({ title: "Account Created!", description: "Welcome to Vending Machine Hub." });
   };
 
   return (
@@ -33,7 +33,7 @@ export default function Signup() {
                 <span className="text-primary-foreground font-display font-bold">AV</span>
               </div>
               <h1 className="font-display text-2xl font-bold text-foreground">Create Account</h1>
-              <p className="text-sm text-muted-foreground mt-1">Join 1,000+ entrepreneurs on AutoVend</p>
+              <p className="text-sm text-muted-foreground mt-1">Join 1,000+ entrepreneurs on VMH</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">

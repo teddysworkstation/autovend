@@ -20,7 +20,7 @@ export default function Index() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "AutoVend Solutions",
+    name: "Vending Machine Hub",
     url: "https://autovend.lovable.app",
     description: "Buy premium vending machines for sale. Start your vending machine business with our Pokemon vending machine, combo machines, snack & drink vending machines. Free shipping nationwide.",
     potentialAction: {
@@ -33,7 +33,7 @@ export default function Index() {
   const orgData = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "AutoVend Solutions",
+    name: "Vending Machine Hub",
     url: "https://autovend.lovable.app",
     logo: "https://autovend.lovable.app/favicon.ico",
     contactPoint: {
@@ -48,7 +48,7 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Vending Machines for Sale | Buy Premium Vending Machines — AutoVend Solutions"
+        title="Vending Machines for Sale | Buy Premium Vending Machines — Vending Machine Hub"
         description="Buy premium vending machines for sale. Start your vending machine business with Pokemon vending machines, combo machines, snack & drink machines. Free shipping, financing available."
         keywords="vending machine for sale, vending machine, pokemon vending machine, buy vending machine, vending machine business, snack machine, drink machine, combo vending machine"
         canonical="https://autovend.lovable.app/"

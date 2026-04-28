@@ -52,7 +52,7 @@ This Pokemon vending machine is professionally branded with vibrant Pikachu, Cha
 
 Featuring a large 7" touch-screen interface, the Pokemon Trading Card Vending Machine accepts cash, all major credit cards, debit cards, Apple Pay, and Google Pay through the integrated Greenlite cashless system. With a typical Pokemon booster pack retailing between $5–$15 and ETBs commanding $50+, operators routinely report margins of 40–60% per sale.
 
-Industry data shows specialty Pokemon vending machines can generate $2,000–$6,000+ in monthly revenue at the right location. Backed by AutoVend Solutions' nationwide free shipping, refundable deposit, and 1-year limited parts warranty, this is the easiest way to enter the lucrative collectibles vending market.`,
+Industry data shows specialty Pokemon vending machines can generate $2,000–$6,000+ in monthly revenue at the right location. Backed by Vending Machine Hub' nationwide free shipping, refundable deposit, and 1-year limited parts warranty, this is the easiest way to enter the lucrative collectibles vending market.`,
     excerpt: `The Pokemon Trading Card Vending Machine is a turn-key specialty vending business — Pokemon-branded, ADA compliant, cashless-ready, and engineered for high-margin sales of Pokemon TCG booster packs, ETBs, and collectibles in malls, hobby shops, and family destinations.`,
     estimatedMonthlyIncomeMin: 2000,
     estimatedMonthlyIncomeMax: 6000,

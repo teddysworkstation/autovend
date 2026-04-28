@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 const testimonials = [
   { name: "Marcus T.", location: "Atlanta, GA", machine: "Express Combo", income: "$1,200/mo", rating: 5, quote: "I was skeptical at first, but after receiving video proof of my machine, I felt confident. Now I have three machines earning passive income.", avatar: "MT" },
   { name: "Sarah K.", location: "Dallas, TX", machine: "MarketOne 5W", income: "$900/mo", rating: 5, quote: "The deposit model made it risk-free for me. I saw my exact machine working before paying the full balance. Best investment I've made.", avatar: "SK" },
-  { name: "James R.", location: "Phoenix, AZ", machine: "ePay Combo", income: "$1,400/mo", rating: 5, quote: "As a side hustle, this has been incredible. The cashless machine pays for itself. AutoVend made the process seamless.", avatar: "JR" },
+  { name: "James R.", location: "Phoenix, AZ", machine: "ePay Combo", income: "$1,400/mo", rating: 5, quote: "As a side hustle, this has been incredible. The cashless machine pays for itself. VMH made the process seamless.", avatar: "JR" },
   { name: "Lisa M.", location: "Chicago, IL", machine: "MarketOne 3W", income: "$750/mo", rating: 4, quote: "I placed my machine in a local gym and it started generating income within the first week. Customer support has been amazing.", avatar: "LM" },
-  { name: "David H.", location: "Miami, FL", machine: "Large Capacity Snack", income: "$1,100/mo", rating: 5, quote: "I now own five machines across different locations. AutoVend helped me build a real business with minimal time investment.", avatar: "DH" },
+  { name: "David H.", location: "Miami, FL", machine: "Large Capacity Snack", income: "$1,100/mo", rating: 5, quote: "I now own five machines across different locations. VMH helped me build a real business with minimal time investment.", avatar: "DH" },
   { name: "Amanda C.", location: "Seattle, WA", machine: "MarketOne Coffee", income: "$1,600/mo", rating: 5, quote: "The coffee machine was the perfect fit for my office building location. Premium drinks = premium profits.", avatar: "AC" },
 ];
 

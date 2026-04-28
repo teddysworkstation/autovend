@@ -61,7 +61,7 @@ export default function MachineDetail() {
     image: product.images,
     sku: product.slug,
     mpn: product.slug,
-    brand: { "@type": "Brand", name: "AutoVend Solutions" },
+    brand: { "@type": "Brand", name: "Vending Machine Hub" },
     category: "Vending Machine",
     offers: {
       "@type": "Offer",
@@ -69,7 +69,7 @@ export default function MachineDetail() {
       priceCurrency: "USD",
       price: product.salePrice || product.price,
       availability: product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-      seller: { "@type": "Organization", name: "AutoVend Solutions" },
+      seller: { "@type": "Organization", name: "Vending Machine Hub" },
       shippingDetails: {
         "@type": "OfferShippingDetails",
         shippingRate: { "@type": "MonetaryAmount", value: "0", currency: "USD" },
@@ -112,8 +112,8 @@ export default function MachineDetail() {
       },
       {
         "@type": "Question",
-        name: "Does AutoVend offer free shipping on vending machines?",
-        acceptedAnswer: { "@type": "Answer", text: "Yes, AutoVend Solutions offers free nationwide shipping on all vending machines. White-glove delivery is also available." },
+        name: "Does VMH offer free shipping on vending machines?",
+        acceptedAnswer: { "@type": "Answer", text: "Yes, Vending Machine Hub offers free nationwide shipping on all vending machines. White-glove delivery is also available." },
       },
     ],
   };
@@ -137,7 +137,7 @@ export default function MachineDetail() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title={`${product.title} | Vending Machine for Sale — AutoVend`}
+        title={`${product.title} | Vending Machine for Sale — VMH`}
         description={`Buy ${product.title} for ${formatPrice(effectivePrice)}. ${product.excerpt.slice(0, 120)}. Free shipping, financing available. Start with $${product.deposit} deposit.`}
         keywords={`${product.title.toLowerCase()}, vending machine for sale, vending machine, ${product.category.toLowerCase()}, buy vending machine, pokemon vending machine`}
         canonical={`https://autovend.lovable.app/machines/${product.slug}`}
