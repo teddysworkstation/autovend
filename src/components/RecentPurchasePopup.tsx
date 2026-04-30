@@ -72,7 +72,7 @@ export default function RecentPurchasePopup() {
               </div>
               <div>
                 <p className="text-sm font-semibold text-foreground leading-tight">
-                  {purchase.name} just placed a deposit
+                  {purchase.name} just placed an order
                 </p>
                 <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
                   {purchase.item}
