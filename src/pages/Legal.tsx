@@ -47,11 +47,10 @@ By using our website or making a purchase, you agree to these terms in full.
 **Products & Pricing**
 All prices are listed in USD. We reserve the right to change prices at any time. Prices are locked at the time of order confirmation.
 
-**Deposit & Payment**
-- A $500 deposit secures your machine
-- Deposits are refundable before balance payment
-- Choose one-time payment or our $150/month subscription plan
-- Full payment orders are processed immediately
+**Payment Options**
+- Pay the full machine price upfront, OR
+- Choose our $150/month payment plan (no deposit required)
+- All payments are processed securely; full payment orders ship immediately
 
 **Shipping & Delivery**
 Standard shipping is 5-10 business days to continental US. Alaska and Hawaii may require additional time and fees.
@@ -60,7 +59,7 @@ Standard shipping is 5-10 business days to continental US. Alaska and Hawaii may
 New machines include a 1-year limited parts warranty. Used/refurbished machines include a 90-day warranty. Warranty does not cover misuse, modifications, or normal wear.
 
 **Returns**
-Returns accepted within 30 days of delivery in original condition. Customer is responsible for return shipping costs. Deposits are refundable before full payment.
+Returns accepted within 30 days of delivery in original condition. Customer is responsible for return shipping costs. Orders may be cancelled free of charge before shipping.
 
 **Limitation of Liability**
 Income estimates are for informational purposes only. Actual earnings depend on location, product selection, and management. We do not guarantee specific income amounts.
@@ -75,8 +74,8 @@ Questions about these terms: support@vmh.com`,
     title: "Refund Policy",
     content: `Last updated: April 5, 2026
 
-**Deposit Refunds**
-Your $500 deposit is fully refundable at any time before the balance payment is made. Refunds are processed within 5-7 business days.
+**Order Cancellation**
+Orders may be cancelled free of charge any time before shipping. Cancellations are processed within 5-7 business days.
 
 **Full Payment Refunds**
 If you paid the full price, you may request a refund within 30 days of delivery, provided the machine is in its original condition and packaging.

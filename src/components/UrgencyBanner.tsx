@@ -11,7 +11,7 @@ export default function UrgencyBanner() {
       <div className="container mx-auto flex items-center justify-center gap-2 text-sm font-medium">
         <Zap className="w-4 h-4 flex-shrink-0" />
         <span>
-          <span className="font-bold">High demand this week</span> — Limited machines available. Secure yours with $500 deposit.
+          <span className="font-bold">High demand this week</span> — Pay in full or start the $150/month plan today.
         </span>
       </div>
       <button

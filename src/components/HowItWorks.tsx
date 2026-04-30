@@ -3,7 +3,7 @@ import { LayoutGrid, Lock, ShieldCheck, Truck } from "lucide-react";
 
 const steps = [
   { num: "01", icon: LayoutGrid, title: "Choose Your Machine", desc: "Browse our catalog and select the machine that fits your budget and location goals.", color: "bg-primary/10 text-primary" },
-  { num: "02", icon: Lock, title: "Pick Your Plan", desc: "Pay in full upfront, or start with our $150/month plan. Refundable $500 deposit either way.", color: "bg-accent/10 text-accent" },
+  { num: "02", icon: Lock, title: "Pick Your Plan", desc: "Pay the full machine price upfront, or choose our flexible $150/month plan. No deposits, no hidden fees.", color: "bg-accent/10 text-accent" },
   { num: "03", icon: ShieldCheck, title: "Order Verified & Built", desc: "We confirm your order, build your machine to spec, and run full quality assurance before shipping.", color: "bg-success/10 text-success" },
   { num: "04", icon: Truck, title: "Machine Delivered", desc: "Your machine ships to your door. Start placing it and earning within days.", color: "bg-primary/10 text-primary" },
 ];

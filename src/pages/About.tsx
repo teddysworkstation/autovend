@@ -5,7 +5,7 @@ import { Shield, Users, Truck, Award, Target, Heart } from "lucide-react";
 import heroSlide2 from "@/assets/hero-slide-2.jpg";
 
 const values = [
-  { icon: Shield, title: "Trust & Transparency", desc: "Quality assurance on every machine. No hidden fees. Refundable deposits. What you see is what you get." },
+  { icon: Shield, title: "Trust & Transparency", desc: "Quality assurance on every machine. No hidden fees. Flexible payment plans. What you see is what you get." },
   { icon: Users, title: "Community First", desc: "1,000+ entrepreneurs in our network. We grow together and support each other." },
   { icon: Truck, title: "Reliable Delivery", desc: "Nationwide shipping with tracking. White-glove delivery options available." },
   { icon: Award, title: "Quality Machines", desc: "We partner only with verified, commercial-grade machine manufacturers." },
