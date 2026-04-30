@@ -8,6 +8,7 @@ import HowItWorks from "@/components/HowItWorks";
 import TrustSection from "@/components/TrustSection";
 
 import HomeReviews from "@/components/HomeReviews";
+import HomeBlog from "@/components/HomeBlog";
 import HomeFAQ from "@/components/HomeFAQ";
 import QuizCTABanner from "@/components/QuizCTABanner";
 import NewsletterForm from "@/components/NewsletterForm";
@@ -68,6 +69,7 @@ export default function Index() {
         <TrustSection />
         <HomeReviews />
         
+        <HomeBlog />
         <HomeFAQ />
         <QuizCTABanner />
         <section className="py-20">

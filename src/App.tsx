@@ -15,6 +15,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Legal from "./pages/Legal";
 import ResourcePage from "./pages/ResourcePage";
+import Blog from "./pages/Blog";
+import BlogPostPage from "./pages/BlogPost";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -43,6 +45,8 @@ const App = () => (
           <Route path="/parts-service" element={<ResourcePage slug="parts-service" />} />
           <Route path="/warranty-registration" element={<ResourcePage slug="warranty-registration" />} />
           <Route path="/manuals" element={<ResourcePage slug="manuals" />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
