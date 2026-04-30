@@ -17,8 +17,8 @@ import { useState } from "react";
 const trustBadges = [
   { icon: Shield, label: "Secure Checkout" },
   { icon: Check, label: "Verified Supplier" },
-  { icon: RotateCcw, label: "Refundable Deposit" },
-  { icon: Truck, label: "Nationwide Delivery" },
+  { icon: RotateCcw, label: "30-Day Returns" },
+  { icon: Truck, label: "Free Nationwide Delivery" },
 ];
 
 const tabs = ["Features", "Earnings", "Delivery", "Reviews"];
@@ -45,7 +45,7 @@ export default function MachineDetail() {
   }
 
   const effectivePrice = product.salePrice || product.price;
-  const remainingBalance = effectivePrice - product.deposit;
+  const monthlyMonths = Math.ceil(effectivePrice / 150);
   const related = products.filter(p => p.slug !== product.slug && p.category === product.category).slice(0, 4);
   const productReviews = getReviewsForProduct(product.slug);
   const displayReviews = [
@@ -103,7 +103,7 @@ export default function MachineDetail() {
       {
         "@type": "Question",
         name: `How much does the ${product.title} cost?`,
-        acceptedAnswer: { "@type": "Answer", text: `The ${product.title} is priced at ${formatPrice(effectivePrice)}. You can start with a ${formatPrice(product.deposit)} refundable deposit and pay the balance once your machine completes our quality-assurance build process. You can also choose our $150/month payment plan.` },
+        acceptedAnswer: { "@type": "Answer", text: `The ${product.title} is priced at ${formatPrice(effectivePrice)}. You can pay in full upfront, or choose our flexible $150/month payment plan — no deposit required.` },
       },
       {
         "@type": "Question",
@@ -138,7 +138,7 @@ export default function MachineDetail() {
     <div className="min-h-screen bg-background">
       <SEOHead
         title={`${product.title} | Vending Machine for Sale — VMH`}
-        description={`Buy ${product.title} for ${formatPrice(effectivePrice)}. ${product.excerpt.slice(0, 120)}. Free shipping, financing available. Start with $${product.deposit} deposit.`}
+        description={`Buy ${product.title} for ${formatPrice(effectivePrice)}. ${product.excerpt.slice(0, 120)}. Free nationwide shipping. Pay in full or choose our $150/month plan.`}
         keywords={`${product.title.toLowerCase()}, vending machine for sale, vending machine, ${product.category.toLowerCase()}, buy vending machine, pokemon vending machine`}
         canonical={`https://autovend.lovable.app/machines/${product.slug}`}
         ogImage={product.images[0]}
@@ -186,11 +186,11 @@ export default function MachineDetail() {
                 <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="p-4 bg-primary/5 border border-primary/15 rounded-xl">
                     <p className="text-sm text-primary font-bold">One-Time Payment</p>
-                    <p className="text-xs text-muted-foreground mt-1">Or start with a {formatPrice(product.deposit)} refundable deposit. Balance: {formatPrice(remainingBalance)}.</p>
+                    <p className="text-xs text-muted-foreground mt-1">Pay {formatPrice(effectivePrice)} upfront. Best long-term value — no recurring charges.</p>
                   </div>
                   <div className="p-4 bg-accent/5 border border-accent/20 rounded-xl">
                     <p className="text-sm text-accent font-bold">$150 / month plan</p>
-                    <p className="text-xs text-muted-foreground mt-1">Lowest barrier to entry. Cancel anytime after 12 months.</p>
+                    <p className="text-xs text-muted-foreground mt-1">Spread the cost across {monthlyMonths} months. Cancel anytime after 12 months. No deposit required.</p>
                   </div>
                 </div>
               </div>
@@ -226,9 +226,9 @@ export default function MachineDetail() {
 
               <div className="flex flex-col sm:flex-row gap-3">
                 <Button size="lg" className="flex-1 h-12 font-display font-semibold rounded-xl" asChild>
-                  <Link to="/checkout">Pay {formatPrice(product.deposit)} Deposit</Link>
+                  <Link to="/checkout">Pay {formatPrice(effectivePrice)} in Full</Link>
                 </Button>
-                <Button size="lg" variant="outline" className="flex-1 h-12 font-display font-semibold rounded-xl" asChild>
+                <Button size="lg" variant="outline" className="flex-1 h-12 font-display font-semibold rounded-xl border-accent/40 text-accent hover:bg-accent/10 hover:text-accent" asChild>
                   <Link to="/checkout">Start $150/mo Plan</Link>
                 </Button>
               </div>
@@ -361,9 +361,9 @@ export default function MachineDetail() {
 
       <div className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-md border-t border-border p-4 flex gap-3 lg:hidden z-40">
         <Button size="lg" className="flex-1 h-12 font-display font-semibold text-sm rounded-xl" asChild>
-          <Link to="/checkout">Pay {formatPrice(product.deposit)} Deposit</Link>
+          <Link to="/checkout">Pay in Full</Link>
         </Button>
-        <Button size="lg" variant="outline" className="flex-1 h-12 font-display font-semibold text-sm rounded-xl" asChild>
+        <Button size="lg" variant="outline" className="flex-1 h-12 font-display font-semibold text-sm rounded-xl border-accent/40 text-accent hover:bg-accent/10 hover:text-accent" asChild>
           <Link to="/checkout">$150/mo Plan</Link>
         </Button>
       </div>
