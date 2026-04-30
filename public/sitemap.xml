@@ -60,4 +60,10 @@
   <url><loc>https://autovend.lovable.app/legal/refund-policy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://autovend.lovable.app/legal/shipping-policy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
   <url><loc>https://autovend.lovable.app/legal/warranty</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://autovend.lovable.app/blog</loc><changefreq>weekly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://autovend.lovable.app/blog/what-is-a-vending-machine</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://autovend.lovable.app/blog/best-vending-machines-for-sale</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://autovend.lovable.app/blog/how-to-start-a-vending-machine-business</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://autovend.lovable.app/blog/pokemon-vending-machine-business</loc><changefreq>monthly</changefreq><priority>0.85</priority></url>
+  <url><loc>https://autovend.lovable.app/blog/melissa-and-doug-vending-machine</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>
