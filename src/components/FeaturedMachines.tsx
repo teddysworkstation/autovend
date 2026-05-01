@@ -10,6 +10,7 @@ const tabs = [
   { key: "combo", label: "Combo" },
   { key: "snack", label: "Snack" },
   { key: "drink", label: "Drink" },
+  { key: "smart-store", label: "Smart Stores" },
   { key: "specialized", label: "Specialized" },
 ];
 
@@ -35,7 +36,7 @@ function MachineCard({ product, index }: { product: Product; index: number }) {
           ) : null}
           <img
             src={product.images[0]}
-            alt={product.title}
+            alt="vending machine for sale"
             className={`w-full h-full object-contain p-6 group-hover:scale-105 transition-transform duration-500 ${!product.inStock ? "opacity-50 grayscale" : ""}`}
             loading="lazy"
           />
