@@ -265,9 +265,22 @@ export default function MachineDetail() {
                       <span className="text-sm text-foreground">{f}</span>
                     </div>
                   ))}
-                  <div className="mt-6 text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
-                    {product.description}
-                  </div>
+                  <div
+                    className="mt-6 text-sm text-muted-foreground leading-relaxed prose-content"
+                    dangerouslySetInnerHTML={{
+                      __html: product.description
+                        .split("\n")
+                        .map((line) => {
+                          const l = line.trim();
+                          if (!l) return "";
+                          if (l.startsWith("## ")) return `<h2 class="font-display text-xl font-bold text-foreground mt-6 mb-2">${l.slice(3)}</h2>`;
+                          if (l.startsWith("### ")) return `<h3 class="font-display text-base font-semibold text-foreground mt-4 mb-1">${l.slice(4)}</h3>`;
+                          if (l.startsWith("- ")) return `<li class="ml-5 list-disc">${formatInline(l.slice(2))}</li>`;
+                          return `<p class="mb-3">${formatInline(l)}</p>`;
+                        })
+                        .join(""),
+                    }}
+                  />
 
                   <div className="mt-8 p-5 bg-secondary/40 border border-border rounded-xl">
                     <h3 className="font-display text-base font-bold text-foreground mb-2">Industry Resources & Further Reading</h3>
