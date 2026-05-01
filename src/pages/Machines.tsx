@@ -70,10 +70,10 @@ export default function Machines() {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Vending Machines for Sale | Browse All Machines — VMH"
-        description="Browse our full collection of vending machines for sale. Combo machines, snack machines, drink machines, Pokemon vending machines & more. Free shipping nationwide."
-        keywords="vending machine for sale, vending machine, pokemon vending machine, buy vending machine, combo vending machine, snack machine"
-        canonical="https://autovend.lovable.app/machines"
+        title={catInfo ? `${catInfo.title} | VMH` : "Vending Machines for Sale | Browse All Machines — VMH"}
+        description={catInfo?.description?.slice(0, 160) || "Browse our full collection of vending machines for sale. Combo, snack, drink, smart stores & more. Free shipping nationwide."}
+        keywords={catInfo?.keywords || "vending machine for sale, vending machine, pokemon vending machine, buy vending machine"}
+        canonical={`https://autovend.lovable.app/machines${activeCategory !== "all" ? `?cat=${activeCategory}` : ""}`}
       />
       <TopBar />
       <Navbar />
@@ -81,9 +81,11 @@ export default function Machines() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
             <span className="text-sm font-medium text-primary mb-2 block">Our Collection</span>
-            <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground">Vending Machines for Sale</h1>
-            <p className="text-muted-foreground mt-3 max-w-lg mx-auto">
-              {filtered.length} machines available. All include nationwide delivery and lifetime support.
+            <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground">
+              {catInfo?.title || "Vending Machines for Sale"}
+            </h1>
+            <p className="text-muted-foreground mt-4 max-w-3xl mx-auto leading-relaxed">
+              {catInfo?.description || `${filtered.length} vending machines for sale. All include free nationwide delivery, lifetime support, and our flexible $150/month payment plan.`}
             </p>
           </div>
 
