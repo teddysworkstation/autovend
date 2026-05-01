@@ -1,9 +1,25 @@
+import pokemonProductImg from "@/assets/product-pokemon-vending.jpg";
+import pokemonLifestyleImg from "@/assets/product-pokemon-lifestyle.jpg";
+import pokemonHeroImg from "@/assets/hero-pokemon-vending.jpg";
+import comboImg from "@/assets/product-combo-machine.jpg";
+import drinkImg from "@/assets/product-drink-machine.jpg";
+import snackImg from "@/assets/product-snack-machine.jpg";
+import frozenImg from "@/assets/product-frozen-machine.jpg";
+import specializedImg from "@/assets/product-specialized-machine.jpg";
+import usedImg from "@/assets/product-used-machine.jpg";
+import waterImg from "@/assets/product-water-machine.jpg";
+import smartStoreImg from "@/assets/product-smart-store.jpg";
+import kioskImg from "@/assets/product-kiosk.jpg";
+import smartCoolerImg from "@/assets/product-smart-cooler.jpg";
+import outdoorComboImg from "@/assets/product-outdoor-combo.jpg";
+
 export interface Product {
   title: string;
   slug: string;
   price: number;
   salePrice: number | null;
   category: string;
+  categorySlug: string;
   images: string[];
   description: string;
   excerpt: string;
@@ -21,1293 +37,272 @@ export const categories = [
   { slug: "combo", name: "Combo Machines", icon: "layers" },
   { slug: "drink", name: "Drink Machines", icon: "cup-soda" },
   { slug: "snack", name: "Snack Machines", icon: "cookie" },
-  { slug: "coffee", name: "Coffee & Hot Beverage", icon: "coffee" },
-  { slug: "frozen", name: "Frozen & Cold Food", icon: "snowflake" },
   { slug: "specialized", name: "Specialized Machines", icon: "settings" },
   { slug: "used", name: "Used Machines", icon: "recycle" },
+  { slug: "smart-store", name: "Smart Stores", icon: "store" },
+  { slug: "smart-cooler", name: "Smart Coolers", icon: "snowflake" },
+  { slug: "kiosk", name: "Self-Checkout Kiosks", icon: "monitor" },
 ];
 
-import pokemonProductImg from "@/assets/product-pokemon-vending.jpg";
-import pokemonLifestyleImg from "@/assets/product-pokemon-lifestyle.jpg";
-import pokemonHeroImg from "@/assets/hero-pokemon-vending.jpg";
-import comboImg from "@/assets/product-combo-machine.jpg";
-import drinkImg from "@/assets/product-drink-machine.jpg";
-import snackImg from "@/assets/product-snack-machine.jpg";
-import coffeeImg from "@/assets/product-coffee-machine.jpg";
-import frozenImg from "@/assets/product-frozen-machine.jpg";
-import specializedImg from "@/assets/product-specialized-machine.jpg";
-import usedImg from "@/assets/product-used-machine.jpg";
-import waterImg from "@/assets/product-water-machine.jpg";
+// SEO-rich category descriptions (rendered on /machines?cat=X)
+export const categoryDescriptions: Record<string, { title: string; description: string; keywords: string }> = {
+  combo: {
+    title: "Combo Vending Machines for Sale",
+    description: "Browse premium combo vending machines for sale at Vending Machine Hub. Our combo snack and drink vending machines offer up to 60 selections in a single footprint — ideal for offices, schools, gyms, and high-traffic locations. Backed by industry-leading research from the National Automatic Merchandising Association (NAMA), every combo machine ships with free nationwide delivery and supports cashless payments including Apple Pay and Google Pay.",
+    keywords: "combo vending machine for sale, snack and drink vending machine, combo vending machine",
+  },
+  drink: {
+    title: "Drink & Soda Vending Machines for Sale",
+    description: "Explore the best drink vending machines for sale, including soda, bottled water, juice, and energy drink merchandisers. Our cold drink vending machines feature elevator delivery, ADA compliance, and cashless payment systems. Whether you're stocking a break room or starting a vending business — guides like the U.S. Small Business Administration's startup resources recommend high-margin beverage routes — VMH has the right machine for sale.",
+    keywords: "drink vending machine for sale, soda vending machine, cold drink vending machine",
+  },
+  snack: {
+    title: "Snack Vending Machines for Sale",
+    description: "Shop high-capacity snack vending machines for sale at VMH. From 23-selection starter machines to MarketOne 6W large-capacity merchandisers, our snack vending machines for sale support chips, candy, pastries, and healthy snacks. Industry data from Forbes and Vending Times shows snack vending remains one of the most profitable passive income businesses in 2025.",
+    keywords: "snack vending machine for sale, vending machine for sale, large capacity snack machine",
+  },
+  specialized: {
+    title: "Specialized Vending Machines for Sale",
+    description: "Discover specialized vending machines for sale — including fitness, laundry, book, PPE, tobacco, car wash, and bowling vending machines. These niche vending machines for sale unlock untapped markets and serve specific customer needs in gyms, laundromats, schools, and storage facilities. Per NAMA industry reports, specialty vending is the fastest-growing segment of the unattended retail market.",
+    keywords: "specialized vending machine for sale, fitness vending machine, niche vending machine",
+  },
+  used: {
+    title: "Used Vending Machines for Sale",
+    description: "Save thousands on certified-refurbished used vending machines for sale. Every used vending machine at VMH is fully tested, repainted, and warrantied — perfect for new operators looking to start a vending business with minimal capital. Used combo, snack, and drink machines available with free shipping nationwide.",
+    keywords: "used vending machine for sale, refurbished vending machine, cheap vending machine",
+  },
+  "smart-store": {
+    title: "Smart Stores & AI-Powered Vending Machines for Sale",
+    description: "Step into the future of unattended retail with AI-powered smart stores for sale. Featuring computer-vision product recognition, frictionless tap-grab-go checkout, and remote inventory management, our smart vending machines for sale serve refrigerated, ambient, and frozen products in a single unit — a category Entrepreneur Magazine identifies as the next frontier in retail.",
+    keywords: "smart vending machine for sale, AI vending machine, smart store cooler",
+  },
+  "smart-cooler": {
+    title: "Smart Coolers for Sale",
+    description: "Browse compact AI smart coolers for sale — perfect for hotels, condos, gyms, and small offices. The HAHA series of smart coolers for sale uses computer-vision to track every item, accept cashless payments, and report sales in real time, with no scanning required by customers.",
+    keywords: "smart cooler for sale, AI cooler vending machine, frictionless cooler",
+  },
+  kiosk: {
+    title: "Self-Checkout Kiosks for Sale",
+    description: "Add a self-checkout kiosk for sale to your micro market or break room. Our 365 Retail Markets MM6 and PicoMarket kiosks integrate secure payments, inventory, and loyalty programs in a sleek countertop or freestanding design — the same trusted hardware deployed at thousands of micro market locations across North America.",
+    keywords: "self-checkout kiosk for sale, micro market kiosk, vending kiosk",
+  },
+};
+
+// Helpers
+const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+const SEO_LINKS = `
+## About This Vending Machine for Sale
+
+Vending Machine Hub (VMH) is one of the leading suppliers of commercial-grade vending machines for sale in the United States. According to the [National Automatic Merchandising Association (NAMA)](https://www.namanow.org/), the U.S. vending and unattended retail industry generates over $25 billion in annual revenue, making the vending machine business one of the most accessible passive income opportunities for entrepreneurs.
+
+## Why Buy This Vending Machine
+
+When evaluating any vending machine for sale, consider build quality, payment flexibility, and warranty. Our machines support modern cashless systems like Apple Pay and Google Pay, which the [U.S. Small Business Administration](https://www.sba.gov/business-guide) cites as essential for modern unattended retail. Industry publications including [Forbes Small Business](https://www.forbes.com/small-business/) and [Entrepreneur Magazine](https://www.entrepreneur.com/starting-a-business) consistently rank vending as a top low-overhead business model.
+
+## Financing & Payment Options
+
+Every vending machine for sale at VMH can be paid in full upfront or financed through our flexible **$150/month payment plan** — no $500 deposit required. Compare with industry pricing benchmarks at [Vending.com](https://www.vending.com/) and [VendingWorld](https://vendingworld.com/) and you'll see VMH delivers the best total cost of ownership.
+
+## Delivery, Warranty & Support
+
+Free nationwide delivery is included on every vending machine for sale. All machines come with a 1-year limited parts warranty, lifetime toll-free technical support, and access to our [training videos](/training-videos), [technical support](/technical-support), [parts & service](/parts-service), and [warranty registration](/warranty-registration) resources. New operators should also consult the [Better Business Bureau](https://www.bbb.org/) for supplier verification best practices.
+`;
+
+interface CSVProduct {
+  title: string;
+  price: number;
+  monthly: number;
+  excerpt: string;
+  category: string; // categorySlug
+  features?: string[];
+  image: string;
+  isFeatured?: boolean;
+  estMin?: number;
+  estMax?: number;
+  inStock?: boolean;
+  stockCount?: number;
+}
+
+const csvProducts: CSVProduct[] = [
+  // ==================== COMBO ====================
+  { title: "Express Combo Vending Machine", price: 5350, monthly: 141, excerpt: "With nine drink selections and 20 snack selections, the Express Combo snack and drink vending machine for sale will easily satisfy your customers. Eco-friendly compact design with bright LED lighting.", category: "combo", image: comboImg, isFeatured: true, estMin: 400, estMax: 900, stockCount: 7 },
+  { title: "MarketOne 3W Snack and Cold Drink Vending Machine", price: 6450, monthly: 169, excerpt: "The MarketOne 3W combo vending machine for sale gives customers easy access to refrigerated food, snacks and cold beverages with enhanced LED lighting.", category: "combo", image: comboImg, isFeatured: true, estMin: 500, estMax: 1100, stockCount: 5 },
+  { title: "MarketOne 5W Snack and Cold Drink Vending Machine", price: 7300, monthly: 191, excerpt: "The MarketOne 5W combo vending machine for sale offers up to 60 selections through a large merchandising window with enhanced LED lighting.", category: "combo", image: comboImg, isFeatured: true, estMin: 600, estMax: 1300, stockCount: 4 },
+  { title: "ePay Combo Vending Machine", price: 5350, monthly: 141, excerpt: "Cashless ePay combo vending machine for sale — accepts ALL major credit cards, debit cards, Apple Pay and Google Pay through the Greenlite system.", category: "combo", image: comboImg, estMin: 400, estMax: 900, stockCount: 6 },
+  { title: "Vertical Cooler Vending Machine", price: 2999, monthly: 82, excerpt: "Eco-friendly vertical cooler vending machine for sale using hydrocarbon refrigerant — lowest utility costs in its category and fully California-compliant.", category: "combo", image: drinkImg, estMin: 300, estMax: 700, stockCount: 8 },
+  { title: "MarketOne 5W Outdoor Combo Vending Machine", price: 8550, monthly: 223, excerpt: "Weather-rated outdoor combo vending machine for sale with rain guards, anti-pry covers, and impact-resistant polycarbonate window.", category: "combo", image: outdoorComboImg, isFeatured: true, estMin: 700, estMax: 1500, stockCount: 3 },
+  { title: "MarketOne 3W Cold Food and Drink Vending Machine", price: 6100, monthly: 161, excerpt: "Cold food and drink combo vending machine for sale with up to 36 selections — perfect for high-traffic offices and break rooms.", category: "combo", image: comboImg, estMin: 500, estMax: 1100, stockCount: 5 },
+  { title: "MarketOne 5W Cold Food Elevator Vending Machine", price: 8250, monthly: 215, excerpt: "Elevator-delivery cold food vending machine for sale — gently vends fragile items like yogurt and salads with maximum capacity.", category: "combo", image: frozenImg, estMin: 700, estMax: 1500, stockCount: 4 },
+  { title: "Compact 23/10 Combo Vending Machine", price: 9500, monthly: 247, excerpt: "Two-machine combo vending machine for sale offering 23 snack and 10 drink selections in a compact dual footprint.", category: "combo", image: comboImg, estMin: 600, estMax: 1300, stockCount: 3 },
+  { title: "Midsize 32/10 Combo Energy Star Vending Machine", price: 9900, monthly: 257, excerpt: "Energy Star midsize 32/10 combo vending machine for sale — 32 snacks plus 10 drinks with low energy consumption.", category: "combo", image: comboImg, estMin: 700, estMax: 1500, stockCount: 3 },
+
+  // ==================== DRINK ====================
+  { title: "10 Selections Soda & Soft Drink Vending Machine", price: 5690, monthly: 150, excerpt: "Drink vending machine for sale with 10 selections — fits 12oz cans, 20/24oz bottles, and 16oz bottled water.", category: "drink", image: drinkImg, isFeatured: true, estMin: 400, estMax: 900, stockCount: 6 },
+  { title: "MarketOne 3W 28 Select Cold Drink Vending Machine", price: 6590, monthly: 173, excerpt: "Cold drink vending machine for sale with 28 selections and 168-bottle capacity — sodas, juices, teas, energy drinks.", category: "drink", image: drinkImg, estMin: 500, estMax: 1100, stockCount: 5 },
+  { title: "MarketOne 5W 43 Select Cold Drink Vending Machine", price: 7300, monthly: 191, excerpt: "MarketOne 5W cold drink vending machine for sale — 43 selections, the highest-margin profile in our drink lineup.", category: "drink", image: drinkImg, isFeatured: true, estMin: 600, estMax: 1300, stockCount: 4 },
+  { title: "MarketOne 5W Cold Drink Vending Machine With Elevator", price: 8200, monthly: 215, excerpt: "Cold drink elevator vending machine for sale — soft delivery for fragile bottles and large delivery bin.", category: "drink", image: drinkImg, estMin: 700, estMax: 1500, stockCount: 3 },
+  { title: "MarketOne Series Cold Drink Vending Machine – 10 Selections", price: 5700, monthly: 150, excerpt: "MarketOne 10-selection drink vending machine for sale — vends bottled and canned beverages including water and energy drinks.", category: "drink", image: drinkImg, estMin: 400, estMax: 900, stockCount: 5 },
+  { title: "MarketOne 48 Select Water Bottle Vending Machine", price: 7300, monthly: 191, excerpt: "Stylish 48-select water bottle vending machine for sale — the most-vended beverage delivered through MarketOne styling.", category: "drink", image: waterImg, estMin: 400, estMax: 900, stockCount: 5 },
+
+  // ==================== SNACK ====================
+  { title: "23 Selection Snack Vending Machine", price: 3850, monthly: 104, excerpt: "Entry-level 23-selection snack vending machine for sale — perfect for first-time vending entrepreneurs.", category: "snack", image: snackImg, isFeatured: true, estMin: 300, estMax: 700, stockCount: 8 },
+  { title: "32 Selection Snack Vending Machine", price: 4200, monthly: 113, excerpt: "32-selection snack vending machine for sale — 12 chip slots, 16 candy/cracker, gum & mint, plus 4 pastry selections.", category: "snack", image: snackImg, isFeatured: true, estMin: 350, estMax: 800, stockCount: 6 },
+  { title: "Large Capacity Snack Vending Machine – 40 Selection", price: 4750, monthly: 126, excerpt: "40-selection large capacity snack vending machine for sale — built for high-volume locations with 630+ item capacity.", category: "snack", image: snackImg, isFeatured: true, estMin: 500, estMax: 1100, stockCount: 5 },
+  { title: "5W MarketOne Snack Vending Machine", price: 7800, monthly: 202, excerpt: "MarketOne 5W snack vending machine for sale — best-in-class lighting and visual merchandising for premium locations.", category: "snack", image: snackImg, estMin: 600, estMax: 1300, stockCount: 4 },
+  { title: "MarketOne Snack 6W Vending Machine with Card Reader", price: 9700, monthly: 251, excerpt: "MarketOne Snack 6W vending machine for sale — largest merchandising window, up to 738 items, and integrated card reader.", category: "snack", image: snackImg, estMin: 800, estMax: 1700, stockCount: 3 },
+
+  // ==================== SPECIALIZED ====================
+  { title: "Express Fitness Combo", price: 5300, monthly: 141, excerpt: "Fitness combo vending machine for sale — pre/post-workout snacks and refreshments for gyms and studios.", category: "specialized", image: specializedImg, isFeatured: true, estMin: 500, estMax: 1100, stockCount: 4 },
+  { title: "AutoVend Plus Car Wash Vending Machine", price: 8800, monthly: 230, excerpt: "Outdoor car wash vending machine for sale — 24/7 dispenser for car wash supplies and drinks at any car wash facility.", category: "specialized", image: specializedImg, estMin: 600, estMax: 1400, stockCount: 3 },
+  { title: "20 Select Laundry Vending Machine", price: 4400, monthly: 117, excerpt: "Laundry vending machine for sale with 20 selections of detergents, fabric softeners, and laundry goods.", category: "specialized", image: specializedImg, estMin: 300, estMax: 700, stockCount: 5 },
+  { title: "18 Select Book Vending Machine", price: 7800, monthly: 202, excerpt: "Book vending machine for sale — reward positive student behavior and increase reading excitement with an 18-select literary vendor.", category: "specialized", image: specializedImg, estMin: 200, estMax: 500, stockCount: 4 },
+  { title: "MarketOne Fitness Gym Vending Machine", price: 5300, monthly: 141, excerpt: "Fitness gym vending machine for sale — supplements, beverages, towels, gloves, earbuds, and wearable accessories.", category: "specialized", image: specializedImg, estMin: 500, estMax: 1100, stockCount: 4 },
+  { title: "MarketOne Fitness Vending Machine with Add-On Locker", price: 9100, monthly: 237, excerpt: "Dual-zone fitness vending machine for sale with add-on locker — merchandise large bulky products and exercise equipment.", category: "specialized", image: specializedImg, estMin: 600, estMax: 1300, stockCount: 3 },
+  { title: "Storage Supply Depot Vending Machine", price: 8550, monthly: 223, excerpt: "Storage supply depot vending machine for sale — best-selling supplies for self-storage facility customers.", category: "specialized", image: specializedImg, estMin: 400, estMax: 900, stockCount: 3 },
+  { title: "MarketOne 35 Select Vending Machine for Laundry Supplies", price: 4200, monthly: 113, excerpt: "MarketOne 35-select laundry vending machine for sale — detergents, softeners, and laundry cleaning products.", category: "specialized", image: specializedImg, estMin: 300, estMax: 700, stockCount: 5 },
+  { title: "Sani-Center Plus Vending Machine", price: 7100, monthly: 186, excerpt: "PPE vending machine for sale — Sani-Center Plus dispenses safety equipment, masks, gloves, and disinfecting supplies.", category: "specialized", image: specializedImg, estMin: 400, estMax: 900, stockCount: 4 },
+  { title: "30 Selection Tobacco & Cigarette Vending Machine", price: 3900, monthly: 105, excerpt: "Tobacco and cigarette vending machine for sale — 30 selections including cigarettes, cigars, chewing tobacco, and lighters.", category: "specialized", image: specializedImg, estMin: 500, estMax: 1100, stockCount: 4 },
+  { title: "Bowling Vending Machine", price: 4800, monthly: 123, excerpt: "Bowling vending machine for sale — provide accessories and supplies to bowling customers 24/7.", category: "specialized", image: specializedImg, estMin: 200, estMax: 500, stockCount: 3 },
+
+  // ==================== USED ====================
+  { title: "Express Combo Vending Machine - Used", price: 3800, monthly: 96, excerpt: "Refurbished Express Combo used vending machine for sale — wide selection of snacks, candy, pastries, and beverages.", category: "used", image: usedImg, isFeatured: true, estMin: 400, estMax: 900, stockCount: 4 },
+  { title: "10 Selections Soda & Soft Drink Vending Machine - Used", price: 3999, monthly: 107, excerpt: "Used 10-selection soda vending machine for sale — fully refurbished, fits 12oz cans through 24oz bottles.", category: "used", image: usedImg, estMin: 400, estMax: 900, stockCount: 3 },
+  { title: "23 Selection Snack Vending Machine - Used", price: 2999, monthly: 82, excerpt: "Affordable used snack vending machine for sale — 23 selections of chips, candy, and crackers, fully refurbished.", category: "used", image: usedImg, isFeatured: true, estMin: 300, estMax: 700, stockCount: 5 },
+  { title: "32 Selection Snack Vending Machine - Used", price: 3300, monthly: 90, excerpt: "Used 32-selection snack vending machine for sale — 474 item capacity with iVend Guaranteed delivery.", category: "used", image: usedImg, estMin: 350, estMax: 800, stockCount: 4 },
+  { title: "Large Capacity Snack Vending Machine 40 Selection - Used", price: 3500, monthly: 95, excerpt: "Used large capacity 40-selection snack vending machine for sale — 630-item capacity for busy locations.", category: "used", image: usedImg, estMin: 500, estMax: 1100, stockCount: 3 },
+  { title: "5W MarketOne Snack Vending Machine - Used", price: 3900, monthly: 105, excerpt: "Used MarketOne Snack 5W vending machine for sale — 40 selections with iVend Guaranteed delivery.", category: "used", image: usedImg, estMin: 500, estMax: 1100, stockCount: 3 },
+  { title: "MarketOne 5W Cold Drink Elevator Vending Machine - Used", price: 4950, monthly: 131, excerpt: "Used MarketOne 5W cold drink elevator vending machine for sale — soft elevator delivery for fragile and carbonated beverages.", category: "used", image: usedImg, estMin: 600, estMax: 1300, stockCount: 3 },
+
+  // ==================== SMART STORES ====================
+  { title: "Stockwell Smart Store", price: 7950, monthly: 207, excerpt: "Stockwell smart store vending machine for sale — secure self-checkout with verify, take, and go shopping experience.", category: "smart-store", image: smartStoreImg, isFeatured: true, estMin: 800, estMax: 1800, stockCount: 4 },
+  { title: "PicoCooler Vision + Ambient Cabinet", price: 13150, monthly: 339, excerpt: "AI-powered PicoCooler Vision smart store for sale — refrigerated and ambient products in a single tap-grab-go transaction.", category: "smart-store", image: smartStoreImg, estMin: 1000, estMax: 2500, stockCount: 2 },
+  { title: "PicoFreezer Vision", price: 9600, monthly: 249, excerpt: "PicoFreezer Vision AI smart freezer for sale — frozen meals and treats through a fully unattended setup.", category: "smart-store", image: smartStoreImg, estMin: 800, estMax: 2000, stockCount: 3 },
+  { title: "PicoAmbient Vision", price: 8000, monthly: 209, excerpt: "PicoAmbient Vision AI ambient cabinet for sale — no scanning required, fast self-serve shopping.", category: "smart-store", image: smartStoreImg, estMin: 700, estMax: 1600, stockCount: 3 },
+  { title: "PicoCooler Vision", price: 8000, monthly: 209, excerpt: "Large-capacity AI PicoCooler Vision smart cooler for sale — automatic product recognition and strong security.", category: "smart-store", image: smartStoreImg, isFeatured: true, estMin: 700, estMax: 1700, stockCount: 3 },
+
+  // ==================== SELF-CHECKOUT KIOSKS ====================
+  { title: "MM6 Self-Checkout Kiosk", price: 5450, monthly: 144, excerpt: "Premium MM6 self-checkout kiosk for sale — high-traffic micro market self-checkout with secure integrated payments.", category: "kiosk", image: kioskImg, isFeatured: true, estMin: 0, estMax: 0, stockCount: 5 },
+  { title: "MM6 Mini Self-Checkout Kiosk", price: 4850, monthly: 129, excerpt: "Compact MM6 Mini self-checkout kiosk for sale — fast, intuitive checkout for breakrooms and micro markets.", category: "kiosk", image: kioskImg, estMin: 0, estMax: 0, stockCount: 5 },
+  { title: "PicoMarket Countertop Kiosk", price: 1565, monthly: 46, excerpt: "PicoMarket countertop self-checkout kiosk for sale — modern self-service in a compact, limited-space format.", category: "kiosk", image: kioskImg, estMin: 0, estMax: 0, stockCount: 8 },
+
+  // ==================== SMART COOLERS (HAHA series) ====================
+  { title: "HAHA Mini Smart Cooler", price: 3095, monthly: 82, excerpt: "HAHA Mini smart cooler for sale — compact AI-powered grab-and-go cooler ideal for small offices and condos.", category: "smart-cooler", image: smartCoolerImg, isFeatured: true, estMin: 400, estMax: 900, stockCount: 6 },
+  { title: "HAHA Pro Smart Cooler", price: 4395, monthly: 117, excerpt: "HAHA Pro smart cooler for sale — mid-size AI cooler with frictionless tap-grab-go retail experience.", category: "smart-cooler", image: smartCoolerImg, estMin: 500, estMax: 1200, stockCount: 5 },
+  { title: "HAHA Ultra Smart Cooler", price: 6895, monthly: 184, excerpt: "HAHA Ultra smart cooler for sale — large-capacity AI cooler with broadest product selection in its class.", category: "smart-cooler", image: smartCoolerImg, estMin: 700, estMax: 1600, stockCount: 4 },
+  { title: "HAHA Frozen Smart Cooler", price: 5895, monthly: 157, excerpt: "HAHA Frozen smart cooler for sale — AI-powered frozen retail cooler for ice cream, frozen meals, and treats.", category: "smart-cooler", image: smartCoolerImg, estMin: 600, estMax: 1500, stockCount: 4 },
+];
+
+const categoryDisplayNames: Record<string, string> = {
+  combo: "Combo and Dual Vending Machines",
+  drink: "Drink and Soda Vending Machines",
+  snack: "Snack Vending Machines",
+  specialized: "Specialized Vending Machines",
+  used: "Used Vending Machines",
+  "smart-store": "Smart Stores",
+  "smart-cooler": "Smart Coolers",
+  kiosk: "Self-Checkout Kiosks",
+};
+
+function buildDescription(p: CSVProduct): string {
+  return `## ${p.title} — Vending Machine for Sale
+
+${p.excerpt} This ${p.title} is available for one-time purchase or through our flexible **$150/month payment plan** with no deposit required.
+
+${SEO_LINKS}
+
+### Key Specs
+
+- **Category:** ${categoryDisplayNames[p.category]}
+- **Price:** $${p.price.toLocaleString()} or $${p.monthly}/month financed
+- **Estimated Monthly Income:** $${(p.estMin ?? 400).toLocaleString()} – $${(p.estMax ?? 1000).toLocaleString()}
+- **Payment:** Cash, credit/debit, Apple Pay, Google Pay
+- **Warranty:** 1-Year Limited Parts + Lifetime Toll-Free Support
+- **Shipping:** Free Nationwide Delivery
+
+For broader vending machine business resources, see our [training videos](/training-videos), [parts & service](/parts-service) library, and [VendingWorld manuals](https://vendingworld.com/information/manuals/).`;
+}
+
+const pokemonProduct: Product = {
+  title: "Pokemon Trading Card Vending Machine",
+  slug: "pokemon-trading-card-vending-machine",
+  price: 3499,
+  salePrice: 2999,
+  category: "Specialized Vending Machines",
+  categorySlug: "specialized",
+  images: [pokemonProductImg, pokemonLifestyleImg, pokemonHeroImg],
+  description: `## Pokemon Trading Card Vending Machine for Sale — The #1 Specialty Vending Machine
+
+The **Pokemon Trading Card Vending Machine for sale** is the hottest specialty vending machine on the market — a turn-key passive income business built around one of the most valuable collectible categories in the world. With Pokemon trading cards generating billions in annual sales according to [Forbes](https://www.forbes.com/) and [Entrepreneur](https://www.entrepreneur.com/), this Pokemon vending machine for sale delivers consistent demand from kids, teens, and adult collectors.
+
+This Pokemon vending machine is professionally branded with vibrant Pikachu, Charizard, and Eevee graphics on a high-impact red and white panel. The full-glass front showcases your inventory of Pokemon TCG booster packs, ETBs, tins, plush toys, and collectible figures.
+
+## Why This Pokemon Vending Machine Outperforms
+
+- 7" HD touch screen with Apple Pay & Google Pay
+- Bright LED product showcase
+- ADA compliant
+- Holds 200+ booster packs / ETBs
+- Anti-theft tempered glass
+- Remote inventory monitoring
+
+Industry data from the [National Automatic Merchandising Association (NAMA)](https://www.namanow.org/) shows specialty Pokemon vending machines can generate $2,000–$6,000+ in monthly revenue. Backed by [SBA](https://www.sba.gov/business-guide) startup guidance and verified by the [Better Business Bureau](https://www.bbb.org/), VMH is the trusted source for Pokemon vending machines for sale.
+
+${SEO_LINKS}`,
+  excerpt: "The Pokemon Trading Card Vending Machine for sale is a turn-key specialty vending business — Pokemon-branded, ADA compliant, cashless-ready, and engineered for high-margin sales of Pokemon TCG booster packs, ETBs, and collectibles.",
+  estimatedMonthlyIncomeMin: 2000,
+  estimatedMonthlyIncomeMax: 6000,
+  roiMonths: 6,
+  deposit: 0,
+  features: [
+    "Officially-Styled Pokemon Branding",
+    "7\" HD Touch Screen",
+    "Cashless Payment (Apple Pay, Google Pay, Cards)",
+    "Bright LED Product Showcase",
+    "ADA Compliant",
+    "Holds 200+ Booster Packs / ETBs",
+    "Anti-Theft Tempered Glass",
+    "Remote Inventory Monitoring",
+  ],
+  inStock: true,
+  stockCount: 4,
+  isFeatured: true,
+};
 
 export const products: Product[] = [
-  {
-    title: "Pokemon Trading Card Vending Machine",
-    slug: "pokemon-trading-card-vending-machine",
-    price: 3499,
-    salePrice: 2999,
-    category: "Specialized Vending Machines",
-    images: [pokemonProductImg, pokemonLifestyleImg, pokemonHeroImg],
-    description: `The Pokemon Trading Card Vending Machine is the hottest specialty vending machine on the market — a turn-key passive income business built around one of the most valuable collectible categories in the world. With Pokemon trading cards generating billions in annual sales and consistent demand from kids, teens, and adult collectors alike, this is the perfect Pokemon vending machine for shopping malls, hobby shops, arcades, conventions, and high-foot-traffic family destinations.
-This Pokemon vending machine is professionally branded with vibrant Pikachu, Charizard, Eevee, and other beloved Pokemon character graphics on a high-impact red and white panel. The full-glass front showcases your inventory of Pokemon TCG booster packs, ETBs (Elite Trainer Boxes), tins, plush toys, and collectible figures under bright LED lighting that draws customers in from across the room.
-
-Featuring a large 7" touch-screen interface, the Pokemon Trading Card Vending Machine accepts cash, all major credit cards, debit cards, Apple Pay, and Google Pay through the integrated Greenlite cashless system. With a typical Pokemon booster pack retailing between $5–$15 and ETBs commanding $50+, operators routinely report margins of 40–60% per sale.
-
-Industry data shows specialty Pokemon vending machines can generate $2,000–$6,000+ in monthly revenue at the right location. Backed by Vending Machine Hub' nationwide free shipping, refundable deposit, and 1-year limited parts warranty, this is the easiest way to enter the lucrative collectibles vending market.`,
-    excerpt: `The Pokemon Trading Card Vending Machine is a turn-key specialty vending business — Pokemon-branded, ADA compliant, cashless-ready, and engineered for high-margin sales of Pokemon TCG booster packs, ETBs, and collectibles in malls, hobby shops, and family destinations.`,
-    estimatedMonthlyIncomeMin: 2000,
-    estimatedMonthlyIncomeMax: 6000,
+  pokemonProduct,
+  ...csvProducts.map<Product>((p) => ({
+    title: p.title,
+    slug: slugify(p.title),
+    price: p.price,
+    salePrice: null,
+    category: categoryDisplayNames[p.category],
+    categorySlug: p.category,
+    images: [p.image],
+    description: buildDescription(p),
+    excerpt: p.excerpt,
+    estimatedMonthlyIncomeMin: p.estMin ?? 400,
+    estimatedMonthlyIncomeMax: p.estMax ?? 1000,
     roiMonths: 6,
-    deposit: 500,
-    features: [
-      "Officially-Styled Pokemon Branding",
-      "7\" HD Touch Screen",
-      "Cashless Payment (Apple Pay, Google Pay, Cards)",
-      "Bright LED Product Showcase",
-      "ADA Compliant",
-      "Holds 200+ Booster Packs / ETBs",
-      "Anti-Theft Tempered Glass",
-      "Remote Inventory Monitoring",
-    ],
-    inStock: true,
-    stockCount: 4,
-    isFeatured: true,
-  },
-  {
-    title: "MarketOne 3W Snack and Cold Drink Vending Machine",
-    slug: "marketone-3w-snack-and-cold-drink-vending-machine",
-    price: 1970,
-    salePrice: null,
-    category: "Combo and Dual Vending Machines",
-    images: [comboImg, snackImg, drinkImg],
-    description: `The MarketOne line of vending equipment continues to expand with the addition of the MarketOne 3W Cold Drink and Snack Vending Machine. It features a small footprint, but packs a punch with its sleek design and style. The machine has the ability to vend snacks of various package sizes and form factors, all from one machine.
-
-The MarketOne 3W Cold Drink and Snack Vending Machine allows your consumers to choose from up to 36 products, including a variety of refrigerated food and cold beverage products. This vending machine is health safety programmable by selection, range or row, as with all MarketOne vending machines. The soft coat glass provides an unmatched level of transparency and a crisp merchandising experience for your customers. This vending machine also comes in a cold food version - MarketOne 3W Cold Food & Drink Vending Machine.
-
-You can give your customers the vending experience they have been craving with the MarketOne 3W Cold Drink and Snack Vending Machine. It is fully Americans with Disabilities Act (ADA) compliant and features enhanced LED lighting, providing your customers with maximum product visibility. Additionally, it comes standard with iVend guaranteed product delivery. If an item does not vend correctly the first time, your customer will have the opportunity to try again or vend an entirely new product.
-
-A two-line GVC2” full-color display comes standard on the MarketOne 3W Cold Drink and Snack Vending Machine. Nutritional and pricing information can be displayed in compliance with the FDA’s Calorie Disclosure Rule. This standard feature can be updated to include an optional 7” full-color touch screen to offer a shopping cart mode to purchase up to three items in one transaction, with product browsing capability and advertising options for static and video content.
-
-Never lose out on sales again due to payment acceptance issues with the MarketOne 3W Cold Drink and Snack Vending Machine. It comes standard with a bill acceptor for $1-20. Additionally, a cashless card reader can be added, which enables your customers to pay with credit / debit cards and mobile wallets.`,
-    excerpt: `The MarketOne 3W Snack and Cold Drink Vending Machine gives customers easy access to refrigerated food, snacks and cold beverages, as well as an unparalleled vending experience through enhanced, LED lighting.`,
-    estimatedMonthlyIncomeMin: 400,
-    estimatedMonthlyIncomeMax: 900,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "Touch Screen Display", "iVend Guaranteed Delivery", "Bill Acceptor ($1-$20)"],
-    inStock: true,
-    stockCount: 13,
-    isFeatured: true,
-  },
-  {
-    title: "Express Combo Vending Machine",
-    slug: "express-combo-vending-machine",
-    price: 1764,
-    salePrice: 1500,
-    category: "Combo and Dual Vending Machines",
-    images: [comboImg, snackImg, drinkImg],
-    description: `With nine drink selections and 20 snack selections, the Express Combo snack and drink vending machine will easily satisfy your customers and keep them returning. This combo vending machine has an eco-friendly, compact design and LED lighting to make your products pop! Plus, the carbon fiber door graphic styling of this snack and drink vending machine will make it stand out in any location and entice customers to purchase. The best part? This combo vending machine will pay for itself with just a few daily product sales!
-
-With tilt-out snack trays, loading the Express Combo vending machine is easy. Your customers will be satisfied when you offer their favorite chips, crackers, cookies, candy, and nutritious snacks. In addition to the tilt-out snack trays, the Express Combo has two versatile bottle/can trays and high-capacity can trays that hold up to five drink selections. The bottle trays can be used to vend cans without any modifications.
-
-The Express Combo vending machine is Americans with Disabilities Act (ADA) Compliant and comes standard with an electronic coin and bill acceptor. Want to accept debit/credit cards as well? No problem! Just add the optional Greenlite Cashless card reader to accept debit/credit cards and mobile wallets. Greenlite can increase product sales by 15-30% and ensures you’ll never miss out on a sale due to a lack of payment options.
-
-The Express Combo also includes the iVend Vending Machine Guaranteed Delivery System, which guarantees that each product will vend or the customer will receive their money back. Like all new vending machines from Vending.com, the Express Combo has a one-year limited parts warranty and lifetime toll-free support.
-
-Are you interested in purchasing a combo vending machine? If so, the Express Combo is an ideal choice. With its high product capacity, user-friendly features, and customer-centric design, this machine is perfect for enhancing sales and customer satisfaction.
-
-Contact us today to learn more about the Express Combo vending machine and how it can benefit your business!`,
-    excerpt: `With nine drink selections and 20 snack selections, the Express Combo snack and drink vending machine will easily satisfy your customers and keep them returning. This combo vending machine has an eco-friendly, compact design and LED lighting to make your products pop! The best part? This combo vendi`,
-    estimatedMonthlyIncomeMin: 400,
-    estimatedMonthlyIncomeMax: 900,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "iVend Guaranteed Delivery", "Bill Acceptor ($1-$20)", "Energy Efficient"],
-    inStock: true,
-    stockCount: 4,
-    isFeatured: true,
-  },
-  {
-    title: "MarketOne 5W Snack and Cold Drink Vending Machine",
-    slug: "marketone-5w-snack-and-cold-drink-vending-machine",
-    price: 1905,
-    salePrice: null,
-    category: "Combo and Dual Vending Machines",
-    images: [comboImg, snackImg, drinkImg],
-    description: `The MarketOne series of vending machines continues to expand with the addition of the MarketOne 5W Snack and Cold Drink Vending Machine. It is the perfect machine for any high-traffic location, as it offers up to 60 selections of refrigerated food, snacks and cold beverages with various package sizes and form factors including boxes, cans and bottles, all from one machine. All MarketOne machines are health safety programmable by selection, range or row. The MarketOne 5W Snack and Cold Drink Vending Machine is no different. It includes a soft coat glass, which provides your customers with a crisp merchandising experience through an unmatched level of transparency. Additionally, this machine is available in a cold food and drink version - the MarketOne 5W Cold Food & Drink Vending Machine. Your customers will love the top-notch vending experience you provide with the MarketOne 5W Snack and Cold Drink Vending Machine. Your products will be showcased through the large merchandising window and enhanced LED lighting. Additionally, it is fully Americans with Disabilities Act (ADA) compliant and has an ergonomic user interface, making it easy for everyone to use. The MarketOne 5W Snack and Cold Drink Vending Machine comes standard with a two-line GVC2” display. It allows you to display pricing information and nutritional information in compliance with the FDA’s Calorie Disclosure Rule. This feature can be upgraded to an optional 7” full-color touch screen to offer a shopping cart mode to purchase up to three items in one transaction. This optional feature also includes product browsing capabilities and advertising options for static and video content. Finally, make losing out on sales due to payment acceptance issues a thing of the past with the MarketOne 5W Snack and Cold Drink Vending Machine. Along with a bill acceptor for $1-20, this machine comes standard with PayRange, a leading mobile payment system that allows customers to pay directly from their mobile devices. An optional Greenlite cashless card reader can also be added to your machine, giving you the ability to also accept credit/debit cards and mobile wallet payments.`,
-    excerpt: `The MarketOne 5W Snack and Cold Drink Vending Machine gives customers easy access to refrigerated food, snacks and cold beverages, as well as an unparalleled vending experience through a large merchandising window and enhanced LED lighting.`,
-    estimatedMonthlyIncomeMin: 400,
-    estimatedMonthlyIncomeMax: 900,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "Touch Screen Display", "Bill Acceptor ($1-$20)"],
-    inStock: true,
-    stockCount: 3,
-    isFeatured: true,
-  },
-  {
-    title: "ePay Combo Vending Machine",
-    slug: "epay-combo-vending-machine",
-    price: 1300,
-    salePrice: null,
-    category: "Combo and Dual Vending Machines",
-    images: [comboImg, snackImg, drinkImg],
-    description: `Make it easy for your customers to pay with the ePay Combo Vending Machine, which supports all major credit cards, debit cards, and contactless payments through mobile wallets like Apple Pay and Google Pay. Featuring the Greenlite Cashless System, this combo vending machine operates exclusively with electronic payments. Your customers will appreciate the convenience of this cashless vending machine!
-
-The ePay Combo allows you to sell higher-margin items without the hassle of handling cash or coins. You can easily track and monitor all sales on any internet device, eliminating the need for extra trips to collect cash or keep coin tubes filled. The ePay Combo Vending Machine provides the convenience that both you and your customers desire!`,
-    excerpt: `Easily accommodate ALL major credit cards, debit cards, and mobile wallets, including Apple Pay and Google Pay with the NEW ePay Combo Vending Machine. Equipped with the Greenlite Cashless System, the ePay Combo Vending Machine is a cashless electronic payments only machine.`,
-    estimatedMonthlyIncomeMin: 300,
-    estimatedMonthlyIncomeMax: 700,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["Cashless Payment Ready"],
-    inStock: false,
-    stockCount: 0,
-    isFeatured: true,
-  },
-  {
-    title: "MarketOne 5W Outdoor Combo Vending Machine",
-    slug: "marketone-5w-outdoor-combo-vending-machine",
-    price: 2300,
-    salePrice: null,
-    category: "Combo and Dual Vending Machines",
-    images: [comboImg, snackImg, drinkImg],
-    description: `With maximum durability that can withstand the elements, the MarketOne 5W Outdoor Vending Machine for sale gives your customers the vending experience they have been craving. This outdoor snack and soda combo vending machine features rain guards, anti-pry covers and an impact-resistant polycarbonate window cover with a steel frame to protect the merchandiser and the products inside.
-
-As with all MarketOne machines, this MarketOne 5W Outdoor Vending Machine for sale features a large merchandising window and enhanced LED lighting. Your products will be featured more prominently than ever before. With 60 product selections, this merchandiser is ideal for any high-traffic location. This outdoor combo vending machine can vend products of various package sizes and types, including cans, bottles, prepared food packages and more.
-
-The MarketOne 5W Outdoor Vending Machine is fully Americans with Disabilities Act (ADA) compliant and includes an ergonomic user interface, making it easy for everyone to use. It is also health safety programmable by selection, range or row.
-
-The MarketOne 5W Outdoor Vending Machine for sale comes standard with a two-line GVC2” display allows you to display pricing information and nutritional information in compliance with the FDA’s Calorie Disclosure Rule. This can be upgraded to the optional 7” full-color touch screen to offer a shopping cart mode to purchase up to three items in one transaction, with product browsing capability and advertising options for static and video content,
-
-With a number of standard and optional payment features, you will never have to miss out on a sale again. It also has the capability to accept mobile wallet payments and credit / debit cards by adding an optional Greenlite cashless card reader.`,
-    excerpt: `The MarketOne 5W Outdoor Vending Machine was built with maximum durability that can withstand the elements. It features rain guards, anti-pry covers and an impact-resistant polycarbonate window cover with a steel frame.`,
-    estimatedMonthlyIncomeMin: 500,
-    estimatedMonthlyIncomeMax: 1200,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "Touch Screen Display", "Outdoor Rated"],
-    inStock: true,
-    stockCount: 7,
-    isFeatured: true,
-  },
-  {
-    title: "MarketOne 3W Cold Food and Drink Vending Machine",
-    slug: "marketone-3w-cold-food-and-drink-vending-machine",
-    price: 1900,
-    salePrice: null,
-    category: "Combo and Dual Vending Machines",
-    images: [comboImg, snackImg, drinkImg],
-    description: `The MarketOne line of vending equipment continues to expand with the addition of the MarketOne 3W Cold Food & Drink Vending Machine. It features a small footprint, but packs a punch with its sleek design and style. The machine has the ability to vend cold food, drinks and snacks of various package sizes and form factors, all from one machine.
-
-The MarketOne 3W Small Cold Food & Drink Vending Machine allows your consumers to choose from up to 36 products, including a variety of refrigerated food and cold beverage products. This vending machine is health safety programmable by selection, range or row, as with all MarketOne vending machines. The soft coat glass provides an unmatched level of transparency and a crisp merchandising experience for your customers. This vending machine also comes in a snack version - MarketOne 3W Snack and Cold Drink Vending Machine.
-
-You can give your customers the vending experience they have been craving with the MarketOne 3W Small Cold Food & Drink Vending Machine. It is fully Americans with Disabilities Act (ADA) compliant and features enhanced LED lighting, providing your customers with maximum product visibility. Additionally, it comes standard with iVend guaranteed product delivery. If an item does not vend correctly the first time, your customer will have the opportunity to try again or vend an entirely new product.
-
-A two-line GVC2” display comes standard on the MarketOne 3W Small Cold Food & Drink Vending Machine. This enables you to display pricing information and nutritional information in compliance with the FDA’s Calorie Disclosure Rule. This standard feature can be updated to the optional 7” full-color touch screen to offer a shopping cart mode to purchase up to three items in one transaction, with product browsing capability and advertising options for static and video content.
-
-Never lose out on sales again due to payment acceptance issues with the MarketOne 3W Small Cold Food & Drink Vending Machine. It comes standard with a bill acceptor for $1-20. Additionally, an optional Greenlite card reader can be added, which enables your customers to pay with credit / debit cards and mobile wallets`,
-    excerpt: `Your customers will love the top-notch vending equipment you provide with the MarketOne 3W Cold Food and Drink Vending Machine. It is the perfect machine for any high-traffic location, as it offers up to 36 selections of cold food.`,
-    estimatedMonthlyIncomeMin: 400,
-    estimatedMonthlyIncomeMax: 900,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "Touch Screen Display", "iVend Guaranteed Delivery", "Bill Acceptor ($1-$20)"],
-    inStock: true,
-    stockCount: 6,
-    isFeatured: true,
-  },
-  {
-    title: "MarketOne 5W Cold Food Elevator Vending Machine",
-    slug: "marketone-5w-cold-food-elevator-vending-machine",
-    price: 2100,
-    salePrice: null,
-    category: "Combo and Dual Vending Machines",
-    images: [comboImg, snackImg, drinkImg],
-    description: `The MarketOne series of vending machines continues to expand with the addition of the MarketOne 5W Cold Food & Drink Vending Machine. It is the perfect machine for any high-traffic location, as it offers up to 60 selections of refrigerated food, snacks and cold beverages with various package sizes and form factors including boxes, cans and bottles, all from one machine.
-
-All MarketOne machines are health safety programmable by selection, range or row. The MarketOne 5W Cold Food & Drink Elevator Vending Machine is no different. It includes a soft coat glass, which provides your customers with a crisp merchandising experience through an unmatched level of transparency. Additionally, this elevator vending machine is available in a snack version - the MarketOne 5W Snack and Cold Drink Vending Machine. Your customers will love the top-notch vending experience you provide with the MarketOne 5W Cold Food & Drink Elevator Vending Machine. Your products will be showcased through the large merchandising window and enhanced LED lighting. Additionally, it is fully Americans with Disabilities Act (ADA) compliant and has an ergonomic user interface, making it easy for everyone to use.
-
-The MarketOne 5W Cold Food & Drink Elevator Vending Machine comes standard with a two-line GVC2” display. It allows you to display pricing information and nutritional information in compliance with the FDA’s Calorie Disclosure Rule. This feature can be upgraded to an optional 7” full-color touch screen to offer a shopping cart mode to purchase up to three items in one transaction. This optional feature also includes product browsing capabilities and advertising options for static and video content.
-
-Finally, make losing out on sales due to payment acceptance issues a thing of the past with the MarketOne 5W Cold Food & Drink Vending Machine. It comes with a bill acceptor for $1–20 bills, and an optional Greenlite cashless card reader can also be added, giving you the ability to accept credit/debit cards and mobile wallet payments.`,
-    excerpt: `The elevator feature on the MarketOne 5W Cold Food Elevator Vending Machine allows you to vend fragile products, such as yogurt and salads, from your vending machine. Additionally, it features a large, LED merchandising window and enhanced LED lighting.`,
-    estimatedMonthlyIncomeMin: 500,
-    estimatedMonthlyIncomeMax: 1200,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "Touch Screen Display", "Bill Acceptor ($1-$20)", "Elevator Delivery System"],
-    inStock: true,
-    stockCount: 6,
-    isFeatured: true,
-  },
-  {
-    title: "Compact 23/10 Combo Vending Machine",
-    slug: "compact-23-10-combo-vending-machine",
-    price: 1600,
-    salePrice: null,
-    category: "Combo and Dual Vending Machines",
-    images: [comboImg, snackImg, drinkImg],
-    description: `23/10 Selection Combo This combo snack and drink vending machine is made up of two compact vending machines (one 10 Selection Cold Drink Merchandiser and one 23 Selection Snack Merchandiser) to hold a variety of both snacks and beverages.`,
-    excerpt: `Comprising two machines, the Compact 23/10 Combo Vending Machine is created to hold a variety of snacks and beverages for your customers to enjoy.`,
-    estimatedMonthlyIncomeMin: 400,
-    estimatedMonthlyIncomeMax: 900,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["Commercial Grade Build", "Easy to Operate"],
-    inStock: false,
-    stockCount: 0,
-    isFeatured: true,
-  },
-  {
-    title: "10 Selections Soda & Soft Drink Vending Machine",
-    slug: "10-selections-soda-soft-drink-vending-machine",
-    price: 1400,
-    salePrice: null,
-    category: "Drink & Soda Vending Machines",
-    images: [drinkImg, comboImg],
-    description: `This new can & bottle vending machine offers 10 selections of your customers’ favorite national brand canned and bottled soft drink beverages, including bottled water and soda. The AB 10/500 vends most beverage containers on the market including twelve ounce cans, twenty and twenty four ounce bottles, and even sixteen ounce bottled water. A bright eye catching back-lit graphic sign and lighted product display draws in the customers. Try our highest capacity soft drink vending machine from the WORLD’S LARGEST manufacturer of individually owned vending equipment. Energy saving LED lighting enhances product presentation promoting more sales. No bulb servicing for 5 years. Guaranteed delivery sensor system keeps customers satisfied and reduces service calls for misloaded product.`,
-    excerpt: `This can & bottle vending machine offers 10 selections of your customers’ favorite national brand canned and bottled soft drink beverages, including bottled water and soda. The AB 10/500 vends most beverage containers on the market including twelve ounce cans, twenty and twenty four ounce bottles, a`,
-    estimatedMonthlyIncomeMin: 300,
-    estimatedMonthlyIncomeMax: 700,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["Enhanced LED Lighting", "Energy Efficient"],
-    inStock: true,
-    stockCount: 14,
-    isFeatured: false,
-  },
-  {
-    title: "MarketOne 5W Cold Drink Vending Machine With Elevator",
-    slug: "marketone-5w-cold-drink-vending-machine-with-elevator",
-    price: 2615,
-    salePrice: null,
-    category: "Drink & Soda Vending Machines",
-    images: [drinkImg, comboImg],
-    description: `Bring together the latest in vending technology and the sleek stylings of MarketOne vending machines with the MarketOne 5W Vending Machine with Elevator. It offers features that cannot be found anywhere else on the market, including 60 unique product selections and configurable trays that offer maximum product versatility.
-The MarketOne 5W Vending Machine with Elevator features a soft delivery elevator and a large delivery bin, which allows you to vend beverages of various product packaging sizes and shapes, such as boxed drinks and bottles. It also offers optimal product rotation through First-In-First-Out (FIFO) loading. Featuring a large merchandising window and enhanced LED lighting, the MarketOne 5W Vending Machine with Elevator offers maximum product visualization. As with other MarketOne vending machines, it includes a soft coat, heated glass, making it ideal for high-humidity locations and is health safety programmable by selection, range or row. Please note that in order for the heated glass to be effective, you must have the required kit. This vending machine is fully Americans with Disabilities Act (ADA) compliant and features and ergonomic user interface. The MarketOne 5W Vending Machine with Elevator includes iVend guaranteed product Delivery, so if a product does not vend correctly the first time, the customer will get their money back and try again for the same product or try for a completely new product. The MarketOne 5W Vending Machine with Elevator comes standard with a two-line GVC2” display. It allows you to display pricing information and nutritional information in compliance with the FDA’s Calorie Disclosure Rule. This can be upgraded to the optional 7” full-color touch screen to offer a shopping cart mode to purchase up to three items in one transaction, with product browsing capability and advertising options for static and video content. Payment acceptance issues are a thing of the past with the MarketOne 5W Vending Machine with Elevator. It comes standard with PayRange, a leading mobile payment system. Users have the ability to load money directly into the app and pay directly from their funds. Additionally, it comes standard with a bill acceptor for $1-20 and a coupon feature. This makes purchasing products easier than ever before. Add even more payment options by adding an optional Greenlite cashless card reader to your vending machine to accept debit/credit cards and mobile wallets.`,
-    excerpt: `Featuring a soft delivery elevator and a large delivery bin, the MarketOne 5W Elevator Vending Machine brings together the latest in vending technology and the sleek stylings of the MarketOne vending machines.`,
-    estimatedMonthlyIncomeMin: 600,
-    estimatedMonthlyIncomeMax: 1400,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "Touch Screen Display", "iVend Guaranteed Delivery", "Bill Acceptor ($1-$20)", "Elevator Delivery System"],
-    inStock: true,
-    stockCount: 4,
-    isFeatured: false,
-  },
-  {
-    title: "MarketOne Series Cold Drink Vending Machine – 10 Selections",
-    slug: "marketone-series-cold-drink-vending-machine-10-selections",
-    price: 1567,
-    salePrice: null,
-    category: "Drink & Soda Vending Machines",
-    images: [drinkImg, comboImg],
-    description: `If you have to constantly fill your vending machine, the MarketOne Series 10 Selection Drink Vending Machine is the perfect cold drink/soda vending machine for you. With a capacity of up to 500 cans or 240 bottles,Vending MarketOne Series 10 Selection Drink Vending Machine is ideal for locations with 100 or more employees. This cold beverage vending machine is able to vend most drink and soda containers on the market, including 12-ounce cans, 20 and 24-ounce bottles and even 16 ounce bottled water. The MarketOne Series 10 Selection Drink Vending Machine vends a combination of plastic bottled and canned beverages, including your customers’ favorite national brand sodas, energy drinks, juices and bottled waters. It has a double-depth, high-capacity system that features ten (10) unique drink and soda selections. The MarketOne Series 10 Selection Drink Vending Machine is equipped with the iVend guaranteed delivery system. When a product selection is made on the keypad of the vending machine, the drink will dispense and engage the iVend sensor. If it does not detect the drink that was dispensed, the cold drink vending machine’s technology will know the customer did not receive their product. It will then reestablish the customer’s credit and prompt the customer to make a different selection from the vending machine. As one of the most energy-efficient and highest value products on the market, the MarketOne Series 10 Selection Drink Vending Machine features and eco-friendly design with low power consumption of only 3.6 kWh/day on average. It has energy-efficient dual area LED crisp lighting and uses a single power cord with low power consumption of only 7.0 Amps. Additionally, it offers the latest in electrical, lighting, insulation, refrigeration and vending technology. Like other MarketOne vending machines, the MarketOneSeries 10 Selection comes standard with a 3.5” full-color display, which displays pricing information and nutritional information in compliance with the FDA’s Calorie Disclosure Rule and is user-friendly for all consumers. This can be upgraded to an optional 7” full-color touch screen to offer a shopping cart mode to purchase up to three items in one transaction, with product browsing capability and advertising options for static and video content.`,
-    excerpt: `The MarketOne Series 10 Selection Drink Vending Machine vends a combination of plastic bottled and canned beverages, including your customers’ favorite national brand sodas, energy drinks, juices, and bottled water.`,
-    estimatedMonthlyIncomeMin: 400,
-    estimatedMonthlyIncomeMax: 900,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["Enhanced LED Lighting", "Cashless Payment Ready", "Touch Screen Display", "iVend Guaranteed Delivery", "Energy Efficient"],
-    inStock: true,
-    stockCount: 13,
-    isFeatured: false,
-  },
-  {
-    title: "MarketOne 48 Select Water Bottle Vending Machine for Sale",
-    slug: "marketone-48-select-water-bottle-vending-machine-for-sale",
-    price: 185,
-    salePrice: null,
-    category: "Drink & Soda Vending Machines",
-    images: [waterImg, drinkImg],
-    description: `Provide your customers with water in style with the MarketOne 48 Select Water Vending Machine. Your customers will enjoy the sleek stylings of the MarketOne machine while indulging in one of the most common vending machine beverages. The MarketOne 48 Select Water Bottle Vending Machine for sale is equipped with the latest in vending electronic controls and an electronic coin changer and bill acceptor. Like many Vending.com vending machines, the MarketOne 48 Select Water Vending Machine comes with the iVend guaranteed delivery system. All water will guarantee or customers will receive their money back. Additional features on the MarketOne 48 Select Water Vending Machine include a standard peripheral opening for additional payment or a POS system. In order to appeal to all customers, the machine includes a backlighted keypad with Braille identification and is Americans with Disabilities Act (ADA) compliant. This vending machine has full accounting features with price setting by selection, row or machine, free vend and combo vend models, flexible space to selection setting, time of day discounting, programmable coupon and token values and so much more! Discover the many features of this MarketOne 48 Select Water Vending Machine for sale by downloading the brochure below.`,
-    excerpt: `Provide your customers with water in style with the MarketOne 48 Select Water Vending Machine. Your customers will enjoy the sleek stylings of the MarketOne machine while indulging in one of the most common vending machine beverages.`,
-    estimatedMonthlyIncomeMin: 200,
-    estimatedMonthlyIncomeMax: 500,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "iVend Guaranteed Delivery", "Bill Acceptor ($1-$20)"],
-    inStock: true,
-    stockCount: 14,
-    isFeatured: false,
-  },
-  {
-    title: "23 Selection Snack Vending Machine",
-    slug: "23-selection-snack-vending-machine",
-    price: 1550,
-    salePrice: null,
-    category: "Snack Vending Machines for Sale",
-    images: [snackImg, comboImg],
-    description: `Snack Vending Machine If there was ever a perfect machine for a vending location, this 23 selection snack vending machine is it. Low cost and big features make this machine an easy choice for first time entrepreneurs or seasoned vending professionals. With an incredible 23 selections of chips, candy, crackers, this 23 selection vending machine meets most mid-size location demands.
-Features & Available Options
-
- 	ADA Compliant
- 	Greenlite Cashless Card Reader
- 	iVend Guaranteed Delivery System
- 	Solid Shield Extended Warranty
- 	Custom Graphics
- 	UVend Light Sanitization Technology
- 	LED Lighting`,
-    excerpt: `If there was ever a perfect machine for a vending location, this 23 selection snack vending machine is it. Low cost and big features make this machine an easy choice for first time entrepreneurs or seasoned vending professionals.`,
-    estimatedMonthlyIncomeMin: 400,
-    estimatedMonthlyIncomeMax: 900,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "iVend Guaranteed Delivery"],
-    inStock: true,
-    stockCount: 11,
-    isFeatured: false,
-  },
-  {
-    title: "32 Selection Snack Vending Machine",
-    slug: "32-selection-snack-vending-machine",
-    price: 1100,
-    salePrice: null,
-    category: "Snack Vending Machines for Sale",
-    images: [snackImg, comboImg],
-    description: `This 32 selection Snack Food Vending Machine comes configured with 12 selections of chips, 16 selections of candy, sandwich cracker, gum & mint, plus 4 pastry selections. Standard dual augers promote proper vend position and our iVend® Delivery Sensor System ensures your customers receive their simple vending snack or their money back.
-
-What's Included
-
- 	32 Selections of chips, candy and pastries
- 	6 Adjustable flex trays can fit many shapes of products
- 	Electronic pricing with individually priced selections
- 	Electronic coin changer and bill acceptor
- 	Large lighted product display window
- 	Easy to use customer interface with large LED display and multiple money acceptance
- 	Class leading energy saving features including LED lighting
- 	Full sales & accounting features
- 	Credit/Debit card reader ready
- 	iVend® guaranteed delivery sensor system equipped
- 	Sturdy steel construction with durable powder coat painted surfaces for years of service
- 	Silver designer series door option
- 	32 Selection standard model also available
-
-Features & Available Options
-
- 	ADA Compliant
- 	Greenlite Cashless Card Reader
- 	iVend Guaranteed Delivery System
- 	Solid Shield Extended Warranty
- 	Custom Graphics
- 	UVend Light Sanitization Technology
- 	LED lighting`,
-    excerpt: `This 32 selection Snack Food Vending Machine comes configured with 12 selections of chips, 16 selections of candy, sandwich cracker, gum & mint, plus 4 pastry selections. Standard dual augers promote proper vend position and our iVend® Delivery Sensor System ensures your customers receive their simp`,
-    estimatedMonthlyIncomeMin: 300,
-    estimatedMonthlyIncomeMax: 700,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "iVend Guaranteed Delivery", "Bill Acceptor ($1-$20)", "Energy Efficient"],
-    inStock: true,
-    stockCount: 4,
-    isFeatured: false,
-  },
-  {
-    title: "Large Capacity Snack Vending Machine – 40 Selection",
-    slug: "large-capacity-snack-vending-machine-40-selection",
-    price: 1800,
-    salePrice: null,
-    category: "Snack Vending Machines for Sale",
-    images: [snackImg, comboImg],
-    description: `Snack Vending Machine: This 40-selection, Large Capacity Snack Vending Machine is the prime choice for high-volume locations. With 15 snack, 18 candy and snack cracker, 2 gum & mint and 5 pastry options to choose from, this vending machine has the selections and capacity that a large location demands.
-
-What's Included
-
- 	40 Selections of chips, candy, and pastries
- 	6 Adjustable flex trays can fit many shapes of products
- 	Electronic pricing with individually priced selections
- 	Electronic coin changer and bill acceptor
- 	Large lighted product display window
- 	Easy to use customer interface with large LED display and multiple money acceptance
- 	Class leading energy saving features including LED lighting
- 	Full sales & accounting features
- 	Credit/Debit card reader ready
- 	iVend® guaranteed delivery sensor system equipped
- 	Sturdy steel construction with durable powder coat painted surfaces for years of service
- 	Silver designer series door option
- 	32 Selection 630 capacity base model also available
-
-Features & Available Options
-
- 	ADA Compliant
- 	Greenlite Cashless Card Reader
- 	iVend Guaranteed Delivery System
- 	Solid Shield Extended Warranty
- 	Custom Graphics
- 	UVend Light Sanitization Technology
- 	LED Lighting`,
-    excerpt: `This 40-selection, Large Capacity Snack Vending Machine is the prime choice for high-volume locations. With 15 snack, 18 candy and snack cracker, 2 gum & mint and 5 pastry options to choose from, this vending machine has the selections and capacity that a large location demands.`,
-    estimatedMonthlyIncomeMin: 400,
-    estimatedMonthlyIncomeMax: 900,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "iVend Guaranteed Delivery", "Bill Acceptor ($1-$20)", "Energy Efficient"],
-    inStock: true,
-    stockCount: 12,
-    isFeatured: false,
-  },
-  {
-    title: "5W MarketOne Snack Vending Machine",
-    slug: "5w-marketone-snack-vending-machine",
-    price: 2000,
-    salePrice: null,
-    category: "Snack Vending Machines for Sale",
-    images: [snackImg, comboImg],
-    description: `The MarketOne Snack 5W Vending Machine will provide you with the product flexibility that you have been craving and allow your customers to choose from up to 40 selections, so they are bound to find the snack they are looking for.
-
-The MarketOne Snack 5W Vending Machine provides you with features that you can’t find anywhere else. The iVend Guaranteed delivery system ensures product delivery and, most importantly, customer satisfaction. Of course, this machine is ADA compliant and includes an ergonomic customer interface making it easy for anyone to use. Plus, the MarketOne Snack 5W Vending Machine accepts all major payment options including cash/coin, cashless credit/debit cards, NFC (card reader is an optional feature).
-
-This snack vending machine has a number of optional features to help take your machine to the next level. Provide your customers with a 10.1” touchscreen display, so they can view product nutritional information before making a purchase and navigate the machine with ease. Additionally, you can include your own branding with our LED backlit logo panel and custom graphic wrap options.
-
-&nbsp;
-
-What's Included
-
- 	100% brighter LED lighting
- 	Product flexibility
- 	iVend™ Guaranteed delivery system
- 	ADA Compliant
- 	LED back lighted logo panel option
- 	Color choice for user interface accent lighting
- 	Ergonomic 10 degree recessed user interface
-
-Features & Available Options
-
- 	630 Items (226 Snack & Pastry / 404 Candy & Confections.
- 	Pull-out, tilt trays for easy loading
- 	Adjustable flex trays can fit many shapes of products
- 	Electronic pricing
- 	Electronic coin changer and bill acceptor
- 	10.1" Touch Screen option
- 	Class leading energy saving features
- 	Full sales & accounting features
- 	Credit/Debit card reader ready
- 	iVend® guaranteed delivery
- 	Americans With Disabilities Act (ADA) Compliant`,
-    excerpt: `Experience the ultimate vending experience with the new MarketOne Snack 5W Vending Machine. With leading style and design along with best-in-class lighting, this revolutionary machine provides visual merchandising that is unlike anything else on the market.`,
-    estimatedMonthlyIncomeMin: 500,
-    estimatedMonthlyIncomeMax: 1200,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "Touch Screen Display", "iVend Guaranteed Delivery", "Bill Acceptor ($1-$20)", "Energy Efficient"],
-    inStock: true,
-    stockCount: 9,
-    isFeatured: false,
-  },
-  {
-    title: "MarketOne Snack 6W Vending Machine with Card Reader",
-    slug: "marketone-snack-6w-vending-machine-with-card-reader",
-    price: 2150,
-    salePrice: null,
-    category: "Snack Vending Machines for Sale",
-    images: [snackImg, comboImg],
-    description: `Revolutionize the way you vend with the new MarketOne Snack 6W Vending Machine. This machine features the largest merchandising window, highest capacity and selections and the latest in customer interfaces. With a capacity of 633 snack items with 6 standard trays and 738 snack items with the optional 7th tray, you will be able to provide your customers with a variety of options to fit their needs.
-
-The MarketOne Snack 6W Vending Machine is ADA compliant and features an ergonomic customer interface making it easy for customers to vend products from your machine with ease. Plus, the MarketOne Snack 6W Vending Machine comes with a card reader and accepts all major payment options including cash/coin, cashless credit/debit cards, NFC (card reader is an optional feature).
-
-With standard features that include LED lighting for optimal product display and iVend guaranteed delivery technology, you and your customers will be left satisfied, as you will have the capability to generate maximum revenue.
-
-Do not forget to check out the optional features, such as an optional 7th tray, which provides more options to your customers. Take the user experience to the next level with the optional 10.1” touch screen display. Your customers will have the capability to view nutritional information, pricing information and more before they make a purchase.
-
-&nbsp;
-
-What's Included
-
- 	Large LED credit display
- 	Standard peripheral opening for additional payment or POS systems LED Lighting
- 	Americans With Disabilities Act (ADA) Compliant
- 	MDB support for all industry standard devices including cash, coin, debit and credit systems
- 	DEX data output support
- 	Full-featured controller with sales and accounting:
- 	Electronic price setting by selection, row or machine
- 	Free vend and Combo vend modes Flexible space to selection setting
- 	Time of day discounting
- 	Time of day shutdown modes for energy savings and secured vend times
- 	Programmable coupon and token values
- 	Coin and bill rejection rate counts
- 	Accountability display by selection, row or machine
- 	Talker device support for sight impaired
-
-Features & Available Options
-
- 	ADA Compliant
- 	Greenlite Cashless Card Reader
- 	10.1" Touchscreen
- 	iVend Guaranteed Delivery System
- 	Solid Shield Extended Warranty
- 	Custom Graphics
- 	UVend Light Sanitization Technology
-
-&nbsp;`,
-    excerpt: `Revolutionize the way you vend with the new MarketOne Snack 6W Vending Machine. This machine features the largest merchandising window, highest capacity and selections and the latest in customer interfaces. With a capacity of 633 snack items with 6 standard trays and 738 snack items with the optiona`,
-    estimatedMonthlyIncomeMin: 500,
-    estimatedMonthlyIncomeMax: 1200,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "Touch Screen Display", "iVend Guaranteed Delivery", "Energy Efficient"],
-    inStock: true,
-    stockCount: 3,
-    isFeatured: false,
-  },
-  {
-    title: "MarketOne Coffee and Tea Vending Machine",
-    slug: "marketone-coffee-and-tea-vending-machine",
-    price: 2650,
-    salePrice: null,
-    category: "Hot Beverage and Coffee Vending Machines",
-    images: [coffeeImg, comboImg],
-    description: `The MarketOne Hot Drinks Vending Machine for coffee, tea, and more features a European-design, state-of-the-art brewing system and filter system for precise ingredient controls to ensure a high-quality cup with superb taste, aroma, color and appearance is delivered each and every time. Bring the European café experience to your customers with barista-quality hot beverages from the MarketOne Coffee hot beverage and coffee merchandiser. Available in freeze-dried and fresh brew models, the MarketOne Coffee dispenses a broad menu of premium and specialty hot beverages, serving them just the way your customers like them. In fact, the MarketOne Coffee hot beverage and coffee merchandiser offers a comprehensive range of 11 core hot beverages with a total of 34 hot beverage combination options of coffee, specialty coffee, hot chocolate, tea, cappuccino and espresso.
-
-What's Included
-
- 	Controls and Payment Systems at ADA Levels
- 	iVend Cup Sensor System
- 	1 Year Limited Parts Warranty
- 	Manufactured in the USA
- 	Lifetime Toll-Free Technical Assistance
- 	Power Management Programming
- 	DEX Capable
- 	USB Software Upgrades and DEX Downloads
- 	LED Showcase Lighting
- 	Braille Identified Keypad
- 	Coin Mech and Bill Validators
- 	Extra Peripheral Opening and MDB Support
- 	Optional Features
- 	Greenlite Cashless Payment System
- 	Audio Interface for Sight Impaired Operators
- 	Freeze-Dried or Fresh Brew
-
-Features & Available Options
-
- 	ADA Compliant
- 	Greenlite Cashless Card Reader
- 	Fresh Brew
- 	Custom Graphics
- 	UVend Light Sanitization Technology
- 	Solid Shield Extended Warranty`,
-    excerpt: `The MarketOne Hot Drinks Vending Machine for coffee, tea, and more features a European-design, state-of-the-art brewing system and filter system for precise ingredient controls to ensure a high-quality cup with superb taste, aroma, color, and appearance is delivered each and every time.`,
-    estimatedMonthlyIncomeMin: 600,
-    estimatedMonthlyIncomeMax: 1400,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "iVend Guaranteed Delivery"],
-    inStock: true,
-    stockCount: 3,
-    isFeatured: false,
-  },
-  {
-    title: "MarketOne Frozen Food Vending Machine",
-    slug: "marketone-frozen-food-vending-machine",
-    price: 2500,
-    salePrice: null,
-    category: "Frozen & Cold Food Vending Machines",
-    images: [frozenImg, comboImg],
-    description: `MarketOne Frozen Food Vending Machine for sale delivers frozen foods in a small, compact package. This small vending machine for sale has just the right capacity and the capability to vend hard frozen packaged meals, sandwiches, wraps, desserts and even slack frozen items. The MarketOne Frozen Food Vending Machine features next generation air flow technology and the latest in electronic controls, electronic coin changer and bill acceptor as well as our money back vend sensing technology this vendor is one of the most versatile and profitable food machines available.
-
-What's Included
-
- 	Vends frozen foods of all varieties
- 	Best in class energy efficiency
- 	Programmable LED credit display
- 	Attractive styling with point of sale window
- 	Credit/Debit card reader ready
- 	Back lighted keypad with Braille identification
- 	Americans With Disabilities Act (ADA) Ready
- 	Full featured controller with sales and accounting
- 	Slim cabinet for easy movement and placement
- 	Silver designer series door option
-
-Features & Available Options
-
- 	Two Separate Temperature Zones
- 	iVend Guaranteed Delivery System
- 	Greenlite Cashless Card Reader
- 	7" Touchscreen
- 	Custom Graphics
- 	Solid Shield Extended Warranty
- 	UVend Light Sanitization Technology
- 	Health Safety Feature
- 	ADA Compliant`,
-    excerpt: `The MarketOne Frozen Food Vending Machine for sale delivers frozen foods in a small, compact package. This small vending machine for sale has just the right capacity and the capability to vend hard frozen packaged meals, sandwiches, wraps, desserts and even slack frozen items.`,
-    estimatedMonthlyIncomeMin: 600,
-    estimatedMonthlyIncomeMax: 1400,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "iVend Guaranteed Delivery", "Bill Acceptor ($1-$20)", "Energy Efficient"],
-    inStock: true,
-    stockCount: 4,
-    isFeatured: false,
-  },
-  {
-    title: "MarketOne Multi-Zone Frozen Food Vending Machine",
-    slug: "marketone-multi-zone-frozen-food-vending-machine",
-    price: 2450,
-    salePrice: null,
-    category: "Frozen & Cold Food Vending Machines",
-    images: [frozenImg, comboImg],
-    description: `The MarketOne Multi-Zone Frozen Food Vending Machine cold food merchandiser delivers refrigerated and frozen foods in a compact package. It’s got just the right capacity and the capability to vend refrigerated meals, wraps, dairy products, hard frozen packaged meals and deserts all from one machine. This next generation frozen food merchandiser features air flow technology and the latest in electronic controls, electronic coin changer and bill acceptor as well as our money back vend sensing technology. This cold food merchandiser from MarketOne Multi-Zone Frozen Food Vending Machine is one of the most versatile and profitable cold food vending machines available.
-
-What's Included
-
- 	Vends Refrigerated & Frozen Food
- 	Best in class energy efficiency
- 	Programmable LED credit display
- 	Attractive styling with point of sale window
- 	Credit/Debit card reader ready
- 	Back lighted keypad with Braille identification
- 	Americans With Disabilities Act (ADA) Ready
- 	Full featured controller with sales and accounting
- 	Slim cabinet for easy movement and placement
- 	Silver designer series door option
-
-Features & Available Options
-
- 	iVend Guaranteed Delivery System
- 	Greenlite Cashless Card Reader
- 	7" Touchscreen
- 	Custom Graphics
- 	Solid Shield Extended Warranty
- 	UVend Light Sanitization Technology
- 	Two Separate Temperature Zones
- 	Health Safety Feature
- 	ENERGY STAR® Rated`,
-    excerpt: `The MarketOne Multi-Zone Frozen Food Vending Machine cold food merchandiser delivers refrigerated and frozen foods in a compact package. It’s got just the right capacity and the capability to vend refrigerated meals, wraps, dairy products, hard frozen packaged meals and deserts all from one machine.`,
-    estimatedMonthlyIncomeMin: 500,
-    estimatedMonthlyIncomeMax: 1200,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "iVend Guaranteed Delivery", "Bill Acceptor ($1-$20)", "Energy Efficient"],
-    inStock: true,
-    stockCount: 6,
-    isFeatured: false,
-  },
-  {
-    title: "Express Fitness Combo",
-    slug: "express-fitness-combo",
-    price: 1500,
-    salePrice: null,
-    category: "Specialized Vending Machines",
-    images: [specializedImg, snackImg],
-    description: `Satisfy your customers and employees with their favorite pre and post workout snacks and refreshments with the Express Fitness Combo.
-
-What's Included
-
- 	Vends all your favorite snacks & cold drinks
- 	Optional fitness center panel graphic shipped separately.
- 	Americans With Disabilities Act compliant (ADA)
- 	2 year limited parts warranty
- 	Lifetime toll free support
- 	9 drink selections & 20 snack selections
- 	Accounting mode to monitor cash & vending sales data
- 	Credit/Debit card capable & DEX capable
-
-Features & Available Options
-
- 	iVend Guaranteed Delivery System
- 	Greenlite Cashless Card Reader
- 	ADA Compliant
- 	Custom Graphics
- 	UVend Light Sanitization Technology
- 	Solid Shield Extended Warranty`,
-    excerpt: `Satisfy your customers and employees with their favorite pre and post workout snacks and refreshments with the Express Fitness Combo.`,
-    estimatedMonthlyIncomeMin: 400,
-    estimatedMonthlyIncomeMax: 900,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Cashless Payment Ready", "iVend Guaranteed Delivery"],
-    inStock: true,
-    stockCount: 6,
-    isFeatured: false,
-  },
-  {
-    title: "20 Select Laundry Vending Machine",
-    slug: "20-select-laundry-vending-machine",
-    price: 1500,
-    salePrice: null,
-    category: "Specialized Vending Machines",
-    images: [specializedImg, snackImg],
-    description: `With the 20 Select Laundry Vending Machine for sale you can add profit to your establishment by vending your patron's favorite vend sizes of detergents, fabric softeners and laundry goods. Do you own a Laundromat that could use a little extra profit? The 20 Select Laundry Center vending machine can provide you with the extra cash flow you need without adding another employee to sell products from behind a counter. Products are readily available in the highly visible glass front vendor.
-
-The 20 Select Laundromat Vending Machine gives your customers just what they need to do all the washing they have without having to go to the store to buy what they ran out of or just plain forgot. Pull-out, tilt trays are adjustable to fit many shapes of products. Great for easy loading of the vending machine allowing the vendor operator to maintain product supplies easily. Electronic coin changer and bill acceptor gives customers the convenience of not having the correct change. Credit\\Debit card reader ready Laundry Center has full sales and accounting features. iVend® Guaranteed Delivery System has built-in security. Rest assured knowing your business has the add benefit of the 20 select laundry center vending machine providing customers with needed products.
-
-What's Included
-
- 	Vend Landry care products with ease from one machine!
- 	Electronic coin changer and bill acceptor
- 	Easy to change coils for different size products
- 	Adjustable flex trays can fit many shapes of products
- 	iVend® guaranteed delivery money back sensor system equipped
- 	Built-in security and quality construction
-
-Features & Available Options
-
- 	ADA Compliant
- 	Greenlite Cashless Card Reader
- 	PayRange Mobile Payment Enabled
- 	10.1" Touchscreen
- 	iVend Guaranteed Delivery System
- 	Solid Shield Extended Warranty
- 	Custom Graphics
- 	UVend Light Sanitization Technology`,
-    excerpt: `With the 20 Select Laundry Vending Machine for sale, you can add profit to your establishment by vending your customers’ favorite vend sizes of detergents, fabric softeners and laundry goods. Do you own a Laundromat that could use a little extra profit? The 20 Select Laundry Center vending machine c`,
-    estimatedMonthlyIncomeMin: 400,
-    estimatedMonthlyIncomeMax: 900,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Cashless Payment Ready", "iVend Guaranteed Delivery", "Bill Acceptor ($1-$20)"],
-    inStock: true,
-    stockCount: 11,
-    isFeatured: false,
-  },
-  {
-    title: "MarketOne Fitness Gym Vending Machine",
-    slug: "marketone-fitness-gym-vending-machine",
-    price: 1800,
-    salePrice: null,
-    category: "Specialized Vending Machines",
-    images: [specializedImg, snackImg],
-    description: `With up to 40 selections and an optional 12 compartment locker add-on, the MarketOne Fitness Refreshment Center is a proven system for dispensing a wide variety of gym, fitness and exercise vending machine products. From supplements to towels to beverages and more, your members can access everything they need from just one machine. The MarketOne Fitness Refreshment Center is configurable to meet your merchandising needs. Its movable barrier tray allows you to adjust the temperature zones with a 20-degree variance in zones. Differing zones allow you to provide customers with a wide variety of products they need for a successful workout. With the add-on locker, you have the ability to provide customers with large items that may not fit into the MarketOne Fitness Merchandiser. Customers have the ability to access items on their own, the same way they would on the MarketOne Fitness Merchandiser.
-Draw customers in with an attractive merchandising window and an optional touchscreen display that includes product calorie information, a shopping cart mode and video ad capability. Customers will also be attracted to iVend Guaranteed Technology, which guarantees that all products will vend, or they will receive their money back. Allow customers to pay for gym, fitness and exercise vending machine products via the standard coin and bill acceptor or PayRange, a mobile payment system that allows customers to pay directly from their mobile devices. To attract more customers, add the optional Greenlite cashless payment system, which allows customers to pay with debit / credit cards, Google Pay or Apple Pay. For more details on this Custom Fitness Vending Machine, click here.
-
-What's Included
-
- 	Adjustable temperatures zones with 20 degree variance
- 	Attractive styling bezel with point of sale window
- 	Standard peripheral opening for additional payment or POS systems
- 	Back lighted keypad with Braille identification
- 	Americans With Disabilities Act (ADA) Compliant controls and delivery
- 	ENERGY STAR® Rated`,
-    excerpt: `Realize the profit potential of this proven system for dispensing a wide variety of fitness products, including pre- and post-workout supplements, beverages, towels, gloves, earbuds, wearable and other items your clientele may need.`,
-    estimatedMonthlyIncomeMin: 400,
-    estimatedMonthlyIncomeMax: 900,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Cashless Payment Ready", "iVend Guaranteed Delivery", "Bill Acceptor ($1-$20)", "Energy Efficient"],
-    inStock: true,
-    stockCount: 12,
-    isFeatured: false,
-  },
-  {
-    title: "Storage Supply Depot Vending Machine for Selling Storage Items",
-    slug: "storage-supply-depot-vending-machine-for-selling-storage-items",
-    price: 2400,
-    salePrice: null,
-    category: "Specialized Vending Machines",
-    images: [specializedImg, snackImg],
-    description: `In order to bring you the best products possible, we continue to improve product design and performance and as such specifications are subject to change without notice. The manufacturer makes no warranties or representations of compliance with any local, state, national or international requirements for the operation of the equipment selling storage items in any application for which it is capable of being used beyond approvals listed on the product. Any purchaser wishing to maximize their storage facility income is required to make an independent analysis of the fitness and legality of the product’s usage before it is deployed and must continue to monitor the potential changing nature of compliance requirements. The manufacturer expressly disclaims responsibility for compliance with any laws and affirmatively requires any buyer to make an independent analysis of the fitness and legal basis of any use or application of the subject unit. iVend ® delivery sensor system ensures consistent vend and refund performance and guarantees the selected item is delivered or money is returned.
-
-What's Included
-
- 	Sell All Your Top Selling Packing Supplies From One Machine
- 	Refrigerated Area for Cold Drinks
- 	High Security Outdoor Package
- 	Energy Efficient
- 	Dual Temperatures Zone For Products
- 	Programmable LED Credit Display Let you Show Your Own Messages
- 	Americans With Disabilities Act (ADA) Ready
- 	Price Setting By Selection
- 	Durable Powder Coat Painted Finish
-
-Features & Available Options
-
- 	Outdoor High-Security Package
- 	Greenlite Cashless Card Reader
- 	Custom Graphics
- 	Solid Shield Extended Warranty
- 	ENERGY STAR Rated ®
- 	Heated Glass
- 	ADA Compliant`,
-    excerpt: `Your new profit center for providing best selling products to customers of storage facilities.`,
-    estimatedMonthlyIncomeMin: 500,
-    estimatedMonthlyIncomeMax: 1200,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "iVend Guaranteed Delivery", "Outdoor Rated", "Energy Efficient"],
-    inStock: true,
-    stockCount: 3,
-    isFeatured: false,
-  },
-  {
-    title: "Sani-Center Plus Vending Machine",
-    slug: "sani-center-plus-vending-machine",
-    price: 1850,
-    salePrice: null,
-    category: "Specialized Vending Machines",
-    images: [specializedImg, snackImg],
-    description: `Provide consumers with safe and easy access to personal protection equipment (PPE), safety products, medical supplies, and disinfecting supplies with the Sani-Center Plus. With social distancing being the new norm, consumers are encouraged to reduce the amount of face-to-face interaction. The Sani-Center Plus offers a seamless, contactless transaction allowing consumers to access the essential PPE and safety products they need through a contactless payment experience and without having to wait in a checkout line or interact with a cashier. With the Sani-Center Plus you can vend a variety of popular safety products and medical supplies including disinfectant wipes, latex gloves, medical masks, kleenex, bandaids, hand sanitizer, and other PPE supplies. The Sani-Center Plus features with configurable flex trays, allowing you to offer products of various sizes and shapes, including small spray bottles, mini sanitizers, medical face masks, and even sanitizing wipes to clean surfaces. Plus, make the Sani-Center Plus stand out at any location with a custom graphic wrap that is branded specifically for your business. According to the Centers for Disease Control and Prevention (CDC) contaminated surfaces and objects including dollar bills and coins present a transmission risk for some infectious diseases. This has accelerated consumers’ preferences to transition away from making contact payments, such as cash, to contactless, cashless payments.
-
-Through Greenlite, our cashless payment platform, the Sani-Center Plus features cashless payment in order to provide consumers with a contactless payment transaction experience. Greenlite allows consumers to pay for products with credit cards, debit cards or a mobile wallet such as Apple Pay and Google Pay. Mobile wallet platforms use near-field communication (NFC) to power contactless payments. With NFC, consumers simply tap their phone to a compatible terminal such as a Greenlite device and the transaction is complete. Greenlite provides a safe, contactless payment option for consumers. Safety and PPE products, such as sanitizers, disinfectant products and medical supplies are in high demand and offer an opportunity to meet consumer demand, while generating revenue for your business through vending. In addition, the Sani-Center Plus provide a solution to consumers’ demands for contactless transaction experiences and helps ensure they are limiting potential exposure points. Give your customers exactly what they are looking for with the Sani-Center Plus.
-
-Features & Available Options
-
- 	ADA Compliant
- 	Greenlite Cashless Card Reader
- 	PayRange Mobile Payment Enabled
- 	10.1" Touchscreen
- 	iVend Guaranteed Delivery System
- 	Custom Graphics
- 	UVend Light Sanitization Technology`,
-    excerpt: `Provide consumers with safe and easy access to personal protection equipment (PPE), safety products, medical supplies and disinfecting supplies with the Sani-Center Plus.`,
-    estimatedMonthlyIncomeMin: 400,
-    estimatedMonthlyIncomeMax: 900,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Cashless Payment Ready", "iVend Guaranteed Delivery"],
-    inStock: true,
-    stockCount: 11,
-    isFeatured: false,
-  },
-  {
-    title: "MarketOne Fitness Vending Machine with Add-On Locker",
-    slug: "marketone-fitness-vending-machine-with-add-on-locker",
-    price: 999,
-    salePrice: null,
-    category: "Specialized Vending Machines",
-    images: [specializedImg, snackImg],
-    description: `Refrigerated vending machines with lockers are a great solution for your business to add profitability to your bottom line. This combination locker vending machine features credit/debit and mobile acceptance and the capability to merchandise large bulky products as well as snacks, refreshments and workout gear.
-
-What's Included
-
- 	38 Selection Snack and Refreshment Vendor
- 	Standard credit/debit reader for card and mobile wallet payments
- 	Standard PayRange® mobile payment application
- 	Touch screen interface option with shopping cart and video
- 	advertising features
- 	Adjustable temperatures zones between refreshments and snack product with 20 degree variance
- 	Americans With Disabilities Act (ADA) Compliant controls and delivery
- 	ENERGY STAR® Rated with LED product lighting and eco-friendly refrigeration system
- 	12 Compartment Add-On Locker
- 	12 Compartments with optically clear acrylic windows
- 	Controlled by host vendor
- 	LED lighting
-
-Features & Available Options
-
- 	ADA Compliant
- 	Health Safety Feature
- 	7" Touchscreen
- 	iVend Guaranteed Delivery System
- 	Custom Graphics
- 	PayRange Mobile Payment Enabled
- 	Solid Shield Extended Warranty
- 	Heated Glass
- 	UVend Light Sanitization Technology
- 	Dispense Larger Items with Locker
- 	Greenlite Cashless Card Reader
- 	ENERGY STAR Rated`,
-    excerpt: `Add profitability to your fitness center with the MarketOne Dual Zone Fitness Merchandiser and Add-On Locker. It has the capability to merchandise large, bulky products, as well as snacks, refreshments and exercise equipment.`,
-    estimatedMonthlyIncomeMin: 200,
-    estimatedMonthlyIncomeMax: 500,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "Touch Screen Display", "iVend Guaranteed Delivery", "Energy Efficient"],
-    inStock: true,
-    stockCount: 6,
-    isFeatured: false,
-  },
-  {
-    title: "30 Selection Tobacco & Cigarette Vending Machine for Sale",
-    slug: "30-selection-tobacco-cigarette-vending-machine-for-sale",
-    price: 1259,
-    salePrice: null,
-    category: "Specialized Vending Machines",
-    images: [specializedImg, snackImg],
-    description: `Increase tobacco products sales potential without having to add extra staff to your establishment. Whether you vend tobacco products such as cigarettes, cigars, chewing tobaccos and lighters, or peanuts & sunflower seeds, our tobacco and cigarette vending machines for sale are here for ultimate customer convenience. No more worry about inventory shrinkage with the security of cigarette dispenser machines and tobacco vending machines! We offer flexible financing options on all tobacco and cigarette vending machines for sale. Call today to let us help grow your business with these profitable merchandisers. Easy start up terms will let you make money from the very beginning.
-
-What's Included
-
- 	Vends Refrigerated & Frozen Food
- 	Best in class energy efficiency
- 	Programmable LED credit display
- 	Attractive styling with point of sale window
- 	Credit/Debit card reader ready
- 	Back lighted keypad with Braille identification
- 	Americans With Disabilities Act (ADA) Ready
- 	Full featured controller with sales and accounting
- 	Slim cabinet for easy movement and placement
- 	Silver designer series door option
-
-Features & Available Options
-
- 	ADA Compliant
- 	Greenlite Cashless Card Reader
- 	iVend Guaranteed Delivery System
- 	Solid Shield Extended Warranty
- 	Custom Graphics
- 	UVend Light Sanitization Technology`,
-    excerpt: `Increase your tobacco products sales potential without having to add extra staff to your establishment. Whether you vend tobacco products such as cigarettes, cigars, chewing tobacco, and lighters, or peanuts & sunflower seeds, our tobacco and cigarette vending machines for sale are here for ultimate`,
-    estimatedMonthlyIncomeMin: 300,
-    estimatedMonthlyIncomeMax: 700,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "iVend Guaranteed Delivery", "Energy Efficient"],
-    inStock: true,
-    stockCount: 14,
-    isFeatured: false,
-  },
-  {
-    title: "Bowling Vending Machine",
-    slug: "bowling-vending-machine",
-    price: 999,
-    salePrice: null,
-    category: "Specialized Vending Machines",
-    images: [specializedImg, snackImg],
-    description: `Ebonite Pro Shop Bowling Accessories Vending Machine Give your bowling customers peace of mind knowing supplies are available even if the pro shop is not open with the Ebonite bowling supplies and accessories vending machine. Vending small items like towels, cleaning sprays or wrist bands is easy with this highly visible vendor. Place in a location with more traffic and watch sales roll in even when there is no one working behind the counter.
-
-What's Included
-
- 	Bill Acceptor/Changer - Accepts either one or five dollar bills, a proven way to add as much as 30% in vending machine sales.
- 	Pricing Flexibility
- 	Digital Display - Confirms the exact amount of money deposited, makes purchases less confusing.
- 	Contemporary Cabinet Design - Design and graphics complement any bowling center and attract bowline customers to the machine.
- 	iVend™ Sensor Technology - Eliminates mis-vends and ensures your customer receives their product or their credit back.
-
-Features & Available Options
-
- 	ADA Compliant
- 	Greenlite Cashless Card Reader
- 	PayRange Mobile Payment Enabled
- 	Solid Shield Extended Warranty
- 	iVend Guaranteed Delivery System
- 	UVend Light Sanitization Technology
- 	Custom Graphics`,
-    excerpt: `Increase your sales without the need to hire extra staff. Provide your bowling customers with the accessories and supplies they need 24/7 with a bowling vending machine.`,
-    estimatedMonthlyIncomeMin: 200,
-    estimatedMonthlyIncomeMax: 500,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Cashless Payment Ready", "iVend Guaranteed Delivery", "Bill Acceptor ($1-$20)"],
-    inStock: true,
-    stockCount: 13,
-    isFeatured: false,
-  },
-  {
-    title: "Express Combo Vending Machine- Used",
-    slug: "express-combo-vending-machine-used",
-    price: 1250,
-    salePrice: null,
-    category: "used-vending-machines",
-    images: [comboImg, usedImg],
-    description: `With 9 drink selections and 20 snack selections, Vendingmachinemall.com’s used Express Combo snack and drink vending machine provides the ultimate vending experience. It features two separate compartments: one for cold beverages and another for snacks. The refrigerated section can hold nine 8oz cans or up to 20oz bottles, while the non-refrigerated part can accommodate 20 different snacks, candy, healthy treats, and pastries. This used combo vending machine features an eco-friendly and compact design and includes LED lighting to make your products pop! It is Americans with Disabilities Act (ADA) Compliant and comes standard with an electronic coin and bill acceptor.
-
-Vendingmachinemall.com’s used vending machines undergo an extensive remanufacturing process. Each machine is carefully inspected to identify any damage and meticulously cleaned to remove dirt, grime, and residue. Worn-out and damaged components are repaired or replaced entirely to ensure the machine functions smoothly and effectively. After inspection, cleaning, and repairs, the used snack vending machine undergoes rigorous testing to ensure all functions operate, from product dispensing to payment processing. We are dedicated to providing top-quality vending equipment. Our used vending machines come with a one-year parts warranty to ensure you have the best experience.
-
-IMPORTANT: These machines have been previously used and may show minor signs of wear, such as small dents, light scratches, or cosmetic blemishes. These imperfections do not affect the functionality or performance of the machine in any way. Additionally, the actual machine you receive may look slightly different than pictured due to aesthetic variations such as the graphic decal wrap.
-
-What's Included
-
- 	9 drink selections & 20 snack selections
- 	Stylish carbon fiber door graphics
- 	Vends all your favorite snacks & cold drinks
- 	Americans With Disabilities Act compliant (ADA)
- 	1 year limited parts warranty
- 	Lifetime toll free support
- 	Accounting mode to monitor cash & vending sales data
- 	Credit/Debit card capable & DEX capable
-
-Features & Available Options
-
- 	iVend Guaranteed Delivery System
- 	ADA CompliantCustom Graphics
- 	Solid Shield Extended Warranty
-
-&nbsp;`,
-    excerpt: `Vendingmachinemall.com’s used Express Combo snack and drink vending machine is ideal for all types of locations. Provide a wide selection of customers’ favorite snacks, candy, pastries, and beverages to keep them happy and returning for more!`,
-    estimatedMonthlyIncomeMin: 300,
-    estimatedMonthlyIncomeMax: 700,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "iVend Guaranteed Delivery", "Bill Acceptor ($1-$20)", "Energy Efficient"],
-    inStock: true,
-    stockCount: 14,
-    isFeatured: false,
-  },
-  {
-    title: "23 Selection Snack Vending Machine-Used",
-    slug: "23-selection-snack-vending-machine-used",
-    price: 900,
-    salePrice: null,
-    category: "used-vending-machines",
-    images: [snackImg, usedImg],
-    description: `Grow your business and increase your income with the used 23 selection snack vending machine. This used snack machine is affordable and flexible, making this machine an easy choice for first-time entrepreneurs or seasoned vending professionals. With an incredible 23 selections of chips, candy, and crackers, this used snack vending machine meets most mid-size location demands.
-
-Vending.com’s used vending machines undergo an extensive remanufacturing process. Each machine is carefully inspected to identify any damage and meticulously cleaned to remove dirt, grime, and residue. Worn-out and damaged components are repaired or replaced entirely to ensure the machine functions smoothly and effectively. After inspection, cleaning, and repairs, the used snack vending machine undergoes rigorous testing to ensure all functions operate, from product dispensing to payment processing. We are dedicated to providing top-quality vending equipment. Our used vending machines come with a one-year parts warranty to ensure you have the best experience.
-
-IMPORTANT: These machines have been previously used and may show minor signs of wear, such as small dents, light scratches, or cosmetic blemishes. These imperfections do not affect the functionality or performance of the machine in any way. Additionally, the actual machine you receive may look slightly different than pictured due to aesthetic variations such as the graphic decal wrap.
-
-What's Included
-
- 	23 Selections of chips, candy, and pastries
- 	6 Adjustable flex trays can fit many shapes of products
- 	Electronic pricing with individually priced selections
- 	Electronic coin changer and bill acceptor
- 	Large lighted product display window
- 	Easy to use customer interface with large LED display and multiple money acceptance
- 	Class leading energy saving features including LED lighting
- 	Full sales & accounting features
- 	Credit/Debit card reader ready
- 	iVend® guaranteed delivery sensor system equipped
- 	Sturdy steel construction with durable powder coat painted surfaces for years of service
- 	Silver designer series door option
- 	23 Selection 384 item capacity base model also available
-
-Features & Available Options
-
- 	ADA Compliant
- 	iVend Guaranteed Delivery System
- 	Solid Shield Extended Warranty
- 	LED Lighting`,
-    excerpt: `Grow your business and increase your income with the used 23 selection snack vending machine. This used snack machine is affordable and flexible, making this machine an easy choice for first-time entrepreneurs or seasoned vending professionals. With an incredible 23 selections of chips, candy, and c`,
-    estimatedMonthlyIncomeMin: 200,
-    estimatedMonthlyIncomeMax: 500,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "iVend Guaranteed Delivery", "Bill Acceptor ($1-$20)", "Energy Efficient"],
-    inStock: true,
-    stockCount: 11,
-    isFeatured: false,
-  },
-  {
-    title: "10 Selections Soda & Soft Drink Vending Machine-Used",
-    slug: "10-selections-soda-soft-drink-vending-machine-used",
-    price: 1300,
-    salePrice: null,
-    category: "used-vending-machines",
-    images: [drinkImg, usedImg],
-    description: `Vendingmachinemall.com's used 10 selections soda and soft drink vending machine allows you to offer a variety of popular national brand canned and bottled soft drink beverages, including bottled water and soda. This used drink machine can accommodate most beverage containers on the market, such as twelve-ounce cans, twenty and twenty-four ounce bottles, and even sixteen-ounce bottled water. An attention-grabbing back-lit graphic sign and illuminated product display attract customers, while energy-efficient LED lighting improves product presentation and boosts sales. Plus, the guaranteed delivery sensor system ensures customer satisfaction and reduces the need for service calls due to misloaded products.
-
-Vendingmachinemall.com’s used vending machines undergo an extensive remanufacturing process. Each machine is carefully inspected to identify any damage and meticulously cleaned to remove dirt, grime, and residue. Worn-out and damaged components are repaired or replaced entirely to ensure the machine functions smoothly and effectively. After inspection, cleaning, and repairs, the used snack vending machine undergoes rigorous testing to ensure all functions operate, from product dispensing to payment processing. We are dedicated to providing top-quality vending equipment. Our used vending machines come with a one-year parts warranty to ensure you have the best experience.
-
-IMPORTANT: These machines have been previously used and may show minor signs of wear, such as small dents, light scratches, or cosmetic blemishes. These imperfections do not affect the functionality or performance of the machine in any way. Additionally, the actual machine you receive may look slightly different than pictured due to aesthetic variations such as the graphic decal wrap.
-
-What's Included
-
- 	Large keypad with Braille identification
- 	Energy saving LED lighting
- 	Vends up to 240 – 16.9, 20 or 24oz plastic bottles, 500 -12oz cans or a mix of bottles and cans
- 	Easy to fill and maintain
- 	MDB coin mechanism and bill acceptor interface
- 	Money back impact sensor delivery system
- 	Americans With Disabilities Act Compliant (ADA)
- 	ENERGY STAR® Rated
- 	Silver designer styling door option
-
-Features & Available Options
-
- 	ADA Compliant
- 	iVend Guaranteed Delivery System
- 	ENERGY STAR Rated
- 	Solid Shield Extended Warranty
-
-&nbsp;`,
-    excerpt: `Style, variety, and capacity. This used drink vending machine has got it all! A great choice for many types of locations, including larger areas with high customer traffic.
-
-Vending.com’s used 10 selections soda and soft drink vending machine allows you to offer a variety of popular national brand c`,
-    estimatedMonthlyIncomeMin: 300,
-    estimatedMonthlyIncomeMax: 700,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "iVend Guaranteed Delivery", "Bill Acceptor ($1-$20)", "Energy Efficient"],
-    inStock: true,
-    stockCount: 9,
-    isFeatured: false,
-  },
-  {
-    title: "32 Selection Snack Vending Machine- Used",
-    slug: "32-selection-snack-vending-machine-used",
-    price: 900,
-    salePrice: null,
-    category: "used-vending-machines",
-    images: [snackImg, usedImg],
-    description: `The used 32 selection Snack Food Vending Machine has a total capacity of 474. Offer your customers up to 32 selections of snacks, chips, candy, gum, mints, and pastries! It features a bright LED display, providing a clear view of the products and ensuring they are displayed in the best possible way. The iVend Guaranteed delivery system ensures product delivery or their money back, providing customers with an excellent experience.
-
-Vending.com’s used snack vending machines undergo an extensive remanufacturing process. Each machine is carefully inspected to identify any damage and meticulously cleaned to remove dirt, grime, and residue. Worn-out and damaged components are repaired or replaced entirely to ensure the machine functions smoothly and effectively. After inspection, cleaning, and repairs, the used snack vending machine undergoes rigorous testing to ensure all functions operate, from product dispensing to payment processing. We are dedicated to providing top-quality vending equipment. Our used vending machines come with a one-year parts warranty to ensure you have the best experience.
-
-IMPORTANT: These machines have been previously used and may show minor signs of wear, such as small dents, light scratches, or cosmetic blemishes. These imperfections do not affect the functionality or performance of the machine in any way. Additionally, the actual machine you receive may look slightly different than pictured due to aesthetic variations such as the graphic decal wrap.
-What's Included
-
- 	32 Selections of chips, candy and pastries
- 	6 Adjustable flex trays can fit many shapes of products
- 	Electronic pricing with individually priced selections
- 	Electronic coin changer and bill acceptor
- 	Large lighted product display window
- 	Easy to use customer interface with large LED display and multiple money acceptance
- 	Class leading energy saving features including LED lighting
- 	Full sales & accounting features
- 	Credit/Debit card reader ready
- 	iVend® guaranteed delivery sensor system equipped
- 	Sturdy steel construction with durable powder coat painted surfaces for years of service
- 	Silver designer series door option
- 	32 Selection standard model also available
-
-Features & Available Options
-
- 	ADA Compliant
- 	iVend Guaranteed Delivery System
- 	Solid Shield Extended Warranty
- 	LED lighting`,
-    excerpt: `The used 32 selection Snack Food Vending Machine has a total capacity of 474. Offer your customers up to 32 selections of snacks, chips, candy, gum, mints, and pastries! It features a bright LED display, providing a clear view of the products and ensuring they are displayed in the best possible way.`,
-    estimatedMonthlyIncomeMin: 200,
-    estimatedMonthlyIncomeMax: 500,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "iVend Guaranteed Delivery", "Bill Acceptor ($1-$20)", "Energy Efficient"],
-    inStock: true,
-    stockCount: 6,
-    isFeatured: false,
-  },
-  {
-    title: "Large Capacity Snack Vending Machine – 40 Selection- Used",
-    slug: "large-capacity-snack-vending-machine-40-selection-used",
-    price: 1550,
-    salePrice: null,
-    category: "Combo and Dual Vending Machines",
-    images: [snackImg, usedImg],
-    description: `Maximize your revenue with the used large capacity snack vending machine! The used large-capacity snack vending machine offers up to 40 selections and has a total capacity of up to 630 items, making it ideal for busy locations with high demand. It comes equipped with a Conlux electronic coin acceptor and bill validator that accepts $1 and $5 bills. To accept cashless payments, you can order a Greenlite Cashless device Vendnet by clicking HERE. Greenlite Cashless devices are easy to install and set-up once you receive your machine.
-
-Vending.com’s used snack vending machines undergo an extensive remanufacturing process. Each machine is carefully inspected to identify any damage and meticulously cleaned to remove dirt, grime, and residue. Worn-out and damaged components are repaired or replaced entirely to ensure the machine functions smoothly and effectively. After inspection, cleaning, and repairs, the used snack vending machine undergoes rigorous testing to ensure all functions operate, from product dispensing to payment processing. We are dedicated to providing top-quality vending equipment. Our used vending machines come with a one-year parts warranty to ensure you have the best experience.
-
-IMPORTANT: These machines have been previously used and may show minor signs of wear, such as small dents, light scratches, or cosmetic blemishes. These imperfections do not affect the functionality or performance of the machine in any way. Additionally, the actual machine you receive may look slightly different than pictured due to aesthetic variations such as the graphic decal wrap.
-
-What's Included
-
- 	40 Selections of chips, candy, and pastries
- 	6 Adjustable flex trays can fit many shapes of products
- 	Electronic pricing with individually priced selections
- 	Electronic coin changer and bill acceptor
- 	Large lighted product display window
- 	Easy to use customer interface with large LED display and multiple money acceptance
- 	Class leading energy saving features including LED lighting
- 	Full sales & accounting features
- 	Credit/Debit card reader ready
- 	iVend® guaranteed delivery sensor system equipped
- 	Sturdy steel construction with durable powder coat painted surfaces for years of service
- 	Silver designer series door option
- 	32 Selection 630 capacity base model also available
-
-Features & Available Options
-
- 	ADA Compliant
- 	iVend Guaranteed Delivery System
- 	Solid Shield Extended Warranty
- 	LED Lighting`,
-    excerpt: `Maximize your revenue with the used large capacity snack vending machine! The used large-capacity snack vending machine offers up to 40 selections and has a total capacity of up to 630 items, making it ideal for busy locations with high demand.`,
-    estimatedMonthlyIncomeMin: 400,
-    estimatedMonthlyIncomeMax: 900,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "iVend Guaranteed Delivery", "Bill Acceptor ($1-$20)", "Energy Efficient"],
-    inStock: true,
-    stockCount: 10,
-    isFeatured: false,
-  },
-  {
-    title: "5W MarketOne Snack Vending Machine -Used",
-    slug: "5w-marketone-snack-vending-machine-used",
-    price: 1600,
-    salePrice: null,
-    category: "used-vending-machines",
-    images: [snackImg, usedImg],
-    description: `The used MarketOne Snack 5W Vending Machine will provide you with the product flexibility you crave and allow your customers to choose from up to 40 selections, so they are bound to find the snack they are looking for. The iVend Guaranteed delivery system ensures product delivery and, most importantly, customer satisfaction. The used snack vending machine features an expansive merchandising window with LED lighting, providing a clear view of the products and ensuring that they are displayed in the best possible way. This snack vending machine is Americans with Disabilities Act (ADA) compliant and is equipped with a Conlux electronic coin acceptor and bill validator that accepts both $1 and $5 bills.
-
-Vendingmachinemall.com’s used snack vending machines undergo an extensive remanufacturing process. Each machine is carefully inspected to identify any damage and meticulously cleaned to remove dirt, grime, and residue. Worn-out and damaged components are repaired or replaced entirely to ensure the machine functions smoothly and effectively. After inspection, cleaning, and repairs, the used snack vending machine undergoes rigorous testing to ensure all functions operate, from product dispensing to payment processing. We are dedicated to providing top-quality vending equipment. Our used vending machines come with a one-year parts warranty to ensure you have the best experience.
-
-IMPORTANT: These machines have been previously used and may show minor signs of wear, such as small dents, light scratches, or cosmetic blemishes. These imperfections do not affect the functionality or performance of the machine in any way. Additionally, the actual machine you receive may look slightly different than pictured due to aesthetic variations such as the graphic decal wrap.
-
-What's Included
-
- 	100% brighter LED lighting
- 	Product flexibility
- 	iVend™ Guaranteed delivery system
- 	ADA Compliant
- 	LED back lighted logo panel option
- 	Color choice for user interface accent lighting
- 	Ergonomic 10 degree recessed user interface
-
-Features & Available Options
-
- 	630 Items (226 Snack & Pastry / 404 Candy & Confections.
- 	Pull-out, tilt trays for easy loading
- 	Adjustable flex trays can fit many shapes of products
- 	Electronic pricing
- 	Electronic coin changer and bill acceptor
- 	Class leading energy saving features
- 	Full sales & accounting features
- 	Credit/Debit card reader ready
- 	iVend® guaranteed delivery
- 	Americans With Disabilities Act (ADA) Compliant`,
-    excerpt: `The used MarketOne Snack 5W Vending Machine will provide you with the product flexibility you crave and allow your customers to choose from up to 40 selections, so they are bound to find the snack they are looking for. The iVend Guaranteed delivery system ensures product delivery and, most important`,
-    estimatedMonthlyIncomeMin: 400,
-    estimatedMonthlyIncomeMax: 900,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "iVend Guaranteed Delivery", "Bill Acceptor ($1-$20)", "Energy Efficient"],
-    inStock: true,
-    stockCount: 12,
-    isFeatured: false,
-  },
-  {
-    title: "MarketOne 5W Cold Drink Elevator Vending Machine-Used",
-    slug: "marketone-5w-cold-drink-elevator-vending-machine-used",
-    price: 1500,
-    salePrice: null,
-    category: "used-vending-machines",
-    images: [drinkImg, usedImg],
-    description: `The Factory Certified Remanufactured MarketOne 5W Cold Drink Elevator Vending Machine is an advanced and reliable machine. It features a soft delivery elevator and a large delivery bin, allowing you to gently vend fragile and carbonated beverages of various product packaging sizes and shapes, such as boxed drinks and bottles. This Cold Drink Vending Machine includes enhanced LED lighting, iVend guaranteed product delivery and is fully Americans with Disabilities Act (ADA) compliant.
-
-Vendingmachinemall.com’s used vending machines undergo an extensive remanufacturing process. Each machine is carefully inspected to identify any damage and meticulously cleaned to remove dirt, grime, and residue. Worn-out and damaged components are repaired or replaced entirely to ensure the machine functions smoothly and effectively. After inspection, cleaning, and repairs, the used snack vending machine undergoes rigorous testing to ensure all functions operate, from product dispensing to payment processing. We are dedicated to providing top-quality vending equipment. Our used vending machines come with a one-year parts warranty to ensure you have the best experience. Shop this used MarketOne 5W Cold Drink Elevator Vending Machine for sale today.
-
-IMPORTANT: These machines have been previously used and may show minor signs of wear, such as small dents, light scratches, or cosmetic blemishes. These imperfections do not affect the functionality or performance of the machine in any way. Additionally, the actual machine you receive may look slightly different than pictured due to aesthetic variations such as the graphic decal wrap.
-
-Features & Available Options
-
- 	"LED" Lighting
- 	Pull-out, tilt trays for easy loading
- 	Adjustable flex trays can fit many shapes of products
- 	Electronic pricing
- 	Electronic coin changer and bill acceptor
- 	Class leading energy saving features
- 	Full sales & accounting features
- 	Credit/Debit card reader ready
- 	iVend® guaranteed delivery
- 	Americans With Disabilities Act (ADA) Compliant
-
-&nbsp;
-
-&nbsp;`,
-    excerpt: `The used MarketOne 5W Cold Drink Elevator Vending Machine is an advanced and reliable machine. It features a soft delivery elevator and a large delivery bin, allowing you to gently vend fragile and carbonated beverages of various product packaging sizes and shapes, such as boxed drinks and bottles.`,
-    estimatedMonthlyIncomeMin: 400,
-    estimatedMonthlyIncomeMax: 900,
-    roiMonths: 3,
-    deposit: 500,
-    features: ["ADA Compliant", "Enhanced LED Lighting", "Cashless Payment Ready", "iVend Guaranteed Delivery", "Bill Acceptor ($1-$20)", "Elevator Delivery System", "Energy Efficient"],
-    inStock: true,
-    stockCount: 7,
-    isFeatured: false,
-  },
+    deposit: 0,
+    features: p.features ?? ["ADA Compliant", "Cashless Payment Ready", "LED Lighting", "Free Nationwide Delivery", "1-Year Parts Warranty"],
+    inStock: p.inStock ?? true,
+    stockCount: p.stockCount ?? 5,
+    isFeatured: p.isFeatured ?? false,
+  })),
 ];
 
 export function getProductBySlug(slug: string): Product | undefined {
-  return products.find(p => p.slug === slug);
+  return products.find((p) => p.slug === slug);
 }
 
 export function getProductsByCategory(categorySlug: string): Product[] {
-  return products.filter(p => {
-    const cat = p.category;
-    if (categorySlug === "all") return true;
-    if (categorySlug === "combo") return cat.includes("Combo");
-    if (categorySlug === "drink") return (cat.includes("Drink") || cat.includes("Soda")) && !cat.includes("Combo") && !cat.includes("Cold Food");
-    if (categorySlug === "snack") return cat.includes("Snack");
-    if (categorySlug === "coffee") return cat.includes("Coffee") || cat.includes("Hot");
-    if (categorySlug === "frozen") return cat.includes("Frozen") || cat.includes("Cold Food");
-    if (categorySlug === "specialized") return cat.includes("Specialized");
-    if (categorySlug === "used") return cat.includes("used");
-    return false;
-  });
+  if (categorySlug === "all") return products;
+  return products.filter((p) => p.categorySlug === categorySlug);
 }
 
 export function getFeaturedProducts(): Product[] {
-  return products.filter(p => p.isFeatured);
+  return products.filter((p) => p.isFeatured);
 }
 
 export function formatPrice(price: number): string {
