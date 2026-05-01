@@ -95,7 +95,7 @@ export default function FeaturedMachines() {
 
   const filtered = activeTab === "all"
     ? featured
-    : featured.filter((p) => p.category.toLowerCase().includes(activeTab));
+    : featured.filter((p) => p.categorySlug === activeTab);
 
   return (
     <section id="featured" className="py-20">
