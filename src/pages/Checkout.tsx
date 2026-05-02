@@ -140,38 +140,27 @@ export default function Checkout() {
                   </div>
                 </div>
 
-                {/* Payment Method */}
+                {/* Payment Notice */}
                 <div className="bg-card border border-border rounded-2xl p-6">
-                  <h2 className="font-display text-lg font-bold text-foreground mb-4">Payment Method</h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-                    {paymentMethods.map((pm) => (
-                      <button key={pm.id} type="button" onClick={() => setMethod(pm.id)}
-                        className={`p-4 rounded-xl border text-left transition-all ${
-                          method === pm.id
-                            ? "bg-primary/10 border-primary"
-                            : "bg-background border-border hover:border-primary/40"
-                        }`}>
-                        <pm.icon className={`w-5 h-5 mb-2 ${method === pm.id ? "text-primary" : "text-muted-foreground"}`} />
-                        <p className="text-sm font-semibold text-foreground">{pm.label}</p>
-                        <p className="text-xs text-muted-foreground">{pm.desc}</p>
-                      </button>
-                    ))}
+                  <h2 className="font-display text-lg font-bold text-foreground mb-2 flex items-center gap-2">
+                    <Lock className="w-5 h-5 text-primary" /> Payment Details
+                  </h2>
+                  <div className="bg-primary/5 border border-primary/20 rounded-xl p-5">
+                    <p className="text-sm text-foreground font-semibold mb-2">
+                      Payment details will be communicated after order confirmation.
+                    </p>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      Once you place your order, a Vending Machine Hub specialist will contact you within 1 business hour to verify your details and securely share payment instructions for your selected plan.
+                    </p>
                   </div>
-
-                  {bankDetails[method] && (
-                    <div className="bg-secondary/50 rounded-xl p-5">
-                      <p className="text-sm font-semibold text-foreground mb-3">{bankDetails[method].instructions}</p>
-                      <ul className="space-y-1.5">
-                        {bankDetails[method].details.map((d, i) => (
-                          <li key={i} className="text-sm text-muted-foreground font-mono">{d}</li>
-                        ))}
-                      </ul>
-                      <div className="mt-4">
-                        <label className="text-sm font-medium text-foreground mb-1.5 block">Transaction Reference</label>
-                        <Input placeholder="Enter your transaction ID" value={form.txRef} onChange={e => setForm({ ...form, txRef: e.target.value })} />
-                      </div>
-                    </div>
-                  )}
+                  <div className="mt-4">
+                    <label className="text-sm font-medium text-foreground mb-1.5 block">Order Notes (optional)</label>
+                    <Input
+                      placeholder="Anything we should know about your order or location?"
+                      value={form.notes}
+                      onChange={(e) => setForm({ ...form, notes: e.target.value })}
+                    />
+                  </div>
                 </div>
               </div>
 
