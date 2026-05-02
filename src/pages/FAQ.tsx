@@ -13,7 +13,7 @@ export const faqData = [
   { q: "What warranty do the machines come with?", a: "All new machines include a 1-year limited parts warranty and lifetime toll-free technical support." },
   { q: "Can I get a refund if I change my mind?", a: "Yes — orders may be cancelled free of charge before shipping. After delivery, returns are accepted within 30 days in original condition." },
   { q: "Do you help with finding locations?", a: "While we don't place machines for you, we provide a comprehensive location guide, negotiation templates, and tips on the best locations for each machine type." },
-  { q: "What payment methods do you accept?", a: "We accept credit/debit cards via secure checkout, bank transfers, wire transfers, Zelle, and Bitcoin. All payments are processed securely." },
+  { q: "What payment methods do you accept?", a: "Payment details will be communicated after order confirmation. Once you place your order, a VMH specialist will contact you within 1 business hour to verify your details and securely share payment instructions for your selected plan (one-time payment or $150/month)." },
   { q: "Are the machines new or refurbished?", a: "We offer both. New machines come with full manufacturer warranty. Certified pre-owned machines are thoroughly inspected and come with a 90-day warranty." },
   { q: "Do I need to get permits or licenses?", a: "Requirements vary by state and city. Most locations only require a basic business license. We provide a state-by-state guide to help you navigate this." },
   { q: "Can I operate multiple machines?", a: "Absolutely! Many of our most successful customers operate 3–10+ machines. Volume discounts are available for multi-machine purchases." },
