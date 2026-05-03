@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Search, ShoppingCart, User, ChevronDown } from "lucide-react";
+import { Menu, X, Search, User, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import vmhLogo from "@/assets/vmh-logo.png";
+import CartDrawer from "@/components/CartDrawer";
 
 const machineLinks = [
   { label: "All Machines", href: "/machines" },
@@ -142,9 +143,7 @@ export default function Navbar() {
           <Link to="/login" className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
             <User className="w-5 h-5" />
           </Link>
-          <Link to="/checkout" className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors relative">
-            <ShoppingCart className="w-5 h-5" />
-          </Link>
+          <CartDrawer />
           <button
             className="lg:hidden p-2 rounded-lg text-muted-foreground"
             onClick={() => setMobileOpen(!mobileOpen)}
