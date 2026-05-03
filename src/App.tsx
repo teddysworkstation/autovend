@@ -19,12 +19,14 @@ import Blog from "./pages/Blog";
 import BlogPostPage from "./pages/BlogPost";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
+import { CartProvider } from "./hooks/useCart";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      <CartProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
@@ -52,6 +54,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
+      </CartProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
