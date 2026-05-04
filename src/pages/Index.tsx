@@ -6,6 +6,9 @@ import FeaturedMachines from "@/components/FeaturedMachines";
 import ROICalculator from "@/components/ROICalculator";
 import HowItWorks from "@/components/HowItWorks";
 import TrustSection from "@/components/TrustSection";
+import WhyChoose from "@/components/WhyChoose";
+import FreeShippingBar from "@/components/FreeShippingBar";
+import MobileStickyCTA from "@/components/MobileStickyCTA";
 
 import HomeReviews from "@/components/HomeReviews";
 import HomeBlog from "@/components/HomeBlog";
@@ -58,17 +61,19 @@ export default function Index() {
         structuredData={[structuredData, orgData]}
       />
       <TopBar />
+      <FreeShippingBar />
       <UrgencyBanner />
       <Navbar />
-      <main>
+      <main className="pb-20 lg:pb-0">
         <HeroSection />
         <SocialProofBar />
+        <WhyChoose />
         <FeaturedMachines />
         <ROICalculator />
         <HowItWorks />
         <TrustSection />
         <HomeReviews />
-        
+
         <HomeBlog />
         <HomeFAQ />
         <QuizCTABanner />
@@ -80,6 +85,7 @@ export default function Index() {
       </main>
       <Footer />
       <RecentPurchasePopup />
+      <MobileStickyCTA />
     </div>
   );
 }

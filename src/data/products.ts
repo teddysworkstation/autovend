@@ -55,6 +55,13 @@ import spSani from "@/assets/products/specialized-sani-center-plus-vending-machi
 import spStorage from "@/assets/products/specialized-storage-supply-depot-vending-machine-for-selling-storage-ite.jpg";
 
 import used10 from "@/assets/products/used-10-selections-soda-soft-drink-vending-machine-used.jpg";
+
+// AI Vending Machines (HAHA AI smart coolers from geniusvend.com)
+import aiHahaPro542 from "@/assets/products/ai/haha-pro-542.jpg";
+import aiHahaMini360 from "@/assets/products/ai/haha-mini-360.jpg";
+import aiHahaUltra1200 from "@/assets/products/ai/haha-ultra-1200.jpg";
+import aiHahaFreezer550 from "@/assets/products/ai/haha-freezer-550.jpg";
+import aiHahaPlus440 from "@/assets/products/ai/haha-plus-440.jpg";
 import used23 from "@/assets/products/used-23-selection-snack-vending-machine-used.jpg";
 import used32 from "@/assets/products/used-32-selection-snack-vending-machine-used.jpg";
 import used5w from "@/assets/products/used-5w-marketone-snack-vending-machine-used.jpg";
@@ -91,6 +98,7 @@ export const categories = [
   { slug: "smart-store", name: "Smart Stores", icon: "store" },
   { slug: "smart-cooler", name: "Smart Coolers", icon: "snowflake" },
   { slug: "kiosk", name: "Self-Checkout Kiosks", icon: "monitor" },
+  { slug: "ai-vending", name: "AI Vending Machines", icon: "sparkles" },
 ];
 
 export const categoryDescriptions: Record<string, { title: string; description: string; keywords: string }> = {
@@ -133,6 +141,11 @@ export const categoryDescriptions: Record<string, { title: string; description: 
     title: "Self-Checkout Kiosks for Sale",
     description: "Add a self-checkout kiosk for sale to your micro market or break room. Our 365 Retail Markets MM6 and PicoMarket kiosks integrate secure payments, inventory, and loyalty programs.",
     keywords: "self-checkout kiosk for sale, micro market kiosk, vending kiosk",
+  },
+  "ai-vending": {
+    title: "AI Vending Machines for Sale",
+    description: "Shop the next generation of AI vending machines for sale — the HAHA series of computer-vision smart coolers. Customers tap a card, open the door, grab what they want, and walk away. AI tracks every item with 99.9% accuracy. Perfect for offices, gyms, hotels, condos, and high-traffic locations.",
+    keywords: "ai vending machine for sale, smart vending machine, ai cooler, computer vision vending",
   },
 };
 
@@ -238,6 +251,13 @@ const csvProducts: CSVProduct[] = [
   { title: "HAHA Pro Smart Cooler", price: 4395, monthly: 117, excerpt: "HAHA Pro smart cooler for sale — mid-size AI cooler with frictionless tap-grab-go retail experience.", category: "smart-cooler", image: scPro, estMin: 500, estMax: 1200, stockCount: 5 },
   { title: "HAHA Ultra Smart Cooler", price: 6895, monthly: 184, excerpt: "HAHA Ultra smart cooler for sale — large-capacity AI cooler with broadest product selection in its class.", category: "smart-cooler", image: scUltra, estMin: 700, estMax: 1600, stockCount: 4 },
   { title: "HAHA Frozen Smart Cooler", price: 5895, monthly: 157, excerpt: "HAHA Frozen smart cooler for sale — AI-powered frozen retail cooler for ice cream, frozen meals, and treats.", category: "smart-cooler", image: scFrozen, estMin: 600, estMax: 1500, stockCount: 4 },
+
+  // ==================== AI VENDING MACHINES (HAHA AI) ====================
+  { title: "HAHA Pro 542 AI Smart Cooler", price: 4699, monthly: 124, excerpt: "AI vending machine for sale — fits roughly 406 drinks across 6 customizable shelves with drink pushers and dividers. Perfect for high-traffic locations. Computer-vision tracks every item with 99.9% accuracy.", category: "ai-vending", image: aiHahaPro542, isFeatured: true, estMin: 1200, estMax: 3500, stockCount: 5, features: ["Computer-Vision Product Recognition", "Holds ~406 Drinks", "6 Customizable Shelves with Pushers", "Tap-Grab-Go Frictionless Checkout", "Apple Pay, Google Pay, Cards", "Real-Time Remote Inventory", "Anti-Theft Tempered Glass", "ADA Compliant"] },
+  { title: "HAHA Mini 360 AI Smart Cooler", price: 3499, monthly: 92, excerpt: "Compact AI vending machine for sale — fits ~245 drinks across 5 customizable shelves. Perfect for offices, gyms, hotels, condos, and smaller locations.", category: "ai-vending", image: aiHahaMini360, isFeatured: true, estMin: 800, estMax: 2200, stockCount: 6, features: ["Computer-Vision Product Recognition", "Holds ~245 Drinks", "5 Customizable Shelves", "Compact Footprint", "Tap-Grab-Go Frictionless Checkout", "Apple Pay, Google Pay, Cards", "Real-Time Remote Inventory", "ADA Compliant"] },
+  { title: "HAHA Ultra 1200 AI Smart Cooler", price: 7199, monthly: 189, excerpt: "Largest AI vending machine for sale in the HAHA series — fits ~828 drinks across 12 customizable shelves. Offers a wider variety of drinks and snacks than any other AI cooler in its class.", category: "ai-vending", image: aiHahaUltra1200, isFeatured: true, estMin: 1800, estMax: 5000, stockCount: 3, features: ["Computer-Vision Product Recognition", "Holds ~828 Drinks", "12 Customizable Shelves", "Largest AI Cooler in Class", "Tap-Grab-Go Frictionless Checkout", "Apple Pay, Google Pay, Cards", "Real-Time Remote Inventory", "ADA Compliant"] },
+  { title: "HAHA Freezer 550 AI Smart Cooler", price: 4999, monthly: 132, excerpt: "AI freezer vending machine for sale — fits ~468 frozen items across 5 customizable shelves. Perfect for ice cream, frozen meals, and cold treats.", category: "ai-vending", image: aiHahaFreezer550, estMin: 1000, estMax: 2800, stockCount: 4, features: ["Computer-Vision Product Recognition", "Holds ~468 Frozen Items", "5 Customizable Shelves + Bottom Layer", "Frozen / Ice Cream Capable", "Tap-Grab-Go Frictionless Checkout", "Apple Pay, Google Pay, Cards", "Real-Time Remote Inventory", "ADA Compliant"] },
+  { title: "HAHA Plus 440 AI Smart Cooler", price: 3850, monthly: 102, excerpt: "Mid-size AI vending machine for sale — fits ~324 drinks across 5 customizable shelves with pushers and dividers. The ideal balance of capacity, footprint, and ROI.", category: "ai-vending", image: aiHahaPlus440, isFeatured: true, estMin: 1000, estMax: 2600, stockCount: 5, features: ["Computer-Vision Product Recognition", "Holds ~324 Drinks", "5 Customizable Shelves with Pushers", "Best Capacity-to-Footprint Ratio", "Tap-Grab-Go Frictionless Checkout", "Apple Pay, Google Pay, Cards", "Real-Time Remote Inventory", "ADA Compliant"] },
 ];
 
 const categoryDisplayNames: Record<string, string> = {
@@ -249,6 +269,7 @@ const categoryDisplayNames: Record<string, string> = {
   "smart-store": "Smart Stores",
   "smart-cooler": "Smart Coolers",
   kiosk: "Self-Checkout Kiosks",
+  "ai-vending": "AI Vending Machines",
 };
 
 function buildDescription(p: CSVProduct): string {

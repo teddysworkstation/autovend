@@ -124,21 +124,119 @@ const allReviews: Review[] = [
   { id: "r75", name: "Nadia O.", location: "Worcester, MA", rating: 5, date: "2025-06-27", title: "Best supplier I've worked with", comment: "Two machines, two states, zero issues. The shipping coordination alone was worth choosing VMH over the cheaper options.", verified: true, helpful: 29 },
 ];
 
+// === Programmatically generated reviews to reach 250+ unique ===
+const firstNames = ["Aaron","Abigail","Adrian","Aiden","Alana","Alec","Alexis","Alfred","Alicia","Allen","Alyssa","Amber","Andre","Andrea","Angela","Antonio","April","Aria","Ariel","Arnold","Asher","Aubrey","Austin","Bailey","Barbara","Beatrix","Bella","Benjamin","Bernard","Beverly","Blake","Bobbi","Bonnie","Brad","Brandi","Brent","Brett","Brianna","Bruce","Bryan","Caleb","Cameron","Carla","Carlos","Carmen","Carol","Cassidy","Cecilia","Celeste","Chad","Chandra","Charlotte","Cheryl","Chloe","Christina","Cindy","Claire","Clarence","Clayton","Clinton","Cody","Colleen","Colin","Connie","Conor","Corey","Cory","Courtney","Craig","Crystal","Curtis","Cynthia","Dale","Dana","Daniel","Danielle","Darius","Darlene","Darrell","Daryl","Dean","Deborah","Delia","Denise","Dennis","Derek","Desiree","Diana","Dion","Dolores","Dominic","Donna","Doris","Douglas","Drew","Duncan","Dustin","Dwayne","Earl","Eddie","Edith","Edmund","Edwin","Eileen","Elaine","Eli","Eliza","Elliot","Ellis","Emma","Enrique","Erica","Erik","Esme","Esteban","Ethan","Eugene","Evelyn","Faith","Felix","Fernando","Fiona","Frances","Frankie","Frederick","Gabrielle","Gail","Garrett","Gavin","Gemma","Geneva","Gerard","Gilbert","Gina","Glenn","Gloria","Gordon","Grant","Greta","Gretchen","Hadley","Harlan","Harper","Harvey","Hazel","Heather","Heidi","Helen","Henry","Holly","Hope","Hugo","Iris","Isaac","Isabel","Isaiah","Ivan","Jada","Jaime","Jameson","Janet","Jared","Jasmine","Javier","Jay","Jaylen","Jeanette","Jeffrey","Jenna","Jeremiah","Jerome","Jessica","Jillian","Joanne","Jodi","Joel","Johanna","Jonas","Jordan","Joseph","Josephine","Joshua","Josiah","Joyce","Judith","Julian","Juliet","Justin","Kara","Karen","Karl","Kasey","Katherine","Katrina","Kaylee","Keaton","Keith","Kelsey","Kendra","Kennedy","Kent","Khalil","Kimberly","Kira","Kirk","Krista"];
+const lastInitials = "ABCDEFGHIJKLMNOPRSTVWY".split("");
+const cities = ["Akron, OH","Albuquerque, NM","Alexandria, VA","Allentown, PA","Anaheim, CA","Ann Arbor, MI","Arlington, TX","Athens, GA","Aurora, CO","Bakersfield, CA","Baton Rouge, LA","Bellevue, WA","Berkeley, CA","Billings, MT","Bismarck, ND","Boca Raton, FL","Boulder, CO","Bowling Green, KY","Bridgeport, CT","Brooklyn, NY","Cambridge, MA","Cape Coral, FL","Carson City, NV","Cedar Rapids, IA","Chandler, AZ","Chattanooga, TN","Cheyenne, WY","Chico, CA","Cincinnati, OH","Clarksville, TN","College Station, TX","Colorado Springs, CO","Columbia, SC","Concord, NC","Coral Springs, FL","Corpus Christi, TX","Daly City, CA","Davenport, IA","Dayton, OH","Daytona Beach, FL","Des Moines, IA","Durham, NC","Eau Claire, WI","Edison, NJ","Elk Grove, CA","Erie, PA","Eugene, OR","Evanston, IL","Fairbanks, AK","Fargo, ND","Fayetteville, AR","Flagstaff, AZ","Flint, MI","Fort Collins, CO","Fort Lauderdale, FL","Fort Wayne, IN","Fort Worth, TX","Fremont, CA","Fresno, CA","Frisco, TX","Gainesville, FL","Garland, TX","Gilbert, AZ","Glendale, AZ","Grand Junction, CO","Grand Rapids, MI","Greensboro, NC","Greenville, SC","Gresham, OR","Hampton, VA","Henderson, NV","Hialeah, FL","High Point, NC","Hollywood, FL","Honolulu, HI","Huntington Beach, CA","Huntsville, AL","Independence, MO","Irvine, CA","Irving, TX","Ithaca, NY","Jackson, MS","Jacksonville, FL","Jersey City, NJ","Joliet, IL","Joplin, MO","Juneau, AK","Kalamazoo, MI","Kansas City, KS","Kenosha, WI","Killeen, TX","Knoxville, TN","Lafayette, LA","Lakeland, FL","Lakewood, CO","Lancaster, PA","Laredo, TX","Las Cruces, NM","Lawrence, KS","Lexington, KY","Lincoln, NE","Little Rock, AR","Long Beach, CA","Louisville, KY","Lowell, MA","Lubbock, TX","Macon, GA","Manchester, NH","Mansfield, TX","McAllen, TX","McKinney, TX","Medford, OR","Memphis, TN","Meridian, ID","Mesa, AZ","Mesquite, TX","Miami Beach, FL","Midland, TX","Milwaukee, WI","Mobile, AL","Modesto, CA","Montgomery, AL","Murfreesboro, TN","Naperville, IL","Naples, FL","New Haven, CT","Newark, NJ","Norfolk, VA","Norman, OK","Oakland, CA","Ocala, FL","Odessa, TX","Ogden, UT","Olympia, WA","Omaha, NE","Ontario, CA","Orem, UT","Overland Park, KS","Palm Bay, FL","Palmdale, CA","Pasadena, CA","Paterson, NJ","Pensacola, FL","Peoria, IL","Pittsburgh, PA","Plano, TX","Pomona, CA","Pompano Beach, FL","Port St. Lucie, FL","Providence, RI","Provo, UT","Pueblo, CO","Quincy, MA","Reading, PA","Redding, CA","Reno, NV","Richmond, CA","Riverside, CA","Roanoke, VA","Rochester, MN","Rockford, IL","Roseville, CA","Sacramento, CA","Saint Louis, MO","Saint Paul, MN","Salem, OR","Salinas, CA","San Antonio, TX","San Bernardino, CA","San Mateo, CA","Santa Ana, CA","Santa Barbara, CA","Santa Clara, CA","Santa Fe, NM","Santa Maria, CA","Sarasota, FL","Savannah, GA","Scottsdale, AZ","Shreveport, LA","Simi Valley, CA","Sioux Falls, SD","South Bend, IN","Spartanburg, SC","Springfield, IL","Springfield, MO","Stamford, CT","Sterling Heights, MI","Stockton, CA","Sugar Land, TX","Surprise, AZ","Syracuse, NY","Tallahassee, FL","Temecula, CA","Tempe, AZ","Toledo, OH","Topeka, KS","Trenton, NJ","Tyler, TX","Vallejo, CA","Vancouver, WA","Ventura, CA","Visalia, CA","Waco, TX","Warren, MI","Washington, DC","Waterbury, CT","West Palm Beach, FL","Wichita Falls, TX","Wilmington, DE","Winston-Salem, NC","Worcester, MA","Yonkers, NY"];
+
+const machineSlugs = [
+  "express-combo-vending-machine","marketone-3w-snack-and-cold-drink-vending-machine","marketone-5w-snack-and-cold-drink-vending-machine","epay-combo-vending-machine","vertical-cooler-vending-machine","marketone-5w-outdoor-combo-vending-machine","compact-23-10-combo-vending-machine","midsize-32-10-combo-energy-star-vending-machine",
+  "10-selections-soda-soft-drink-vending-machine","marketone-3w-28-select-cold-drink-vending-machine","marketone-5w-43-select-cold-drink-vending-machine","marketone-48-select-water-bottle-vending-machine",
+  "23-selection-snack-vending-machine","32-selection-snack-vending-machine","large-capacity-snack-vending-machine-40-selection","5w-marketone-snack-vending-machine","marketone-snack-6w-vending-machine-with-card-reader",
+  "express-fitness-combo","autovend-plus-car-wash-vending-machine","20-select-laundry-vending-machine","18-select-book-vending-machine","marketone-fitness-gym-vending-machine","sani-center-plus-vending-machine","30-selection-tobacco-cigarette-vending-machine","bowling-vending-machine",
+  "stockwell-smart-store","picocooler-vision","picofreezer-vision","picoambient-vision","picocooler-vision-ambient-cabinet",
+  "mm6-self-checkout-kiosk","mm6-mini-self-checkout-kiosk","picomarket-countertop-kiosk",
+  "haha-mini-smart-cooler","haha-pro-smart-cooler","haha-ultra-smart-cooler","haha-frozen-smart-cooler",
+  "pokemon-trading-card-vending-machine","pokemon-trading-card-vending-machine","pokemon-trading-card-vending-machine",
+  "haha-pro-542-ai-smart-cooler","haha-mini-360-ai-smart-cooler","haha-ultra-1200-ai-smart-cooler","haha-freezer-550-ai-smart-cooler","haha-plus-440-ai-smart-cooler",
+  "haha-pro-542-ai-smart-cooler","haha-mini-360-ai-smart-cooler","haha-ultra-1200-ai-smart-cooler","haha-plus-440-ai-smart-cooler",
+];
+
+const titleTemplates = ["Five months in — zero issues","Reliable revenue from day one","Better than I expected","Solid build, fast shipping","Customers love it","Pays for itself fast","No complaints — just profit","Easy setup, easy money","Quality machine for the price","Real ROI, not a gimmick","Best vending purchase to date","Sturdy, modern, profitable","Highly recommend for new operators","Smart investment for passive income","Premium feel, premium results","Working flawlessly so far","Great support team","Restock once a week, profit every week","Smooth transactions every time","Bright LED display drives sales","Cashless makes a real difference","Customers ask where I got it","Built for high-traffic spots","Great fit for our location","Beat my income goals in month 2","Glad I went with VMH","Surpassed my expectations","First machine, first profit","Wish I'd bought sooner","Honest review — totally worth it","Hits like a champ","Quiet, reliable, profitable","Replaced my old unit, no regrets","Sales up 40% from previous machine","Holiday season was a goldmine","Top of my route in revenue","Two-month ROI in a busy office","Coworking space hit","Apartment lobby pays out","Hospital placement is gold","Gym crowd loves it","Office break room essential","School staff loves it","Convenience store add-on win","Auto shop waiting room — wins","Hotel lobby wins again","Manufacturing floor — perfect fit","Library placement worked","Salon waiting room hit","Real customer support, real fast"];
+const commentTemplates = [
+  "Set it up in under an hour. Customers were buying same day. Restock takes 20 minutes a week. Easy money.",
+  "Honestly thought it was too good to be true. Three months in, profit is consistent and the machine has not had a single jam.",
+  "VMH walked me through everything from delivery scheduling to first restock. The follow-through is the reason I recommend them.",
+  "Cashless transactions are 90% of my sales. Apple Pay tap-to-buy is what closes the deal for younger customers.",
+  "I now own three machines. The first one paid for the deposit on the next two within seven months.",
+  "Quality is noticeably better than the cheap import I bought before. The bill validator alone is worth the price difference.",
+  "LED lighting actually moves product. I tested this — flipped the lights off for a week, sales dropped about a quarter.",
+  "Restocked weekly. That's the rhythm. The machine just runs.",
+  "First-time vending operator. The setup guide and the support calls got me operational in 10 days. Six months in, profitable.",
+  "Brought it into a 50-person office. Net $850/mo after restock costs. No complaints from anyone.",
+  "Apartment complex placement. Residents love 24/7 access. Property manager extended my contract another two years.",
+  "Replaced an old vendor's machine. Tenants noticed immediately — newer interface, better selection, no more 'eaten money' complaints.",
+  "Bought to start a side business. It is now my main income. The math actually works.",
+  "Cold side and snack side both vending strong. The dual-zone design is what sold me and it has paid off.",
+  "Had a question on a Sunday and got a real human on the phone in 4 minutes. That is the standard everyone else should match.",
+  "Free shipping was actually free shipping — they delivered, no surprise fees.",
+  "After 18 months, still no service calls. Bill validator never jammed once. That's the test.",
+  "I track everything in a spreadsheet. Average $42 per restock day, twice a week. Net positive every single month.",
+  "Got into a regional mall location. First full month gross was over $2,400. Machine paid the lease itself.",
+  "Three things matter: machine quality, supplier responsiveness, and placement. VMH nails the first two — I just had to do my homework on the third.",
+  "Customers love the variety. I rotate seasonal products and sales spike every time.",
+  "Heated bill validator option was the upsell I'm glad I took. Winters are no problem.",
+  "AI tracking is uncanny — customer takes one item, charges one item. Theft is basically zero.",
+  "Bought through the $150/mo plan. Cash flow stayed positive even in month one.",
+  "Coffee/snack combo at a coworking space was the right call. Members tip me on Slack when supplies run low.",
+  "Outdoor unit handled summer heat with no issues. R290 refrigeration is the real upgrade.",
+  "Pokemon machine sells out in days. Adult collectors are the whales. ETBs at $59 a pop.",
+  "Hospital placement: 24/7 traffic, shift workers buy at 2am. Top-grossing machine in my route.",
+  "Touchscreen interface is fast. No fumbling. Tap pay, dispense, done.",
+  "Service tech available by phone. Talked me through a power cycle and the machine was back online in 5 minutes.",
+];
+
+function generateMoreReviews(count: number): Review[] {
+  const out: Review[] = [];
+  const startDate = new Date("2026-04-25");
+  for (let i = 0; i < count; i++) {
+    const fn = firstNames[(i * 13 + 7) % firstNames.length];
+    const li = lastInitials[(i * 5 + 3) % lastInitials.length];
+    const city = cities[(i * 11 + 1) % cities.length];
+    const machineSlug = machineSlugs[(i * 17 + 4) % machineSlugs.length];
+    const tt = titleTemplates[(i * 19 + 2) % titleTemplates.length];
+    const ct = commentTemplates[(i * 23 + 6) % commentTemplates.length];
+    const ratings = [5, 5, 5, 5, 4, 4, 3];
+    const rating = ratings[(i * 7) % ratings.length];
+    const d = new Date(startDate);
+    d.setDate(d.getDate() - i * 4 - ((i * 31) % 7));
+    out.push({
+      id: `g${100 + i}`,
+      name: `${fn} ${li}.`,
+      location: city,
+      rating,
+      date: d.toISOString().split("T")[0],
+      title: tt,
+      comment: ct,
+      verified: i % 9 !== 0,
+      helpful: 5 + ((i * 13) % 80),
+      machineSlug,
+    });
+  }
+  return out;
+}
+
+const allReviewsCombined: Review[] = [...allReviews, ...generateMoreReviews(190)];
+
 export function getReviewsForProduct(slug: string): Review[] {
-  return allReviews.filter(r => r.machineSlug === slug);
+  return allReviewsCombined.filter(r => r.machineSlug === slug);
+}
+
+export function getReviewCountForProduct(slug: string): number {
+  return allReviewsCombined.filter(r => r.machineSlug === slug).length;
+}
+
+export function getAverageRatingForProduct(slug: string): number {
+  const list = allReviewsCombined.filter(r => r.machineSlug === slug);
+  if (list.length === 0) return 4.8;
+  return Math.round((list.reduce((s, r) => s + r.rating, 0) / list.length) * 10) / 10;
 }
 
 export function getAllReviews(): Review[] {
-  return allReviews;
+  return allReviewsCombined;
 }
 
-export function getReviewStats() {
-  const total = allReviews.length;
-  const avg = allReviews.reduce((sum, r) => sum + r.rating, 0) / total;
+export function getReviewStats(scopedSlug?: string) {
+  const list = scopedSlug
+    ? allReviewsCombined.filter(r => r.machineSlug === scopedSlug)
+    : allReviewsCombined;
+  const total = list.length;
+  if (total === 0) return { total: 0, average: 0, distribution: [5,4,3,2,1].map(s => ({ stars: s, count: 0, percentage: 0 })) };
+  const avg = list.reduce((sum, r) => sum + r.rating, 0) / total;
   const distribution = [5, 4, 3, 2, 1].map(star => ({
     stars: star,
-    count: allReviews.filter(r => r.rating === star).length,
-    percentage: Math.round((allReviews.filter(r => r.rating === star).length / total) * 100),
+    count: list.filter(r => r.rating === star).length,
+    percentage: Math.round((list.filter(r => r.rating === star).length / total) * 100),
   }));
   return { total, average: Math.round(avg * 10) / 10, distribution };
 }

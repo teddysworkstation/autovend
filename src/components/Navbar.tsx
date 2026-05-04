@@ -7,11 +7,13 @@ import CartDrawer from "@/components/CartDrawer";
 
 const machineLinks = [
   { label: "All Machines", href: "/machines" },
+  { label: "AI Vending Machines", href: "/machines?cat=ai-vending" },
   { label: "Combo Machines", href: "/machines?cat=combo" },
   { label: "Snack Machines", href: "/machines?cat=snack" },
   { label: "Drink Machines", href: "/machines?cat=drink" },
-  { label: "Coffee Machines", href: "/machines?cat=coffee" },
+  { label: "Smart Stores", href: "/machines?cat=smart-store" },
   { label: "Specialized", href: "/machines?cat=specialized" },
+  { label: "Used Machines", href: "/machines?cat=used" },
 ];
 
 const supportLinks = [
@@ -26,11 +28,13 @@ const companyLinks = [
   { label: "About Us", href: "/about" },
   { label: "Contact", href: "/contact" },
   { label: "FAQ", href: "/faq" },
+  { label: "Reviews", href: "/reviews" },
   { label: "Affiliates", href: "/affiliates" },
 ];
 
 const navLinks = [
   { label: "Machines", href: "/machines", dropdown: machineLinks },
+  { label: "Reviews", href: "/reviews" },
   { label: "How It Works", href: "/#how-it-works" },
   { label: "Quiz", href: "/quiz" },
   { label: "Support", href: "/technical-support", dropdown: supportLinks },

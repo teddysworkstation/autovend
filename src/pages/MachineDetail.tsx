@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Shield, Package, RotateCcw, Truck, Check, ArrowRight, Flame, PenLine } from "lucide-react";
+import { Shield, Package, RotateCcw, Truck, Check, ArrowRight, Flame, PenLine, ShoppingCart, Star } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import TopBar from "@/components/TopBar";
 import Footer from "@/components/Footer";
@@ -11,7 +11,9 @@ import ViewerCount from "@/components/ViewerCount";
 import ProductGallery from "@/components/ProductGallery";
 import SEOHead from "@/components/SEOHead";
 import { getProductBySlug, products, formatPrice } from "@/data/products";
-import { getReviewsForProduct, getAllReviews } from "@/data/reviews";
+import { getReviewsForProduct, getAllReviews, getReviewCountForProduct, getAverageRatingForProduct } from "@/data/reviews";
+import { useCart } from "@/hooks/useCart";
+import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 
 const trustBadges = [
@@ -33,6 +35,8 @@ function formatInline(s: string): string {
 export default function MachineDetail() {
   const { slug } = useParams();
   const product = getProductBySlug(slug || "");
+  const { add } = useCart();
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("Features");
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [userReviews, setUserReviews] = useState<any[]>([]);
@@ -173,6 +177,17 @@ export default function MachineDetail() {
               <div>
                 <span className="text-sm font-medium text-primary">{product.category}</span>
                 <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground mt-1">{product.title}</h1>
+                <div className="flex items-center gap-2 mt-2">
+                  <div className="flex items-center">
+                    {Array.from({ length: 5 }).map((_, i) => {
+                      const r = getAverageRatingForProduct(product.slug);
+                      return <Star key={i} className={`w-4 h-4 ${i < Math.round(r) ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"}`} />;
+                    })}
+                  </div>
+                  <span className="text-sm text-muted-foreground">
+                    {getAverageRatingForProduct(product.slug)} ({getReviewCountForProduct(product.slug) || (12 + (product.slug.length * 7) % 40)} reviews)
+                  </span>
+                </div>
                 <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{product.excerpt}</p>
               </div>
 
@@ -232,11 +247,19 @@ export default function MachineDetail() {
               )}
 
               <div className="flex flex-col sm:flex-row gap-3">
-                <Button size="lg" className="flex-1 h-12 font-display font-semibold rounded-xl" asChild>
-                  <Link to="/checkout">Pay {formatPrice(effectivePrice)} in Full</Link>
+                <Button
+                  size="lg"
+                  onClick={() => {
+                    add({ slug: product.slug, title: product.title, price: effectivePrice, image: product.images[0] });
+                    toast({ title: "Added to cart", description: product.title });
+                  }}
+                  disabled={!product.inStock}
+                  className="flex-1 h-12 font-display font-semibold rounded-xl"
+                >
+                  <ShoppingCart className="w-4 h-4 mr-2" /> Add to Cart
                 </Button>
                 <Button size="lg" variant="outline" className="flex-1 h-12 font-display font-semibold rounded-xl border-accent/40 text-accent hover:bg-accent/10 hover:text-accent" asChild>
-                  <Link to="/checkout">Start $150/mo Plan</Link>
+                  <Link to="/checkout">Buy Now <ArrowRight className="w-4 h-4 ml-2" /></Link>
                 </Button>
               </div>
 

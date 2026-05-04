@@ -17,6 +17,7 @@ import Legal from "./pages/Legal";
 import ResourcePage from "./pages/ResourcePage";
 import Blog from "./pages/Blog";
 import BlogPostPage from "./pages/BlogPost";
+import ReviewsPage from "./pages/Reviews";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 import { CartProvider } from "./hooks/useCart";
@@ -51,6 +52,7 @@ const App = () => (
           <Route path="/manuals" element={<ResourcePage slug="manuals" />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
+          <Route path="/reviews" element={<ReviewsPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
