@@ -55,6 +55,13 @@ import spSani from "@/assets/products/specialized-sani-center-plus-vending-machi
 import spStorage from "@/assets/products/specialized-storage-supply-depot-vending-machine-for-selling-storage-ite.jpg";
 
 import used10 from "@/assets/products/used-10-selections-soda-soft-drink-vending-machine-used.jpg";
+
+// AI Vending Machines (HAHA AI smart coolers from geniusvend.com)
+import aiHahaPro542 from "@/assets/products/ai/haha-pro-542.jpg";
+import aiHahaMini360 from "@/assets/products/ai/haha-mini-360.jpg";
+import aiHahaUltra1200 from "@/assets/products/ai/haha-ultra-1200.jpg";
+import aiHahaFreezer550 from "@/assets/products/ai/haha-freezer-550.jpg";
+import aiHahaPlus440 from "@/assets/products/ai/haha-plus-440.jpg";
 import used23 from "@/assets/products/used-23-selection-snack-vending-machine-used.jpg";
 import used32 from "@/assets/products/used-32-selection-snack-vending-machine-used.jpg";
 import used5w from "@/assets/products/used-5w-marketone-snack-vending-machine-used.jpg";
@@ -91,6 +98,7 @@ export const categories = [
   { slug: "smart-store", name: "Smart Stores", icon: "store" },
   { slug: "smart-cooler", name: "Smart Coolers", icon: "snowflake" },
   { slug: "kiosk", name: "Self-Checkout Kiosks", icon: "monitor" },
+  { slug: "ai-vending", name: "AI Vending Machines", icon: "sparkles" },
 ];
 
 export const categoryDescriptions: Record<string, { title: string; description: string; keywords: string }> = {
@@ -133,6 +141,11 @@ export const categoryDescriptions: Record<string, { title: string; description: 
     title: "Self-Checkout Kiosks for Sale",
     description: "Add a self-checkout kiosk for sale to your micro market or break room. Our 365 Retail Markets MM6 and PicoMarket kiosks integrate secure payments, inventory, and loyalty programs.",
     keywords: "self-checkout kiosk for sale, micro market kiosk, vending kiosk",
+  },
+  "ai-vending": {
+    title: "AI Vending Machines for Sale",
+    description: "Shop the next generation of AI vending machines for sale — the HAHA series of computer-vision smart coolers. Customers tap a card, open the door, grab what they want, and walk away. AI tracks every item with 99.9% accuracy. Perfect for offices, gyms, hotels, condos, and high-traffic locations.",
+    keywords: "ai vending machine for sale, smart vending machine, ai cooler, computer vision vending",
   },
 };
 
