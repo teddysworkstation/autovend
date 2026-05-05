@@ -70,7 +70,8 @@ export default function Quiz() {
     setCompleted(true);
   };
 
-  const recommendations = completed ? getRecommendation(answers) : [];
+  const { products } = useProducts();
+  const recommendations = completed ? getRecommendation(answers, products) : [];
 
   return (
     <div className="min-h-screen bg-background">
