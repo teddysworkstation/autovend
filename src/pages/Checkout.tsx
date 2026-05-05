@@ -12,6 +12,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useCart } from "@/hooks/useCart";
 import { downloadInvoicePDF, type InvoiceData } from "@/lib/invoice";
+import { supabase } from "@/integrations/supabase/client";
 
 type PlanId = "onetime" | "monthly";
 type PaymentMethod = "bank" | "wire" | "zelle" | "btc";
@@ -60,19 +61,28 @@ export default function Checkout() {
     setGenerating(true);
     const orderNo = `VMH-${Date.now().toString().slice(-8)}`;
     setOrderNumber(orderNo);
+    const total = plan === "monthly" ? MONTHLY_PRICE : subtotal;
 
     try {
-      await downloadInvoicePDF(buildInvoiceData(orderNo));
-      toast({
-        title: "Order received!",
-        description: "Your invoice has been downloaded. Payment instructions will follow shortly.",
-      });
+      const { data: orderRow, error: orderErr } = await supabase.from("orders").insert({
+        order_number: orderNo, status: "pending", plan, payment_method: paymentMethod,
+        subtotal, total,
+        first_name: form.firstName, last_name: form.lastName, email: form.email, phone: form.phone,
+        alt_phone: form.altPhone || null, company: form.company || null, business_type: form.businessType || null,
+        address: form.address, city: form.city, state: form.state, zip: form.zip,
+        preferred_contact: form.preferredContact, preferred_time: form.preferredTime, notes: form.notes || null,
+      }).select("id").single();
+      if (orderErr) throw orderErr;
+      if (orderRow) {
+        await supabase.from("order_items").insert(items.map(it => ({
+          order_id: orderRow.id, product_slug: it.slug, title: it.title, price: it.price, quantity: it.quantity, image_url: it.image,
+        })));
+      }
+      toast({ title: "Order received!", description: "Download your invoice on the next page. We'll contact you shortly." });
       setSubmitted(true);
       clear();
-    } catch (err) {
-      toast({ title: "Order received", description: "Couldn't generate invoice right now — your order is still confirmed.", variant: "destructive" });
-      setSubmitted(true);
-      clear();
+    } catch (err: any) {
+      toast({ title: "Could not save order", description: err?.message || "Please try again.", variant: "destructive" });
     } finally {
       setGenerating(false);
     }
@@ -101,9 +111,21 @@ export default function Checkout() {
                   <li className="flex gap-2"><Lock className="w-4 h-4 text-primary mt-0.5 shrink-0" /> Secure payment instructions sent after confirmation.</li>
                 </ul>
               </div>
+              <Button
+                size="lg"
+                onClick={() => downloadInvoicePDF(buildInvoiceData(orderNumber))}
+                className="mt-6 h-12 font-display font-semibold rounded-xl w-full"
+              >
+                <Download className="w-4 h-4 mr-2" /> Download Invoice (PDF)
+              </Button>
+              <Link to={`/track-order`}>
+                <Button variant="outline" size="lg" className="mt-3 h-12 font-display font-semibold rounded-xl w-full">
+                  Track Your Order <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </Link>
               <Link to="/machines">
-                <Button size="lg" className="mt-8 h-12 font-display font-semibold rounded-xl">
-                  Continue Shopping <ArrowRight className="w-4 h-4 ml-2" />
+                <Button variant="ghost" size="lg" className="mt-2 h-12 font-display font-semibold rounded-xl w-full">
+                  Continue Shopping
                 </Button>
               </Link>
             </motion.div>

@@ -75,7 +75,7 @@ export async function generateInvoicePDF(data: InvoiceData): Promise<jsPDF> {
   doc.setFont("helvetica", "normal");
   doc.setFontSize(10);
   doc.text("Premium Vending Machines for Sale", margin + 60, 58);
-  doc.text("vmh.lovable.app  •  support@vendingmachinehub.com", margin + 60, 72);
+  doc.text("https://www.vendingmachinehub.com  •  support@vendingmachinehub.com", margin + 60, 72);
 
   // Invoice title
   doc.setFontSize(22);
