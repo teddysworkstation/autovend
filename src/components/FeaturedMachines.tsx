@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Flame, Star, ShoppingCart } from "lucide-react";
-import { getFeaturedProducts, formatPrice, type Product } from "@/data/products";
+import { useProducts, formatPrice, type Product } from "@/data/products";
 import { getReviewCountForProduct, getAverageRatingForProduct } from "@/data/reviews";
 import { useCart } from "@/hooks/useCart";
 import ViewerCount from "@/components/ViewerCount";
@@ -63,19 +63,21 @@ function MachineCard({ product, index }: { product: Product; index: number }) {
           <h3 className="font-display text-sm font-semibold text-foreground mt-1.5 leading-snug line-clamp-2">
             {product.title}
           </h3>
-          <div className="flex items-center gap-1.5 mt-1.5">
-            <div className="flex items-center">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star
-                  key={i}
-                  className={`w-3 h-3 ${i < Math.round(displayRating) ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"}`}
-                />
-              ))}
+          {!product.hideReviews && (
+            <div className="flex items-center gap-1.5 mt-1.5">
+              <div className="flex items-center">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star
+                    key={i}
+                    className={`w-3 h-3 ${i < Math.round(displayRating) ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"}`}
+                  />
+                ))}
+              </div>
+              <span className="text-[11px] text-muted-foreground">
+                {displayRating} ({displayCount})
+              </span>
             </div>
-            <span className="text-[11px] text-muted-foreground">
-              {displayRating} ({displayCount})
-            </span>
-          </div>
+          )}
           <div className="flex items-baseline gap-2 mt-2">
             {product.salePrice ? (
               <>
@@ -89,7 +91,7 @@ function MachineCard({ product, index }: { product: Product; index: number }) {
           <p className="text-xs text-muted-foreground mt-1.5">
             Est. {formatPrice(product.estimatedMonthlyIncomeMin)}–{formatPrice(product.estimatedMonthlyIncomeMax)}/mo
           </p>
-          {product.inStock && (
+          {product.inStock && !product.hideViewers && (
             <div className="mt-2">
               <ViewerCount slug={product.slug} />
             </div>
@@ -124,7 +126,8 @@ function MachineCard({ product, index }: { product: Product; index: number }) {
 
 export default function FeaturedMachines() {
   const [activeTab, setActiveTab] = useState("all");
-  const featured = getFeaturedProducts();
+  const { products } = useProducts();
+  const featured = products.filter((p) => p.isFeatured);
 
   const filtered = activeTab === "all"
     ? featured

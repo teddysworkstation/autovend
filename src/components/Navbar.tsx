@@ -34,7 +34,7 @@ const companyLinks = [
 
 const navLinks = [
   { label: "Machines", href: "/machines", dropdown: machineLinks },
-  { label: "Reviews", href: "/reviews" },
+  { label: "Track Order", href: "/track-order" },
   { label: "How It Works", href: "/#how-it-works" },
   { label: "Quiz", href: "/quiz" },
   { label: "Support", href: "/technical-support", dropdown: supportLinks },

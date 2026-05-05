@@ -6,7 +6,7 @@ import Navbar from "@/components/Navbar";
 import TopBar from "@/components/TopBar";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
-import { products, categories, categoryDescriptions, formatPrice, type Product } from "@/data/products";
+import { useProducts, categories, categoryDescriptions, formatPrice, type Product } from "@/data/products";
 import { getReviewCountForProduct, getAverageRatingForProduct } from "@/data/reviews";
 import { useCart } from "@/hooks/useCart";
 
@@ -41,14 +41,16 @@ function MachineCard({ product, index }: { product: Product; index: number }) {
         <div className="p-4">
           <span className="text-[11px] font-medium text-primary">{product.category}</span>
           <h3 className="font-display text-sm font-semibold text-foreground mt-1 leading-snug line-clamp-2">{product.title}</h3>
-          <div className="flex items-center gap-1.5 mt-1.5">
-            <div className="flex items-center">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} className={`w-3 h-3 ${i < Math.round(displayRating) ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"}`} />
-              ))}
+          {!product.hideReviews && (
+            <div className="flex items-center gap-1.5 mt-1.5">
+              <div className="flex items-center">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className={`w-3 h-3 ${i < Math.round(displayRating) ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"}`} />
+                ))}
+              </div>
+              <span className="text-[11px] text-muted-foreground">{displayRating} ({displayCount})</span>
             </div>
-            <span className="text-[11px] text-muted-foreground">{displayRating} ({displayCount})</span>
-          </div>
+          )}
           <div className="flex items-baseline gap-2 mt-2">
             {product.salePrice ? (
               <>
@@ -84,6 +86,7 @@ export default function Machines() {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeCategory = searchParams.get("cat") || "all";
   const [sortBy, setSortBy] = useState("default");
+  const { products, loading } = useProducts();
 
   const allCategories = [{ slug: "all", name: "All Machines", icon: "grid" }, ...categories];
 
@@ -139,13 +142,17 @@ export default function Machines() {
             </select>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
-            {filtered.map((product, i) => (
-              <MachineCard key={product.slug} product={product} index={i} />
-            ))}
-          </div>
+          {loading ? (
+            <div className="text-center py-20 text-muted-foreground">Loading machines…</div>
+          ) : (
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
+              {filtered.map((product, i) => (
+                <MachineCard key={product.slug} product={product} index={i} />
+              ))}
+            </div>
+          )}
 
-          {filtered.length === 0 && (
+          {!loading && filtered.length === 0 && (
             <div className="text-center py-20">
               <p className="text-muted-foreground">No machines found in this category.</p>
             </div>

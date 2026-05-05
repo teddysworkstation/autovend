@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
-import { products, formatPrice } from "@/data/products";
+import { useProducts, formatPrice } from "@/data/products";
 import { useToast } from "@/hooks/use-toast";
 
 const questions = [
@@ -32,7 +32,7 @@ const questions = [
   },
 ];
 
-function getRecommendation(answers: number[]) {
+function getRecommendation(answers: number[], products: any[]) {
   const budget = answers[0];
   let filtered = [...products].filter(p => p.inStock);
   if (budget === 0) filtered = filtered.filter(p => (p.salePrice || p.price) < 1500);
@@ -70,7 +70,8 @@ export default function Quiz() {
     setCompleted(true);
   };
 
-  const recommendations = completed ? getRecommendation(answers) : [];
+  const { products } = useProducts();
+  const recommendations = completed ? getRecommendation(answers, products) : [];
 
   return (
     <div className="min-h-screen bg-background">

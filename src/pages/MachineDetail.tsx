@@ -10,7 +10,7 @@ import ReviewForm from "@/components/ReviewForm";
 import ViewerCount from "@/components/ViewerCount";
 import ProductGallery from "@/components/ProductGallery";
 import SEOHead from "@/components/SEOHead";
-import { getProductBySlug, products, formatPrice } from "@/data/products";
+import { getProductBySlug, formatPrice, useProducts } from "@/data/products";
 import { getReviewsForProduct, getAllReviews, getReviewCountForProduct, getAverageRatingForProduct } from "@/data/reviews";
 import { useCart } from "@/hooks/useCart";
 import { useToast } from "@/hooks/use-toast";
@@ -34,12 +34,23 @@ function formatInline(s: string): string {
 
 export default function MachineDetail() {
   const { slug } = useParams();
+  const { products, loading } = useProducts();
   const product = getProductBySlug(slug || "");
   const { add } = useCart();
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState("Features");
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [userReviews, setUserReviews] = useState<any[]>([]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <TopBar /><Navbar />
+        <div className="pt-16 text-center text-muted-foreground">Loading…</div>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!product) {
     return (

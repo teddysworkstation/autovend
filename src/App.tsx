@@ -20,6 +20,8 @@ import BlogPostPage from "./pages/BlogPost";
 import ReviewsPage from "./pages/Reviews";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
+import TrackOrder from "./pages/TrackOrder";
+import Admin from "./pages/Admin";
 import { CartProvider } from "./hooks/useCart";
 
 const queryClient = new QueryClient();
@@ -53,6 +55,8 @@ const App = () => (
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPostPage />} />
           <Route path="/reviews" element={<ReviewsPage />} />
+          <Route path="/track-order" element={<TrackOrder />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
