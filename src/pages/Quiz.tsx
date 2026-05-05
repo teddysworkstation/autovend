@@ -32,7 +32,7 @@ const questions = [
   },
 ];
 
-function getRecommendation(answers: number[]) {
+function getRecommendation(answers: number[], products: any[]) {
   const budget = answers[0];
   let filtered = [...products].filter(p => p.inStock);
   if (budget === 0) filtered = filtered.filter(p => (p.salePrice || p.price) < 1500);
