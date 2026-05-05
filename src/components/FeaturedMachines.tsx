@@ -124,7 +124,8 @@ function MachineCard({ product, index }: { product: Product; index: number }) {
 
 export default function FeaturedMachines() {
   const [activeTab, setActiveTab] = useState("all");
-  const featured = getFeaturedProducts();
+  const { products } = useProducts();
+  const featured = products.filter((p) => p.isFeatured);
 
   const filtered = activeTab === "all"
     ? featured
