@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowLeft, ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
-import { products, formatPrice } from "@/data/products";
+import { useProducts, formatPrice } from "@/data/products";
 import { useToast } from "@/hooks/use-toast";
 
 const questions = [
