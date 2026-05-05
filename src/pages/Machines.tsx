@@ -41,14 +41,16 @@ function MachineCard({ product, index }: { product: Product; index: number }) {
         <div className="p-4">
           <span className="text-[11px] font-medium text-primary">{product.category}</span>
           <h3 className="font-display text-sm font-semibold text-foreground mt-1 leading-snug line-clamp-2">{product.title}</h3>
-          <div className="flex items-center gap-1.5 mt-1.5">
-            <div className="flex items-center">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} className={`w-3 h-3 ${i < Math.round(displayRating) ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"}`} />
-              ))}
+          {!product.hideReviews && (
+            <div className="flex items-center gap-1.5 mt-1.5">
+              <div className="flex items-center">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className={`w-3 h-3 ${i < Math.round(displayRating) ? "fill-amber-400 text-amber-400" : "fill-muted text-muted"}`} />
+                ))}
+              </div>
+              <span className="text-[11px] text-muted-foreground">{displayRating} ({displayCount})</span>
             </div>
-            <span className="text-[11px] text-muted-foreground">{displayRating} ({displayCount})</span>
-          </div>
+          )}
           <div className="flex items-baseline gap-2 mt-2">
             {product.salePrice ? (
               <>
