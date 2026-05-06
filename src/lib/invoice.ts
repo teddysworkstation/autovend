@@ -197,14 +197,22 @@ export async function generateInvoicePDF(data: InvoiceData): Promise<jsPDF> {
   doc.setFont("helvetica", "bold");
   doc.setFontSize(11);
   doc.setTextColor(...ORANGE);
-  doc.text("Payment Details — Communicated After Confirmation", margin + 14, py + 18);
+  doc.text(
+    paymentLabel
+      ? `Selected Payment Method: ${paymentLabel}`
+      : "Payment Details — Communicated After Confirmation",
+    margin + 14,
+    py + 18,
+  );
   doc.setFont("helvetica", "normal");
   doc.setFontSize(9);
   doc.setTextColor(...TEXT);
   const noticeLines = [
-    "Accepted payment methods: Bank Transfer  •  Wire Transfer  •  Zelle  •  Bitcoin (BTC)",
-    "A VMH specialist will contact you within 1 business hour to verify your order and securely",
-    "share account, wallet, or routing details for your selected payment method.",
+    paymentLabel
+      ? `You selected ${paymentLabel}. Account / wallet details will be shared securely after confirmation.`
+      : "Accepted methods: Bank Transfer  •  Wire Transfer  •  Zelle  •  Bitcoin (BTC)",
+    "A VMH specialist will contact you within 1 business hour to verify your order and",
+    "send secure payment instructions for your selected method.",
     "Do NOT send any payment until you have received written confirmation from VMH.",
   ];
   noticeLines.forEach((l, i) => doc.text(l, margin + 14, py + 34 + i * 11));
