@@ -225,14 +225,17 @@ export async function generateInvoicePDF(data: InvoiceData): Promise<jsPDF> {
   doc.setFont("helvetica", "normal");
   doc.setFontSize(9);
   doc.setTextColor(...TEXT);
-  const noticeLines = [
-    paymentLabel
-      ? `You selected ${paymentLabel}. Account / wallet details will be shared securely after confirmation.`
-      : "Accepted methods: Bank Transfer  •  Wire Transfer  •  Zelle  •  Bitcoin (BTC)",
-    "A VMH specialist will contact you within 1 business hour to verify your order and",
-    "send secure payment instructions for your selected method.",
-    "Do NOT send any payment until you have received written confirmation from VMH.",
-  ];
+  const noticeLines = paymentLabel
+    ? [
+        `You selected ${paymentLabel} as your preferred payment method.`,
+        "Account / wallet details will be shared securely after order confirmation.",
+        "A VMH specialist will contact you within 1 business hour to verify your order",
+        "and send secure payment instructions. Do NOT send any payment until confirmed.",
+      ]
+    : [
+        "A VMH specialist will contact you within 1 business hour to verify your order",
+        "and send secure payment instructions. Do NOT send any payment until confirmed.",
+      ];
   noticeLines.forEach((l, i) => doc.text(l, margin + 14, py + 34 + i * 11));
 
   // Footer
