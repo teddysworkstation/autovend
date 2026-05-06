@@ -27,7 +27,15 @@ export interface InvoiceData {
   items: CartItem[];
   subtotal: number;
   plan: "onetime" | "monthly";
+  paymentMethod?: "bank" | "wire" | "zelle" | "btc";
 }
+
+const PAYMENT_LABELS: Record<string, string> = {
+  bank: "Bank Transfer (ACH)",
+  wire: "Wire Transfer",
+  zelle: "Zelle",
+  btc: "Bitcoin (BTC)",
+};
 
 async function loadLogoDataUrl(): Promise<string | null> {
   try {
