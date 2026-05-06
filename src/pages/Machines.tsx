@@ -66,6 +66,9 @@ function MachineCard({ product, index }: { product: Product; index: number }) {
           <p className="text-[11px] text-muted-foreground mt-1.5">
             Est. {formatPrice(product.estimatedMonthlyIncomeMin)}–{formatPrice(product.estimatedMonthlyIncomeMax)}/mo
           </p>
+          {product.inStock && !product.hideViewers && (
+            <div className="mt-1.5"><ViewerCount slug={product.slug} /></div>
+          )}
         </div>
       </Link>
       <div className="px-4 pb-4 mt-auto">
