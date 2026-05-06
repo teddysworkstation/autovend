@@ -50,6 +50,7 @@ export default function Checkout() {
     items,
     subtotal,
     plan,
+    paymentMethod,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {

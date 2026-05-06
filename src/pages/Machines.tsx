@@ -9,6 +9,8 @@ import SEOHead from "@/components/SEOHead";
 import { useProducts, categories, categoryDescriptions, formatPrice, type Product } from "@/data/products";
 import { getReviewCountForProduct, getAverageRatingForProduct } from "@/data/reviews";
 import { useCart } from "@/hooks/useCart";
+import ViewerCount from "@/components/ViewerCount";
+import { shouldShowUrgency } from "@/lib/productDisplay";
 
 function MachineCard({ product, index }: { product: Product; index: number }) {
   const { add } = useCart();
@@ -32,7 +34,7 @@ function MachineCard({ product, index }: { product: Product; index: number }) {
           )}
           <img src={product.images[0]} alt={`${product.title} — vending machine for sale`}
             className={`w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500 ${!product.inStock ? "opacity-50 grayscale" : ""}`} loading="lazy" />
-          {product.inStock && product.stockCount <= 5 && (
+          {product.inStock && product.stockCount <= 5 && shouldShowUrgency(product.slug, product.categorySlug, product.stockCount) && (
             <span className="absolute top-3 left-3 text-[10px] font-semibold bg-destructive text-destructive-foreground px-2.5 py-1 rounded-full">
               Only {product.stockCount} left
             </span>
@@ -64,6 +66,9 @@ function MachineCard({ product, index }: { product: Product; index: number }) {
           <p className="text-[11px] text-muted-foreground mt-1.5">
             Est. {formatPrice(product.estimatedMonthlyIncomeMin)}–{formatPrice(product.estimatedMonthlyIncomeMax)}/mo
           </p>
+          {product.inStock && !product.hideViewers && (
+            <div className="mt-1.5"><ViewerCount slug={product.slug} /></div>
+          )}
         </div>
       </Link>
       <div className="px-4 pb-4 mt-auto">

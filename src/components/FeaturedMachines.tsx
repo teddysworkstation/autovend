@@ -6,6 +6,7 @@ import { useProducts, formatPrice, type Product } from "@/data/products";
 import { getReviewCountForProduct, getAverageRatingForProduct } from "@/data/reviews";
 import { useCart } from "@/hooks/useCart";
 import ViewerCount from "@/components/ViewerCount";
+import { shouldShowUrgency } from "@/lib/productDisplay";
 
 const tabs = [
   { key: "all", label: "All" },
@@ -47,7 +48,7 @@ function MachineCard({ product, index }: { product: Product; index: number }) {
             className={`w-full h-full object-contain p-6 group-hover:scale-105 transition-transform duration-500 ${!product.inStock ? "opacity-50 grayscale" : ""}`}
             loading="lazy"
           />
-          {product.inStock && product.stockCount <= 5 && (
+          {product.inStock && product.stockCount <= 5 && shouldShowUrgency(product.slug, product.categorySlug, product.stockCount) && (
             <span className="absolute top-3 left-3 text-[10px] font-semibold bg-destructive text-destructive-foreground px-2.5 py-1 rounded-full flex items-center gap-1">
               <Flame className="w-3 h-3" /> Only {product.stockCount} left
             </span>
