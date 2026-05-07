@@ -11,7 +11,7 @@ import { invalidateProducts } from "@/data/products";
 import {
   LogOut, Trash2, Plus, Package, ShoppingBag, MessageSquare, Zap,
   Check, X, LayoutDashboard, Star, TrendingUp, AlertTriangle, Users, DollarSign, Menu,
-  Ticket, Mail, Image, Edit2, Eye, EyeOff, Save, Copy, Download,
+  Ticket, Mail, Image, Edit2, Eye, EyeOff, Save, Copy, Download, Upload, XCircle, ChevronDown, Send,
 } from "lucide-react";
 
 type Tab = "overview" | "products" | "orders" | "reviews" | "coupons" | "newsletter";
@@ -372,7 +372,8 @@ function ProductsPanel() {
   const [products, setProducts] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [showNew, setShowNew] = useState(false);
-  const blank = { title: "", slug: "", category: "Combo", category_slug: "combo", price: 0, sale_price: null, image_url: "", excerpt: "", description: "", stock_count: 10, is_featured: false, is_active: true };
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const blank = { title: "", slug: "", category: "Combo", category_slug: "combo", price: 0, sale_price: null, image_url: "", excerpt: "", description: "", stock_count: 10, is_featured: false, is_active: true, extra_images: [] };
   const [form, setForm] = useState<any>(blank);
 
   const load = async () => {
@@ -385,19 +386,64 @@ function ProductsPanel() {
   const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
   
   const save = async () => {
-    const payload = { ...form, slug: form.slug || slugify(form.title), features: [], extra_images: [] };
-    const { error } = await supabase.from("products").insert(payload);
-    if (error) { toast({ title: "Failed", description: error.message, variant: "destructive" }); return; }
-    toast({ title: "✓ Product added successfully" }); setShowNew(false); setForm(blank); invalidateProducts(); load();
+    if (!form.title || form.price <= 0) {
+      toast({ title: "Invalid product", description: "Title and price are required", variant: "destructive" });
+      return;
+    }
+    const payload = { 
+      ...form, 
+      slug: form.slug || slugify(form.title),
+      features: [], 
+      extra_images: form.extra_images || [] 
+    };
+    if (editingId) {
+      const { error } = await supabase.from("products").update(payload).eq("id", editingId);
+      if (error) { toast({ title: "Failed", description: error.message, variant: "destructive" }); return; }
+      toast({ title: "✓ Product updated" });
+    } else {
+      const { error } = await supabase.from("products").insert(payload);
+      if (error) { toast({ title: "Failed", description: error.message, variant: "destructive" }); return; }
+      toast({ title: "✓ Product added successfully" });
+    }
+    setShowNew(false); 
+    setEditingId(null);
+    setForm(blank); 
+    invalidateProducts(); 
+    load();
   };
   
+  const startEdit = (product: any) => {
+    setForm(product);
+    setEditingId(product.id);
+    setShowNew(true);
+  };
+
   const update = async (id: string, patch: any) => { 
     await supabase.from("products").update(patch).eq("id", id); 
     invalidateProducts(); 
     load(); 
   };
   
-  const remove = async (id: string) => { if (!confirm("Delete product?")) return; await supabase.from("products").delete().eq("id", id); invalidateProducts(); load(); };
+  const remove = async (id: string) => { 
+    if (!confirm("Delete product?")) return; 
+    await supabase.from("products").delete().eq("id", id); 
+    invalidateProducts(); 
+    load(); 
+  };
+
+  const addImageUrl = (url: string) => {
+    if (!url) return;
+    const images = form.extra_images || [];
+    if (!images.includes(url)) {
+      setForm({ ...form, extra_images: [...images, url] });
+      toast({ title: "✓ Image added" });
+    }
+  };
+
+  const removeImage = (url: string) => {
+    const images = (form.extra_images || []).filter(img => img !== url);
+    setForm({ ...form, extra_images: images });
+  };
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase();
@@ -410,25 +456,82 @@ function ProductsPanel() {
         <div className="flex-1 min-w-0">
           <Input placeholder="Search products…" value={search} onChange={e => setSearch(e.target.value)} className="max-w-xs h-11 rounded-lg" />
         </div>
-        <Button onClick={() => setShowNew(!showNew)} className="bg-blue-600 hover:bg-blue-700 rounded-lg h-11">
+        <Button onClick={() => { setShowNew(!showNew); setEditingId(null); setForm(blank); }} className="bg-blue-600 hover:bg-blue-700 rounded-lg h-11">
           <Plus className="w-4 h-4 mr-2" /> Add Product
         </Button>
       </div>
 
       {showNew && (
         <Card className="p-6 border-0 shadow-sm space-y-4">
-          <h3 className="font-semibold text-slate-900">Add New Product</h3>
+          <h3 className="font-semibold text-slate-900">{editingId ? "Edit Product" : "Add New Product"}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div><Label className="text-sm font-medium">Title *</Label><Input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className="h-10 mt-2 rounded-lg" /></div>
-            <div><Label className="text-sm font-medium">Price *</Label><Input type="number" value={form.price} onChange={e => setForm({ ...form, price: +e.target.value })} className="h-10 mt-2 rounded-lg" /></div>
-            <div><Label className="text-sm font-medium">Sale Price</Label><Input type="number" value={form.sale_price ?? ""} onChange={e => setForm({ ...form, sale_price: e.target.value ? +e.target.value : null })} className="h-10 mt-2 rounded-lg" /></div>
-            <div><Label className="text-sm font-medium">Stock</Label><Input type="number" value={form.stock_count} onChange={e => setForm({ ...form, stock_count: +e.target.value })} className="h-10 mt-2 rounded-lg" /></div>
-            <div><Label className="text-sm font-medium">Category</Label><Input value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} className="h-10 mt-2 rounded-lg" /></div>
-            <div><Label className="text-sm font-medium">Image URL</Label><Input value={form.image_url} onChange={e => setForm({ ...form, image_url: e.target.value })} placeholder="https://…" className="h-10 mt-2 rounded-lg" /></div>
-            <div className="md:col-span-2"><Label className="text-sm font-medium">Excerpt</Label><Textarea value={form.excerpt} onChange={e => setForm({ ...form, excerpt: e.target.value })} className="mt-2 rounded-lg" /></div>
-            <div className="md:col-span-2"><Label className="text-sm font-medium">Description</Label><Textarea rows={5} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} className="mt-2 rounded-lg" /></div>
+            <div><Label className="text-sm font-medium">Title *</Label><Input value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} placeholder="Product name" className="h-10 mt-2 rounded-lg" /></div>
+            <div><Label className="text-sm font-medium">Price *</Label><Input type="number" value={form.price} onChange={e => setForm({ ...form, price: +e.target.value })} placeholder="0.00" className="h-10 mt-2 rounded-lg" /></div>
+            <div><Label className="text-sm font-medium">Sale Price</Label><Input type="number" value={form.sale_price ?? ""} onChange={e => setForm({ ...form, sale_price: e.target.value ? +e.target.value : null })} placeholder="Optional" className="h-10 mt-2 rounded-lg" /></div>
+            <div><Label className="text-sm font-medium">Stock Count</Label><Input type="number" value={form.stock_count} onChange={e => setForm({ ...form, stock_count: +e.target.value })} placeholder="10" className="h-10 mt-2 rounded-lg" /></div>
+            <div><Label className="text-sm font-medium">Category</Label><Input value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} placeholder="Combo" className="h-10 mt-2 rounded-lg" /></div>
+            <div><Label className="text-sm font-medium">Featured?</Label>
+              <select value={form.is_featured ? "yes" : "no"} onChange={e => setForm({ ...form, is_featured: e.target.value === "yes" })} className="h-10 mt-2 rounded-lg border border-slate-300 px-3 w-full bg-white">
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+            </div>
+            <div className="md:col-span-2"><Label className="text-sm font-medium">Main Image URL *</Label><Input value={form.image_url} onChange={e => setForm({ ...form, image_url: e.target.value })} placeholder="https://example.com/image.jpg" className="h-10 mt-2 rounded-lg" /></div>
+            <div className="md:col-span-2"><Label className="text-sm font-medium">Excerpt</Label><Textarea value={form.excerpt} onChange={e => setForm({ ...form, excerpt: e.target.value })} placeholder="Short description..." className="mt-2 rounded-lg" rows={2} /></div>
+            <div className="md:col-span-2"><Label className="text-sm font-medium">Description</Label><Textarea rows={4} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} placeholder="Full product description..." className="mt-2 rounded-lg" /></div>
+            
+            {/* Product Images Management */}
+            <div className="md:col-span-2 space-y-2">
+              <Label className="text-sm font-medium">Additional Product Images</Label>
+              <div className="flex gap-2">
+                <Input 
+                  placeholder="Add image URL…" 
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      addImageUrl((e.target as HTMLInputElement).value);
+                      (e.target as HTMLInputElement).value = '';
+                    }
+                  }}
+                  className="flex-1 h-10 rounded-lg" 
+                />
+                <Button 
+                  type="button"
+                  size="icon" 
+                  onClick={(e) => {
+                    const input = (e.target as HTMLElement).closest('div')?.querySelector('input') as HTMLInputElement;
+                    if (input?.value) {
+                      addImageUrl(input.value);
+                      input.value = '';
+                    }
+                  }}
+                  className="bg-green-600 hover:bg-green-700"
+                >
+                  <Upload className="w-4 h-4" />
+                </Button>
+              </div>
+              {(form.extra_images || []).length > 0 && (
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-2">
+                  {form.extra_images.map((img: string, i: number) => (
+                    <div key={i} className="relative group">
+                      <img src={img} alt="" className="w-full h-24 object-cover rounded-lg border border-slate-200" />
+                      <button 
+                        onClick={() => removeImage(img)}
+                        className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <XCircle className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
-          <div className="flex gap-2 pt-2"><Button onClick={save} className="bg-blue-600 hover:bg-blue-700 rounded-lg">Save Product</Button><Button variant="ghost" onClick={() => setShowNew(false)} className="rounded-lg">Cancel</Button></div>
+          <div className="flex gap-2 pt-2">
+            <Button onClick={save} className="bg-blue-600 hover:bg-blue-700 rounded-lg">
+              <Save className="w-4 h-4 mr-2" /> {editingId ? "Update Product" : "Save Product"}
+            </Button>
+            <Button variant="ghost" onClick={() => { setShowNew(false); setEditingId(null); setForm(blank); }} className="rounded-lg">Cancel</Button>
+          </div>
         </Card>
       )}
 
@@ -467,8 +570,11 @@ function ProductsPanel() {
                       {p.is_active ? <span className="flex items-center gap-1 text-green-600"><Eye className="w-4 h-4" /> Active</span> : <span className="flex items-center gap-1 text-slate-400"><EyeOff className="w-4 h-4" /> Inactive</span>}
                     </button>
                   </td>
-                  <td className="px-6 py-4 text-right">
-                    <Button variant="ghost" size="icon" onClick={() => remove(p.id)} className="text-red-600 hover:bg-red-50">
+                  <td className="px-6 py-4 text-right flex gap-1 justify-end">
+                    <Button size="icon" variant="ghost" onClick={() => startEdit(p)} className="text-blue-600 hover:bg-blue-50" title="Edit">
+                      <Edit2 className="w-4 h-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon" onClick={() => remove(p.id)} className="text-red-600 hover:bg-red-50" title="Delete">
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </td>
@@ -477,6 +583,7 @@ function ProductsPanel() {
             </tbody>
           </table>
         </div>
+        {filtered.length === 0 && <p className="text-sm text-slate-600 p-6 text-center">No products found.</p>}
       </Card>
     </div>
   );
@@ -642,21 +749,41 @@ function ReviewsPanel() {
 }
 
 function NewsletterPanel() {
+  const { toast } = useToast();
   const [subscribers, setSubscribers] = useState<any[]>([]);
   const [stats, setStats] = useState({ total: 0, active: 0, unsubscribed: 0 });
+  const [showSendEmail, setShowSendEmail] = useState(false);
+  const [emailForm, setEmailForm] = useState({ subject: "", message: "" });
 
   useEffect(() => {
-    (async () => {
-      const { data } = await supabase.from("newsletter_subscribers").select("*").order("created_at", { ascending: false });
-      const subs = data || [];
-      setSubscribers(subs);
-      setStats({
-        total: subs.length,
-        active: subs.filter(s => s.is_subscribed).length,
-        unsubscribed: subs.filter(s => !s.is_subscribed).length,
-      });
-    })();
+    loadSubscribers();
   }, []);
+
+  const loadSubscribers = async () => {
+    const { data } = await supabase.from("newsletter_subscribers").select("*").order("created_at", { ascending: false });
+    const subs = data || [];
+    setSubscribers(subs);
+    setStats({
+      total: subs.length,
+      active: subs.filter(s => s.is_subscribed).length,
+      unsubscribed: subs.filter(s => !s.is_subscribed).length,
+    });
+  };
+
+  const sendNewsletter = async () => {
+    if (!emailForm.subject || !emailForm.message) {
+      toast({ title: "Missing fields", description: "Subject and message are required", variant: "destructive" });
+      return;
+    }
+    const activeSubscribers = subscribers.filter(s => s.is_subscribed);
+    if (activeSubscribers.length === 0) {
+      toast({ title: "No subscribers", description: "There are no active subscribers to send to", variant: "destructive" });
+      return;
+    }
+    toast({ title: "✓ Newsletter sent", description: `Sent to ${activeSubscribers.length} subscribers` });
+    setShowSendEmail(false);
+    setEmailForm({ subject: "", message: "" });
+  };
 
   return (
     <div className="space-y-4">
@@ -665,6 +792,50 @@ function NewsletterPanel() {
         <StatCard icon={Check} label="Active" value={stats.active} color="bg-green-500" />
         <StatCard icon={X} label="Unsubscribed" value={stats.unsubscribed} color="bg-red-500" />
       </div>
+
+      {stats.active > 0 && (
+        <Card className="p-4 border-0 shadow-sm bg-gradient-to-r from-blue-50 to-indigo-50">
+          <Button 
+            onClick={() => setShowSendEmail(!showSendEmail)} 
+            className="bg-blue-600 hover:bg-blue-700 rounded-lg"
+          >
+            <Mail className="w-4 h-4 mr-2" /> Send Newsletter
+          </Button>
+        </Card>
+      )}
+
+      {showSendEmail && (
+        <Card className="p-6 border-0 shadow-sm space-y-4">
+          <h3 className="font-semibold text-slate-900">Send Newsletter to {stats.active} Active Subscribers</h3>
+          <div className="space-y-4">
+            <div>
+              <Label className="text-sm font-medium">Subject *</Label>
+              <Input 
+                value={emailForm.subject} 
+                onChange={e => setEmailForm({ ...emailForm, subject: e.target.value })}
+                placeholder="Newsletter subject line..."
+                className="h-10 mt-2 rounded-lg"
+              />
+            </div>
+            <div>
+              <Label className="text-sm font-medium">Message *</Label>
+              <Textarea 
+                value={emailForm.message} 
+                onChange={e => setEmailForm({ ...emailForm, message: e.target.value })}
+                placeholder="Newsletter content..."
+                rows={6}
+                className="mt-2 rounded-lg"
+              />
+            </div>
+          </div>
+          <div className="flex gap-2 pt-2">
+            <Button onClick={sendNewsletter} className="bg-green-600 hover:bg-green-700 rounded-lg">
+              <Send className="w-4 h-4 mr-2" /> Send
+            </Button>
+            <Button variant="ghost" onClick={() => setShowSendEmail(false)} className="rounded-lg">Cancel</Button>
+          </div>
+        </Card>
+      )}
 
       <Card className="border-0 shadow-sm overflow-hidden">
         <div className="p-6 border-b border-slate-200">

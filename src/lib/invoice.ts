@@ -182,29 +182,30 @@ export async function generateInvoicePDF(data: InvoiceData): Promise<jsPDF> {
   doc.setFont("helvetica", "bold");
   doc.setFontSize(11);
   doc.setTextColor(...TEXT);
+  const orderTotalPrice = data.plan === "monthly" ? 150 : data.subtotal;
   doc.text("Order Total", labelX, finalY + 44);
-  doc.text(fmt(data.subtotal), valX, finalY + 44, { align: "right" });
+  doc.text(fmt(orderTotalPrice), valX, finalY + 44, { align: "right" });
 
   // Amount Due (highlighted)
   const dueY = finalY + 60;
   doc.setFillColor(...BLUE);
-  doc.roundedRect(labelX - 8, dueY - 2, (valX - labelX) + 16, 32, 4, 4, "F");
+  doc.roundedRect(labelX - 8, dueY - 2, (valX - labelX) + 16, 40, 4, 4, "F");
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(11);
   doc.setFont("helvetica", "bold");
-  doc.text(data.plan === "monthly" ? "AMOUNT DUE TODAY" : "AMOUNT DUE", labelX, dueY + 12);
-  doc.setFontSize(15);
+  doc.text(data.plan === "monthly" ? "MONTHLY PAYMENT DUE" : "TOTAL AMOUNT DUE", labelX, dueY + 12);
+  doc.setFontSize(18);
   doc.text(
-    data.plan === "monthly" ? `${fmt(150)} / mo` : fmt(data.subtotal),
+    data.plan === "monthly" ? `${fmt(150)} / month` : fmt(data.subtotal),
     valX,
-    dueY + 22,
+    dueY + 26,
     { align: "right" }
   );
   if (data.plan === "monthly") {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(8);
-    doc.setTextColor(...MUTED);
-    doc.text(`Full machine value: ${fmt(data.subtotal)}`, valX, dueY + 42, { align: "right" });
+    doc.setTextColor(255, 255, 255);
+    doc.text(`Full machine value: ${fmt(data.subtotal)}`, valX, dueY + 36, { align: "right" });
   }
 
   // Payment notice

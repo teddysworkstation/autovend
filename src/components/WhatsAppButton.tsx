@@ -2,7 +2,7 @@ import { MessageCircle, X } from "lucide-react";
 import { useState } from "react";
 
 const WHATSAPP_NUMBER = "19025168578";
-const WHATSAPP_MESSAGE = "Hello! I'm interested in learning more about your vending machines. Can you help me?";
+const WHATSAPP_MESSAGE = "Hi! I'd like to chat about your vending machines. Are you available to help? Thanks!";
 
 export default function WhatsAppButton() {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,7 +30,7 @@ export default function WhatsAppButton() {
             </button>
           </div>
           <p className="text-sm text-gray-600 mb-4">
-            We're available round the clock to answer your questions about vending machines and help you get started!
+            💬 Live chat support available 24/7! Ask about pricing, placement, returns, and more. We typically respond within minutes.
           </p>
           <button
             onClick={() => {
@@ -40,7 +40,7 @@ export default function WhatsAppButton() {
             className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
           >
             <MessageCircle className="w-4 h-4" />
-            Start Live Chat
+            Open Live Chat
           </button>
         </div>
       )}
@@ -48,7 +48,7 @@ export default function WhatsAppButton() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="bg-green-500 hover:bg-green-600 text-white rounded-full p-4 shadow-lg transition-all duration-200 hover:scale-110 flex items-center justify-center relative"
-        title="Chat on WhatsApp - Available 24/7"
+        title="💬 Live Chat Support 24/7 - Click to Start"
       >
         <MessageCircle className="w-6 h-6" />
         <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>

@@ -11,7 +11,7 @@ const contactInfo = [
   { icon: Mail, label: "Email", value: "support@vmh.com" },
   { icon: Phone, label: "Phone", value: "+1 (902) 516-8578" },
   { icon: MapPin, label: "Office", value: "Miami, FL — Nationwide Service" },
-  { icon: Clock, label: "Hours", value: "Mon–Fri 9am–6pm EST" },
+  { icon: Clock, label: "Hours", value: "24/7 Live Chat Support" },
 ];
 
 export default function Contact() {

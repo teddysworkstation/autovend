@@ -44,7 +44,7 @@ export default function Index() {
     logo: "https://autovend.lovable.app/favicon.png",
     contactPoint: {
       "@type": "ContactPoint",
-      telephone: "+1-800-555-VEND",
+      telephone: "+1 (902) 516-8578",
       contactType: "sales",
       availableLanguage: ["English", "Spanish"],
     },

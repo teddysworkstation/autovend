@@ -49,7 +49,7 @@ const configs: Record<string, ResourceConfig> = {
     metaDesc: "Get fast, expert vending machine technical support from VMH. Phone, email, and live chat support for setup, repair, and parts replacement.",
     hero: { eyebrow: "Help Center", heading: "Vending Machine Technical Support", sub: "Lifetime technical support — included with every VMH vending machine purchase.", icon: LifeBuoy },
     sections: [
-      { title: "Hours & Channels", body: "Our certified technicians are available to diagnose, troubleshoot, and dispatch parts.", bullets: ["Toll-Free: 1-800-555-VEND", "Email: support@vmh.com", "Live Chat: Mon–Fri 8AM–8PM EST", "Emergency Line: 24/7 for in-warranty machines"] },
+      { title: "Hours & Channels", body: "Our certified technicians and support team are available 24/7 to diagnose, troubleshoot, and dispatch parts.", bullets: ["+1 (902) 516-8578", "Email: support@vmh.com", "WhatsApp Live Chat: 24/7", "Emergency Support: 24/7 for all customers"] },
       { title: "What We Cover", body: "Lifetime support is included on every VMH machine — there is no per-call fee, ever.", bullets: ["Programming assistance", "Cashless device pairing", "Refrigeration diagnostics", "Bill validator & coin mech", "Telemetry & remote monitoring", "Firmware updates"] },
       { title: "Before You Call", body: "Have your serial number, machine model, and a clear description of the issue ready. If possible, take a photo or short video — it helps our team resolve issues 60% faster." },
     ],

@@ -34,13 +34,13 @@ export default function RecentPurchasePopup() {
   }, [dismissed]);
 
   useEffect(() => {
-    const initial = setTimeout(showNext, 8000);
+    const initial = setTimeout(showNext, 180000);
     return () => clearTimeout(initial);
   }, []);
 
   useEffect(() => {
     if (dismissed) return;
-    const interval = setInterval(showNext, 18000 + Math.random() * 8000);
+    const interval = setInterval(showNext, 180000 + Math.random() * 60000);
     return () => clearInterval(interval);
   }, [currentIndex, dismissed, showNext]);
 
