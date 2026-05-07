@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 
 const contactInfo = [
   { icon: Mail, label: "Email", value: "support@vmh.com" },
-  { icon: Phone, label: "Phone", value: "(800) 555-VEND" },
+  { icon: Phone, label: "Phone", value: "+1 (902) 516-8578" },
   { icon: MapPin, label: "Office", value: "Miami, FL — Nationwide Service" },
   { icon: Clock, label: "Hours", value: "Mon–Fri 9am–6pm EST" },
 ];
@@ -75,7 +75,7 @@ export default function Contact() {
                 <div>
                   <label className="text-sm font-medium text-foreground mb-1.5 block">Message *</label>
                   <textarea value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} required
-                    className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring min-h-[120px]"
+                    className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-[...]
                     placeholder="Tell us what you're looking for..." />
                 </div>
                 <Button type="submit" size="lg" className="w-full h-12 font-display font-semibold rounded-xl">
