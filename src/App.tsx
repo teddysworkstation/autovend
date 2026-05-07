@@ -22,6 +22,7 @@ import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 import TrackOrder from "./pages/TrackOrder";
 import Admin from "./pages/Admin";
+import WhatsAppButton from "./components/WhatsAppButton";
 import { CartProvider } from "./hooks/useCart";
 
 const queryClient = new QueryClient();
@@ -59,6 +60,7 @@ const App = () => (
           <Route path="/admin" element={<Admin />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <WhatsAppButton />
       </BrowserRouter>
       </CartProvider>
     </TooltipProvider>
