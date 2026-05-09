@@ -74,9 +74,13 @@ export default function Contact() {
                 </div>
                 <div>
                   <label className="text-sm font-medium text-foreground mb-1.5 block">Message *</label>
-                  <textarea value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} required
-                    className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-[...]
-                    placeholder="Tell us what you're looking for..." />
+                  <textarea
+                    value={form.message}
+                    onChange={e => setForm({ ...form, message: e.target.value })}
+                    required
+                    className="flex min-h-[140px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                    placeholder="Tell us what you're looking for..."
+                  />
                 </div>
                 <Button type="submit" size="lg" className="w-full h-12 font-display font-semibold rounded-xl">
                   <Send className="w-4 h-4 mr-2" /> Send Message
