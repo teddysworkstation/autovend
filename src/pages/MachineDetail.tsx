@@ -7,7 +7,6 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import ProductReviews from "@/components/ProductReviews";
 import ReviewForm from "@/components/ReviewForm";
-import ViewerCount from "@/components/ViewerCount";
 import ProductGallery from "@/components/ProductGallery";
 import SEOHead from "@/components/SEOHead";
 import { getProductBySlug, formatPrice, useProducts } from "@/data/products";
@@ -242,17 +241,11 @@ export default function MachineDetail() {
               </div>
 
               {product.stockCount <= 5 && product.stockCount > 0 ? (
-                <div className="flex items-center gap-3">
-                  <p className="text-sm text-destructive font-semibold flex items-center gap-1.5">
-                    <Flame className="w-4 h-4" /> Almost Gone — Only {product.stockCount} left
-                  </p>
-                  <ViewerCount slug={product.slug} />
-                </div>
+                <p className="text-sm text-destructive font-semibold flex items-center gap-1.5">
+                  <Flame className="w-4 h-4" /> Almost Gone — Only {product.stockCount} left
+                </p>
               ) : product.stockCount > 0 ? (
-                <div className="flex items-center gap-3">
-                  <p className="text-sm text-primary font-semibold">✓ In Stock — {product.stockCount} available</p>
-                  <ViewerCount slug={product.slug} />
-                </div>
+                <p className="text-sm text-primary font-semibold">✓ In Stock — {product.stockCount} available</p>
               ) : (
                 <p className="text-sm text-destructive font-semibold">Out of Stock</p>
               )}
