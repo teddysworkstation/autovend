@@ -57,22 +57,20 @@ function generateCode128Barcode(text: string): string[] {
 // Function to render barcode on PDF
 function renderBarcodeOnPDF(doc: jsPDF, text: string, x: number, y: number, width: number, height: number) {
   const bars = generateCode128Barcode(text);
-  const barWidth = width / bars.length;
+  const totalBits = bars.reduce((sum, bar) => sum + bar.length, 0);
+  const bitWidth = width / totalBits;
   
   doc.setDrawColor(0, 0, 0);
   doc.setFillColor(0, 0, 0);
   
-  bars.forEach((bar, i) => {
+  let currentX = x;
+  bars.forEach((bar) => {
     const bits = bar.split("");
-    let currentX = x + i * barWidth;
-    let isBlack = true;
-    
     bits.forEach((bit) => {
-      if (isBlack) {
-        doc.rect(currentX, y, barWidth / bits.length, height, "F");
+      if (bit === "1") {
+        doc.rect(currentX, y, bitWidth, height, "F");
       }
-      currentX += barWidth / bits.length;
-      isBlack = !isBlack;
+      currentX += bitWidth;
     });
   });
 }
