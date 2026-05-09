@@ -64,25 +64,79 @@ export default function Checkout() {
     setOrderNumber(orderNo);
     const total = plan === "monthly" ? MONTHLY_PRICE : subtotal;
 
-    try {
-      const { data: result, error: fnError } = await supabase.functions.invoke("create-order", {
-        body: {
-          order: {
-            order_number: orderNo, status: "pending", plan, payment_method: paymentMethod,
-            subtotal, total,
-            first_name: form.firstName, last_name: form.lastName, email: form.email, phone: form.phone,
-            alt_phone: form.altPhone || null, company: form.company || null, business_type: form.businessType || null,
-            address: form.address, city: form.city, state: form.state, zip: form.zip,
-            preferred_contact: form.preferredContact, preferred_time: form.preferredTime, notes: form.notes || null,
-          },
-          items: items.map(it => ({
-            product_slug: it.slug, title: it.title, price: it.price, quantity: it.quantity, image_url: it.image,
-          })),
-        },
-      });
+    const orderPayload = {
+      order_number: orderNo,
+      status: "pending",
+      plan,
+      payment_method: paymentMethod,
+      subtotal,
+      total,
+      first_name: form.firstName,
+      last_name: form.lastName,
+      email: form.email,
+      phone: form.phone,
+      alt_phone: form.altPhone || null,
+      company: form.company || null,
+      business_type: form.businessType || null,
+      address: form.address,
+      city: form.city,
+      state: form.state,
+      zip: form.zip,
+      preferred_contact: form.preferredContact,
+      preferred_time: form.preferredTime,
+      notes: form.notes || null,
+    };
 
-      if (fnError) throw new Error(fnError.message || "Failed to save order");
-      if (result?.error) throw new Error(result.error);
+    const serializeItems = (orderId: string | null) =>
+      items.map((it) => ({
+        product_slug: it.slug,
+        title: it.title,
+        price: it.price,
+        quantity: it.quantity,
+        image_url: it.image,
+        order_id: orderId,
+      }));
+
+    try {
+      let orderId: string | null = null;
+
+      try {
+        const { data: result, error: fnError } = await supabase.functions.invoke("create-order", {
+          body: {
+            order: orderPayload,
+            items: items.map((it) => ({
+              product_slug: it.slug,
+              title: it.title,
+              price: it.price,
+              quantity: it.quantity,
+              image_url: it.image,
+            })),
+          },
+        });
+
+        if (fnError) throw new Error(fnError.message || "Failed to save order");
+        if (result?.error) throw new Error(result.error);
+        orderId = result?.order_id ?? null;
+      } catch (fnErr: any) {
+        console.warn("Edge function create-order failed, falling back to direct insert", fnErr);
+        const { data: orderRow, error: orderErr } = await supabase
+          .from("orders")
+          .insert(orderPayload)
+          .select("id")
+          .single();
+
+        if (orderErr) throw orderErr;
+        orderId = orderRow?.id ?? null;
+
+        if (orderId && items.length > 0) {
+          const { error: itemsErr } = await supabase
+            .from("order_items")
+            .insert(serializeItems(orderId));
+
+          if (itemsErr) throw itemsErr;
+        }
+      }
+
       toast({ title: "Order received!", description: "Download your invoice on the next page. We'll contact you shortly." });
       setSubmitted(true);
       clear();
