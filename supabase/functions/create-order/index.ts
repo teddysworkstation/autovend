@@ -6,27 +6,86 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
+interface OrderItem {
+  product_id: string;
+  quantity: number;
+  price: number;
+  [key: string]: unknown;
+}
+
+interface OrderPayload {
+  order: Record<string, unknown>;
+  items: OrderItem[];
+}
+
 Deno.serve(async (req) => {
+  // Handle CORS preflight
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   }
 
-  try {
-    const { order, items } = await req.json();
-
-    // Create Supabase client with service role
-    const supabase = createClient(
-      Deno.env.get("https://apjczdgrllujuhaamsyu.supabase.co")!,
-      Deno.env.get("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwamN6ZGdybGx1anVoYWFtc3l1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODQyNDYzMiwiZXhwIjoyMDk0MDAwNjMyfQ.xpaXkwtq-ABfY1yq-XqChK5KKhMEvrULRsYcHVkiSYQ")!,
+  // Only allow POST
+  if (req.method !== "POST") {
+    return new Response(
+      JSON.stringify({ error: "Method not allowed" }),
       {
-        auth: {
-          autoRefreshToken: false,
-          persistSession: false,
-        },
+        status: 405,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       }
     );
+  }
 
-    // Insert order
+  try {
+    // Safely parse request body
+    let body: OrderPayload;
+    try {
+      body = await req.json();
+    } catch {
+      return new Response(
+        JSON.stringify({ error: "Invalid JSON body" }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    const { order, items } = body;
+
+    // Validate required fields
+    if (!order || typeof order !== "object") {
+      return new Response(
+        JSON.stringify({ error: "Missing or invalid 'order' field" }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    // ✅ Read from environment variable names — values come from Supabase secrets
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+
+    if (!supabaseUrl || !supabaseServiceKey) {
+      return new Response(
+        JSON.stringify({ error: "Server misconfiguration: missing env vars" }),
+        {
+          status: 500,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    // Create Supabase client with service role (bypasses RLS)
+    const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      },
+    });
+
+    // Insert order and return its ID
     const { data: orderRow, error: orderErr } = await supabase
       .from("orders")
       .insert(order)
@@ -35,12 +94,12 @@ Deno.serve(async (req) => {
 
     if (orderErr) throw orderErr;
 
-    // Insert order items
-    if (orderRow && items?.length > 0) {
+    // Insert order items if present
+    if (orderRow && Array.isArray(items) && items.length > 0) {
       const { error: itemsErr } = await supabase
         .from("order_items")
         .insert(
-          items.map((it: any) => ({
+          items.map((it) => ({
             ...it,
             order_id: orderRow.id,
           }))
@@ -55,23 +114,18 @@ Deno.serve(async (req) => {
         order_id: orderRow?.id,
       }),
       {
-        headers: {
-          ...corsHeaders,
-          "Content-Type": "application/json",
-        },
+        status: 201,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       }
     );
-  } catch (e: any) {
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : "An unknown error occurred";
+
     return new Response(
-      JSON.stringify({
-        error: e.message,
-      }),
+      JSON.stringify({ error: message }),
       {
         status: 500,
-        headers: {
-          ...corsHeaders,
-          "Content-Type": "application/json",
-        },
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       }
     );
   }
