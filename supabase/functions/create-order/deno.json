@@ -2,5 +2,5 @@
   "imports": {
     "https://esm.sh/@supabase/supabase-js@2.45.0": "https://esm.sh/@supabase/supabase-js@2.45.0"
   },
-  "env": ["SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY"]
+  "env": ["https://apjczdgrllujuhaamsyu.supabase.co/rest/v1/", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwamN6ZGdybGx1anVoYWFtc3l1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODQyNDYzMiwiZXhwIjoyMDk0MDAwNjMyfQ.xpaXkwtq-ABfY1yq-XqChK5KKhMEvrULRsYcHVkiSYQ"]
 }
