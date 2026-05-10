@@ -9,14 +9,19 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
   try {
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+
+    if (!supabaseUrl || !supabaseKey) {
+      throw new Error("Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY environment variables");
+    }
+
     const { order, items } = await req.json();
 
     // Use service role key to bypass RLS
-    const supabase = createClient(
-      Deno.env.get("https://bhzixxbrqqjvpdgkaoar.supabase.co")!,
-      Deno.env.get("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJoeml4eGJycXFqdnBkZ2thb2FyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODI2MjU2NywiZXhwIjoyMDkzODM4NTY3fQ.pdJKRm3-qNSgSP4HbMQaEB9uXctRQlOZK6AhoO-qfBA")!,
-      { auth: { autoRefreshToken: false, persistSession: false } }
-    );
+    const supabase = createClient(supabaseUrl, supabaseKey, {
+      auth: { autoRefreshToken: false, persistSession: false },
+    });
 
     // Insert order
     const { data: orderRow, error: orderErr } = await supabase
@@ -25,7 +30,7 @@ Deno.serve(async (req) => {
       .select("id")
       .single();
 
-    if (orderErr) throw orderErr;
+    if (orderErr) throw new Error(`Failed to insert order: ${orderErr.message}`);
 
     // Insert order items
     if (orderRow && items?.length > 0) {
@@ -33,14 +38,15 @@ Deno.serve(async (req) => {
         .from("order_items")
         .insert(items.map((it: any) => ({ ...it, order_id: orderRow.id })));
 
-      if (itemsErr) throw itemsErr;
+      if (itemsErr) throw new Error(`Failed to insert order items: ${itemsErr.message}`);
     }
 
     return new Response(JSON.stringify({ ok: true, order_id: orderRow?.id }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e: any) {
-    return new Response(JSON.stringify({ error: e.message }), {
+    console.error("Edge function error:", e);
+    return new Response(JSON.stringify({ error: e.message || "Internal server error" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
