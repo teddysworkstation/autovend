@@ -2,26 +2,29 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
 };
 
 Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
+  if (req.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
+  }
 
   try {
-    const supabaseUrl = Deno.env.get("SUPABASE_URL");
-    const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-
-    if (!supabaseUrl || !supabaseKey) {
-      throw new Error("Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY environment variables");
-    }
-
     const { order, items } = await req.json();
 
-    // Use service role key to bypass RLS
-    const supabase = createClient(supabaseUrl, supabaseKey, {
-      auth: { autoRefreshToken: false, persistSession: false },
-    });
+    // Create Supabase client with service role
+    const supabase = createClient(
+      Deno.env.get("https://apjczdgrllujuhaamsyu.supabase.co")!,
+      Deno.env.get("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwamN6ZGdybGx1anVoYWFtc3l1Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODQyNDYzMiwiZXhwIjoyMDk0MDAwNjMyfQ.xpaXkwtq-ABfY1yq-XqChK5KKhMEvrULRsYcHVkiSYQ")!,
+      {
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false,
+        },
+      }
+    );
 
     // Insert order
     const { data: orderRow, error: orderErr } = await supabase
@@ -30,25 +33,46 @@ Deno.serve(async (req) => {
       .select("id")
       .single();
 
-    if (orderErr) throw new Error(`Failed to insert order: ${orderErr.message}`);
+    if (orderErr) throw orderErr;
 
     // Insert order items
     if (orderRow && items?.length > 0) {
       const { error: itemsErr } = await supabase
         .from("order_items")
-        .insert(items.map((it: any) => ({ ...it, order_id: orderRow.id })));
+        .insert(
+          items.map((it: any) => ({
+            ...it,
+            order_id: orderRow.id,
+          }))
+        );
 
-      if (itemsErr) throw new Error(`Failed to insert order items: ${itemsErr.message}`);
+      if (itemsErr) throw itemsErr;
     }
 
-    return new Response(JSON.stringify({ ok: true, order_id: orderRow?.id }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({
+        ok: true,
+        order_id: orderRow?.id,
+      }),
+      {
+        headers: {
+          ...corsHeaders,
+          "Content-Type": "application/json",
+        },
+      }
+    );
   } catch (e: any) {
-    console.error("Edge function error:", e);
-    return new Response(JSON.stringify({ error: e.message || "Internal server error" }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return new Response(
+      JSON.stringify({
+        error: e.message,
+      }),
+      {
+        status: 500,
+        headers: {
+          ...corsHeaders,
+          "Content-Type": "application/json",
+        },
+      }
+    );
   }
 });
