@@ -13,8 +13,8 @@ Deno.serve(async (req) => {
 
     // Use service role key to bypass RLS
     const supabase = createClient(
-      Deno.env.get("https://bhzixxbrqqjvpdgkaoar.supabase.co")!,
-      Deno.env.get("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJoeml4eGJycXFqdnBkZ2thb2FyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3ODI2MjU2NywiZXhwIjoyMDkzODM4NTY3fQ.pdJKRm3-qNSgSP4HbMQaEB9uXctRQlOZK6AhoO-qfBA")!,
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
       { auth: { autoRefreshToken: false, persistSession: false } }
     );
 
