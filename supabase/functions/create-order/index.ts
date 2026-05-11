@@ -7,9 +7,11 @@ const corsHeaders = {
 };
 
 interface OrderItem {
-  product_id: string;
-  quantity: number;
+  product_slug: string;   // matches order_items.product_slug (DB column)
+  title: string;          // matches order_items.title (DB column, required)
   price: number;
+  quantity: number;
+  image_url?: string | null;
   [key: string]: unknown;
 }
 
@@ -96,12 +98,32 @@ Deno.serve(async (req) => {
 
     // Insert order items if present
     if (orderRow && Array.isArray(items) && items.length > 0) {
+      // Validate each item has the required DB columns
+      for (const it of items) {
+        if (!it.product_slug || typeof it.product_slug !== "string") {
+          return new Response(
+            JSON.stringify({ error: "Each item must have a 'product_slug' string" }),
+            { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          );
+        }
+        if (!it.title || typeof it.title !== "string") {
+          return new Response(
+            JSON.stringify({ error: "Each item must have a 'title' string" }),
+            { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          );
+        }
+      }
+
       const { error: itemsErr } = await supabase
         .from("order_items")
         .insert(
           items.map((it) => ({
-            ...it,
             order_id: orderRow.id,
+            product_slug: it.product_slug,
+            title: it.title,
+            price: it.price,
+            quantity: it.quantity,
+            image_url: it.image_url ?? null,
           }))
         );
 
